@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  sql.data:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+
+  descriptor.api:
+    image: ${DOCKER_REGISTRY-}descriptorapi
+    build:
+      context: .
+      dockerfile: Descriptor.API/Dockerfile
+    depends_on:
+      - sql.data
+
+  descriptor.identity:
+    image: ${DOCKER_REGISTRY-}descriptoridentity
+    build:
+      context: .
+      dockerfile: Descriptor.Identity/Dockerfile
+    depends_on:
+      - sql.data

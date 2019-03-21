@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  sql.data:
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pass@word
+    ports:
+      - "5433:1433"
+
+  descriptor.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8080:80"
+
+  descriptor.identity:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStringUsers=Server=sql.data;Database=identity_users;User Id=sa;Password=Pass@word;"
+      - "ConnectionStringClients=Server=sql.data;Database=identity_clients;User Id=sa;Password=Pass@word;"
+      - "ConnectionStringGrants=Server=sql.data;Database=identity_grants;User Id=sa;Password=Pass@word;"
+      - SendGridKey=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
+      - SendGridEmail=descriptor.identity@gmail.com
+    ports:
+      - "8181:80"

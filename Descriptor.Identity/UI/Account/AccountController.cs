@@ -205,7 +205,10 @@ namespace Descriptor.Identity.UI
 				return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
 			}
 
-			return View("LoggedOut", vm);
+			if (vm.AutomaticRedirectAfterSignOut && !string.IsNullOrEmpty(vm.PostLogoutRedirectUri))
+				return Redirect(vm.PostLogoutRedirectUri);
+			else
+				return View("LoggedOut", vm);
 		}
 
 

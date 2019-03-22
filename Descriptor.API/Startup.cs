@@ -35,7 +35,19 @@ namespace Descriptor.API
 				app.UseDeveloperExceptionPage();
 			}
 			app.UseStaticFiles();
-			app.UseMvcWithDefaultRoute();
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller=Home}/{action=Index}/{id?}");
+
+				// Catch all Route - catches anything not caught be other routes
+				routes.MapRoute(
+					name: "catch-all",
+					template: "{*url}",
+					defaults: new { controller = "Home", action = "Index" }
+				);
+			});
 		}
 	}
 }

@@ -5,8 +5,18 @@ import { connect } from 'react-redux';
 class LoginPage extends React.Component {
 
   componentWillMount() {
-    if (this.props.isLoadingUser)
-      userManager.signinRedirect();
+    if (this.props.isLoadingUser) {
+      this.redirect();
+    }
+  }
+
+  redirect = () => {
+    userManager.signinRedirect().catch(error => {
+      console.error(error);
+      setTimeout(() => {
+        this.redirect();
+      }, 1000);
+    });
   }
 
   render() {

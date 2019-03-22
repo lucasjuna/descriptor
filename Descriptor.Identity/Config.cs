@@ -46,18 +46,18 @@ namespace Descriptor.Identity
 					{
 						"http://localhost:3000/callback",
 						"http://localhost:3000/silent-renew",
-						"http://localhost:8081/callback",
-						"http://localhost:8081/silent-renew"
+						"http://localhost:8080/callback",
+						"http://localhost:8080/silent-renew"
 					},
 					RequireConsent = false,
 					PostLogoutRedirectUris =
 					{
 						"http://localhost:3000/",
-						"http://localhost:8081/"
+						"http://localhost:8080/"
 					},
 					AllowedCorsOrigins = {
 						"http://localhost:3000",
-						"http://localhost:8081"
+						"http://localhost:8080"
 					},
 					AllowedScopes =
 					{

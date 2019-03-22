@@ -6,7 +6,7 @@
     <ProjectGuid>ad011924-2f8f-4f49-b17f-6df07a7e2304</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>descriptor.identity</DockerServiceName>
+    <DockerServiceName>descriptor.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

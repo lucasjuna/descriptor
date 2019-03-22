@@ -34,8 +34,8 @@ namespace Descriptor.API
 			{
 				app.UseDeveloperExceptionPage();
 			}
-
-			app.UseMvc();
+			app.UseStaticFiles();
+			app.UseMvcWithDefaultRoute();
 		}
 	}
 }

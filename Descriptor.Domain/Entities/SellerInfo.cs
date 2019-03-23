@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Descriptor.Model.Entities
+namespace Descriptor.Domain.Entities
 {
 	public class SellerInfo
 	{

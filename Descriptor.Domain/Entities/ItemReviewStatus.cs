@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Descriptor.Model.Entities
+namespace Descriptor.Domain.Entities
 {
 	public class ItemReviewStatus
 	{

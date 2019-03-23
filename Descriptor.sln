@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Descriptor.API", "Descripto
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AD011924-2F8F-4F49-B17F-6DF07A7E2304}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Descriptor.Model", "Descriptor.Model\Descriptor.Model.csproj", "{B9BAC048-DFE9-447E-B984-8EB499318747}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Descriptor.Domain", "Descriptor.Domain\Descriptor.Domain.csproj", "{B9BAC048-DFE9-447E-B984-8EB499318747}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Descriptor.Persistence", "Descriptor.Persistence\Descriptor.Persistence.csproj", "{199D0C85-1E1E-4F9D-9A73-E529A051C56F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B9BAC048-DFE9-447E-B984-8EB499318747}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9BAC048-DFE9-447E-B984-8EB499318747}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9BAC048-DFE9-447E-B984-8EB499318747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{199D0C85-1E1E-4F9D-9A73-E529A051C56F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{199D0C85-1E1E-4F9D-9A73-E529A051C56F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{199D0C85-1E1E-4F9D-9A73-E529A051C56F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{199D0C85-1E1E-4F9D-9A73-E529A051C56F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

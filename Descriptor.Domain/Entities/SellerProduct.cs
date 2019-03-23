@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Descriptor.Model.Entities
+namespace Descriptor.Domain.Entities
 {
 	public class SellerProduct
 	{
 		public long Id { get; set; }
 		public long UserId { get; set; }
+		public SellerInfo User { get; set; }
 		public string ItemId { get; set; }
 		public string Country { get; set; }
 		public string CrossboarderTrade { get; set; }

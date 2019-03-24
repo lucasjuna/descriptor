@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Descriptor.Application\Descriptor.Application.csproj" />
+    <ProjectReference Include="..\Descriptor.Infrastructure\Descriptor.Infrastructure.csproj" />
     <ProjectReference Include="..\Descriptor.Persistence\Descriptor.Persistence.csproj" />
   </ItemGroup>
 

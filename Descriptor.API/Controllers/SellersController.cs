@@ -32,5 +32,12 @@ namespace Descriptor.API.Controllers
 			else
 				return Ok(seller);
 		}
+
+		[HttpPost("{userName}")]
+		public async Task<ActionResult<SellerDto>> Add(string userName)
+		{
+			//TODO: fetch from ebay API
+			return Ok(new SellerDto() { EbaySellerUserName = userName });
+		}
 	}
 }

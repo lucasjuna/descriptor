@@ -1,17 +1,67 @@
-import { fetchSellers } from '../api/sellersApi'
+import { fetchAllSellers, fetchSeller, addSeller } from '../api/sellersApi'
+import { confirmAlert } from 'react-confirm-alert';
 
-export const LOAD_SELLERS_START = "descriptor/LOAD_SELLERS_START";
-export const LOAD_SELLERS_SUCCESS = "descriptor/LOAD_SELLERS_SUCCESS";
+export const LOAD_ALL_SELLERS_START = "descriptor/LOAD_ALL_SELLERS_START";
+export const LOAD_ALL_SELLERS_SUCCESS = "descriptor/LOAD_ALL_SELLERS_SUCCESS";
+export const LOAD_SELLER_START = "descriptor/LOAD_SELLER_START";
+export const LOAD_SELLER_SUCCESS = "descriptor/LOAD_SELLER_SUCCESS";
+export const ADD_SELLER_START = "descriptor/ADD_SELLER_START";
+export const ADD_SELLER_SUCCESS = "descriptor/ADD_SELLER_SUCCESS";
 
-export function loadSellers() {
-  return function (dispatch) {
+export const loadAllSellers = () => {
+  return (dispatch) => {
     dispatch({
-      type: LOAD_SELLERS_START
+      type: LOAD_ALL_SELLERS_START
     })
 
-    return fetchSellers().then(json =>
+    return fetchAllSellers().then(json =>
       dispatch({
-        type: LOAD_SELLERS_SUCCESS,
+        type: LOAD_ALL_SELLERS_SUCCESS,
+        payload: json
+      })
+    )
+  }
+}
+
+export const loadSeller = (userName) => {
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_SELLER_START
+    })
+
+    return fetchSeller(userName).then(json =>
+      dispatch({
+        type: LOAD_SELLER_SUCCESS,
+        payload: json
+      })
+    ).catch(error => {
+      if (error.status === 404) {
+        return confirmAlert({
+          message: 'New Seller. Load Items?',
+          buttons: [
+            {
+              label: 'Yes',
+              onClick: () => dispatch(addNewSeller(userName))
+            },
+            {
+              label: 'No',
+            }
+          ]
+        });
+      }
+    })
+  }
+}
+
+export const addNewSeller = (userName) => {
+  return (dispatch) => {
+    dispatch({
+      type: ADD_SELLER_START
+    })
+
+    return addSeller(userName).then(json =>
+      dispatch({
+        type: ADD_SELLER_SUCCESS,
         payload: json
       })
     )

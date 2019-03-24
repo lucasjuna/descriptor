@@ -1,0 +1,19 @@
+div.textbox{
+  border: 1px black solid;
+}
+
+div.label{
+  float: right;
+}
+
+.row {
+  margin-top: 10px;
+}
+
+div.textbox.address{
+  height: 80px;
+}
+
+.container.seller-info{
+  margin-top: 30px;
+}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadSellers } from '../actions/sellersActions';
+import { loadAllSellers } from '../actions/sellersActions';
 import { Table, Container, Row, Col } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 (function () {
   var cx = '004358329873995088609:hd3fadxvfdc';
@@ -37,7 +38,7 @@ window.__gcse = {
 class Home extends Component {
 
   componentDidMount() {
-    this.props.loadSellers();
+    this.props.loadAllSellers();
   }
 
   render() {
@@ -63,7 +64,7 @@ class Home extends Component {
               </tbody>
             </Table>
           </Col>
-          <Col sm={2}><a href='#'>Load Items</a></Col>
+          <Col sm={2}><Link to='load-items'>Load Items</Link></Col>
           <Col sm={5}>
             <div style={{ maxHeight: '90vh', overflow: 'auto' }} dangerouslySetInnerHTML={{ __html: googleCode }} />
           </Col>
@@ -81,7 +82,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadSellers: () => dispatch(loadSellers())
+    loadAllSellers: () => dispatch(loadAllSellers())
   };
 }
 

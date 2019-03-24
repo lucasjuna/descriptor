@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { reducer as oidcReducer } from 'redux-oidc';
-import subscriptionsReducer from './subscriptions';
+import sellersReducer from './sellers';
 
 const reducers = combineReducers(
   {
     oidc: oidcReducer,
-    subscriptions: subscriptionsReducer
+    sellers: sellersReducer
   }
 );
 

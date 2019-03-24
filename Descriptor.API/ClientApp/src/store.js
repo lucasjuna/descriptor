@@ -3,6 +3,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { loadUser } from "redux-oidc";
 import reducers from "./reducers";
 import userManager from "./session/userManager";
+import thunkMiddleware from 'redux-thunk';
 
 const loggerMiddleware = store => next => action => {
   console.log("Action type:", action.type);
@@ -15,7 +16,7 @@ const loggerMiddleware = store => next => action => {
 const initialState = {};
 
 const createStoreWithMiddleware = compose(
-  applyMiddleware(loggerMiddleware)
+  applyMiddleware(thunkMiddleware, loggerMiddleware)
 )(createStore);
 
 const store = createStoreWithMiddleware(reducers, initialState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

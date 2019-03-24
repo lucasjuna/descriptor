@@ -11,6 +11,7 @@ services:
   descriptor.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionString=Server=sql.data;Database=descriptor;User Id=sa;Password=Pass@word;"
     ports:
       - "8080:80"
 

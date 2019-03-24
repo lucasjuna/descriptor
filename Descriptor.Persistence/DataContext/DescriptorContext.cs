@@ -18,6 +18,8 @@ namespace Descriptor.Persistence.DataContext
 		public DbSet<SellerInfo> SellerInfo { get; set; }
 		public DbSet<SellerProduct> SellerProducts { get; set; }
 
+		public DescriptorContext(DbContextOptions options) : base(options) { }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.ApplyConfiguration(new ItemReviewStatusConfig());

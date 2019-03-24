@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Descriptor.API.AutofacModules;
+using Descriptor.Persistence.DataContext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -22,9 +27,23 @@ namespace Descriptor.API
 		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
-		public void ConfigureServices(IServiceCollection services)
+		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
+			services.Configure<AppSettings>(Configuration);
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddDbContext<DescriptorContext>((provider, options) =>
+			{
+				var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
+				options.UseSqlServer(appSettings.ConnectionString, sqlOptions =>
+				{
+					sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+					sqlOptions.MigrationsAssembly(typeof(DescriptorContext).Assembly.FullName);
+				});
+			}, ServiceLifetime.Scoped);
+			var container = new ContainerBuilder();
+			container.Populate(services);
+			container.RegisterModule(new ApplicationModule());
+			return new AutofacServiceProvider(container.Build());
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

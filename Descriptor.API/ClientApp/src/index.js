@@ -4,16 +4,17 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { processSilentRenew } from 'redux-oidc';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 if (window.location.pathname === '/silent-renew') {
-    processSilentRenew();
+  processSilentRenew();
 } else {
-    ReactDOM.render(
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>,
-        document.getElementById('root'));
+  ReactDOM.render(
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
+    document.getElementById('root'));
 }
 
 // If you want your app to work offline and load faster, you can change

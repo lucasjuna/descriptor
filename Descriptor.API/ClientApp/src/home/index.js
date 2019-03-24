@@ -56,9 +56,9 @@ class Home extends Component {
               </thead>
               <tbody>
                 {
-                  sellers.map(x => <tr>
-                    <td>{x.EbaySellerUserName}</td>
-                    <td>{x.Escalated}</td>
+                  sellers.map(x => <tr key={x.ebaySellerUserName}>
+                    <td>{x.ebaySellerUserName}</td>
+                    <td>{x.escalated}</td>
                   </tr>)
                 }
               </tbody>

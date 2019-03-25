@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Descriptor.Identity.Data;
 using Descriptor.Identity.Model;
 using Descriptor.Identity.Services;
+using Descriptor.Identity.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,7 +46,8 @@ namespace Descriptor.Identity
 
 			services.AddIdentity<ApplicationUser, ApplicationRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddDefaultTokenProviders();
+				.AddDefaultTokenProviders()
+				.AddUserValidator<ApplicationUserValidator>();
 
 			services.AddIdentityServer()
 				.AddDeveloperSigningCredential()

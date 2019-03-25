@@ -21,7 +21,10 @@ namespace Descriptor.Identity.Data
 				ApplicationUser user = new ApplicationUser
 				{
 					UserName = "user1",
-					Email = "user1@localhost"
+					Email = "user1@localhost",
+					FirstName = "John",
+					LastName = "Smith",
+					EmployeeId = "001"
 				};
 
 				IdentityResult result = await userManager.CreateAsync(user, "User.1");
@@ -37,7 +40,10 @@ namespace Descriptor.Identity.Data
 				ApplicationUser user = new ApplicationUser
 				{
 					UserName = "admin",
-					Email = "admin@localhost"
+					Email = "admin@localhost",
+					FirstName = "Robert",
+					LastName = "Williams",
+					EmployeeId = "002"
 				};
 
 				IdentityResult result = await userManager.CreateAsync(user, "Admin.1");

@@ -4,7 +4,7 @@ import { loadAllSellers } from '../actions/sellersActions';
 import { Table, Container, Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-(function () {
+const initGoogleSearch = () => {
   var cx = '004358329873995088609:hd3fadxvfdc';
   var gcse = document.createElement('script');
   gcse.type = 'text/javascript';
@@ -12,11 +12,11 @@ import { Link } from 'react-router-dom';
   gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
   var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(gcse, s);
-})()
+};
 
 const googleCode = `<gcse:searchresults-only noResultsString="No Results" gname="e"></gcse:searchresults-only>`;
 
-const initSearch = () => {
+const executeSearch = () => {
   const element = window.google.search.cse.element.getElement('e');
   if (element) {
     element.execute(process.env.REACT_APP_SEARCH_QUERY);
@@ -29,8 +29,8 @@ const initSearch = () => {
 window.__gcse = {
   parsetags: 'onload',
   callback: () => {
-    if (!initSearch()) {
-      window.google.setOnLoadCallback(initSearch);
+    if (!executeSearch()) {
+      window.google.setOnLoadCallback(executeSearch);
     }
   }
 };
@@ -39,6 +39,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.loadAllSellers();
+    initGoogleSearch();
   }
 
   render() {

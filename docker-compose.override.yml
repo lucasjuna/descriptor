@@ -12,6 +12,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionString=Server=sql.data;Database=descriptor;User Id=sa;Password=Pass@word;"
+      - IdentityProviderHost=http://10.0.75.1:8181
+      - ApiName=descriptor
     ports:
       - "8080:80"
 

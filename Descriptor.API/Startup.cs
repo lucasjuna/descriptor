@@ -6,9 +6,13 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Descriptor.API.AutofacModules;
 using Descriptor.Persistence.DataContext;
+using IdentityModel.AspNetCore.OAuth2Introspection;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +34,25 @@ namespace Descriptor.API
 		public IServiceProvider ConfigureServices(IServiceCollection services)
 		{
 			services.Configure<AppSettings>(Configuration);
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			var appSettigs = new AppSettings();
+			Configuration.Bind(appSettigs);
+			services.AddMvc(o =>
+			{
+				o.Filters.Add(new AuthorizeFilter());
+			}).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+			services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+				.AddIdentityServerAuthentication(options =>
+				{
+					options.Authority = appSettigs.IdentityProviderHost;
+					options.RequireHttpsMetadata = false;
+					options.ApiName = appSettigs.ApiName;
+					options.TokenRetriever = new Func<HttpRequest, string>(req =>
+					{
+						var fromHeader = TokenRetrieval.FromAuthorizationHeader();
+						var fromQuery = TokenRetrieval.FromQueryString();
+						return fromHeader(req) ?? fromQuery(req);
+					});
+				});
 			services.AddDbContext<DescriptorContext>((provider, options) =>
 			{
 				var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
@@ -58,6 +80,7 @@ namespace Descriptor.API
 				});
 			}
 			app.UseStaticFiles();
+			app.UseAuthentication();
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(

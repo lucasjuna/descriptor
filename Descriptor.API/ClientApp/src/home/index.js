@@ -43,9 +43,14 @@ class Home extends Component {
   }
 
   render() {
-    const { sellers } = this.props;
+    const { sellers, reviewerName } = this.props;
     return (
       <Container>
+        <Row>
+          <Col>
+          <span>Hello {reviewerName}!</span>
+          </Col>
+        </Row>
         <Row>
           <Col sm={5}>
             <Table>
@@ -78,6 +83,7 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     sellers: state.sellers.list,
+    reviewerName: state.oidc.user.profile.given_name
   };
 }
 

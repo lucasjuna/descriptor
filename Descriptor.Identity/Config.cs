@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
@@ -26,7 +27,14 @@ namespace Descriptor.Identity
 			{
 				new ApiResource("descriptor", "Descriptor")
 				{
-					UserClaims = { ClaimTypes.Role }
+					UserClaims =
+					{
+						"employee_id",
+						ClaimTypes.Role,
+						JwtClaimTypes.FamilyName,
+						JwtClaimTypes.GivenName,
+						JwtClaimTypes.Email
+					}
 				}
 			};
 		}

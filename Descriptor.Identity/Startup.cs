@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Descriptor.Identity.Data;
+﻿using Descriptor.Identity.Data;
 using Descriptor.Identity.Model;
 using Descriptor.Identity.Services;
 using Descriptor.Identity.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
 
 namespace Descriptor.Identity
 {
@@ -50,6 +46,7 @@ namespace Descriptor.Identity
 				.AddUserValidator<ApplicationUserValidator>();
 
 			services.AddIdentityServer()
+
 				.AddDeveloperSigningCredential()
 				.AddConfigurationStore(config =>
 				{
@@ -76,6 +73,8 @@ namespace Descriptor.Identity
 					};
 				})
 				.AddAspNetIdentity<ApplicationUser>();
+
+			services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
 			services.AddTransient<IEmailSender, EmailSender>();
 		}
 

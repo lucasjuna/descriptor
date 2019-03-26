@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 
 class LoginPage extends React.Component {
 
+  componentDidMount() {
+    const wait = () => new Promise(resolve => setTimeout(resolve, 5000));
+    wait().then(() => {
+      if (!this.props.isLoadingUser) {
+        this.redirect();
+      }
+    })
+  }
+
   componentDidUpdate(prevProps) {
     if (!this.props.isLoadingUser && prevProps.isLoadingUser !== this.props.isLoadingUser) {
       this.redirect();
@@ -29,7 +38,6 @@ class LoginPage extends React.Component {
 function mapStateToProps(state) {
   return {
     isLoadingUser: state.oidc.isLoadingUser,
-
   };
 }
 

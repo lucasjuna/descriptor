@@ -18,7 +18,7 @@ namespace Descriptor.Persistence.DataContext
 		public DbSet<SellerInfo> SellerInfo { get; set; }
 		public DbSet<SellerProduct> SellerProducts { get; set; }
 
-		public DescriptorContext(DbContextOptions options) : base(options) { }
+		public DescriptorContext(DbContextOptions<DescriptorContext> options) : base(options) { }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

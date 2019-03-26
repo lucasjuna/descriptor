@@ -1,4 +1,5 @@
 ﻿using Descriptor.Domain.Dto;
+using Descriptor.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,6 @@ namespace Descriptor.Domain.Repositories
 		Task<IList<SellerDto>> All();
 		Task<bool> Exists(string userName);
 		Task<SellerDto> Find(string userName);
+		void Add(SellerInfo seller);
 	}
 }

@@ -13,7 +13,7 @@ namespace Descriptor.Domain.Entities
 		public string Address3 { get; set; }
 		public string City { get; set; }
 		public string State { get; set; }
-		public int Zip { get; set; }
+		public string Zip { get; set; }
 		public string EmailAddress { get; set; }
 		public DateTime DateAdded { get; set; }
 		public DateTime LastProcessDate { get; set; }

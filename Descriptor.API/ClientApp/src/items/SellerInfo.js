@@ -13,17 +13,17 @@ class SellerInfo extends Component {
       <Container className='seller-info'>
         <Row>
           <Col sm={2}><div className='label'>First Name:</div></Col>
-          <Col sm={2}><div className='textbox'>{seller.firstName}</div></Col>
+          <Col sm={2}><div className='textbox'>{seller.firstName || '-'}</div></Col>
           <Col sm={2}><div className='label'>Last Name:</div></Col>
-          <Col sm={2}><div className='textbox'>{seller.lastName}</div></Col>
+          <Col sm={2}><div className='textbox'>{seller.lastName || '-'}</div></Col>
         </Row>
         <Row>
           <Col sm={2}><div className='label'>eMail:</div></Col>
-          <Col><div className='textbox'>{seller.emailAddress}</div></Col>
+          <Col><div className='textbox'>{seller.emailAddress || '-'}</div></Col>
         </Row>
         <Row>
           <Col sm={2}><div className='label'>Address:</div></Col>
-          <Col><div className='textbox address'>{seller.address}</div></Col>
+          <Col><div className='textbox address'>{seller.address || '-'}</div></Col>
         </Row>
       </Container>
     );

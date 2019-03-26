@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Descriptor.API.AutofacModules;
+using Descriptor.Application;
+using Descriptor.Application.Services;
+using Descriptor.Infrastructure.Services;
 using Descriptor.Persistence.DataContext;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityServer4.AccessTokenValidation;
@@ -53,18 +57,28 @@ namespace Descriptor.API
 						return fromHeader(req) ?? fromQuery(req);
 					});
 				});
-			services.AddDbContext<DescriptorContext>((provider, options) =>
+			//services.AddDbContext<DescriptorContext>((provider, options) =>
+			//{
+			//	var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
+			//	options.UseSqlServer(appSettings.ConnectionString, sqlOptions =>
+			//	{
+			//		sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+			//		sqlOptions.MigrationsAssembly(typeof(DescriptorContext).Assembly.FullName);
+			//	});
+			//}, ServiceLifetime.Scoped);
+			services.AddHttpClient<IEbayService, EbayService>((provider, config) =>
 			{
 				var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
-				options.UseSqlServer(appSettings.ConnectionString, sqlOptions =>
-				{
-					sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-					sqlOptions.MigrationsAssembly(typeof(DescriptorContext).Assembly.FullName);
-				});
-			}, ServiceLifetime.Scoped);
+				config.BaseAddress = new Uri(appSettings.EbayApiHost);
+				config.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
+				config.DefaultRequestHeaders.Add("X-EBAY-API-COMPATIBILITY-LEVEL", "967");
+				config.DefaultRequestHeaders.Add("X-EBAY-API-SITEID", "0");
+			});
+
 			var container = new ContainerBuilder();
 			container.Populate(services);
 			container.RegisterModule(new ApplicationModule());
+			container.RegisterModule(new MediatrModule());
 			return new AutofacServiceProvider(container.Build());
 		}
 

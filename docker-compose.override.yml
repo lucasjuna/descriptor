@@ -14,6 +14,8 @@ services:
       - "ConnectionString=Server=sql.data;Database=descriptor;User Id=sa;Password=Pass@word;"
       - IdentityProviderHost=http://10.0.75.1:8181
       - ApiName=descriptor
+      - EbayApiHost=https://api.ebay.com
+      - EbayApiToken=AgAAAA**AQAAAA**aAAAAA**PU+aXA**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6ANlIGoCpaHoAWdj6x9nY+seQ**SvAFAA**AAMAAA**rf2eYjyosEVbkl+LqpUcgTk9c4l05rhMuu50QlbqaIWpd81QED3+/+Nik2PiNenS+y+iQoSjaM0uXLr3blC0/McIzBI28BEz34R+W1sJiqrPEqe75GowqIGzIOJOX+ay/gs3ft0Fyq7/3UoqfHFUmA34nU61hMRdcjCaLfB35is5jM+gXPQJfGMPLBJ4yYXIS9oKT05D6l03GnuQMNuuw3Rrt1WxQjNqSCU70w15/xEUgxGg7wn1pAl8q+VxOCf7yAN3s/QEtwYwKBkbcx03KqxxNelDTXVPj9VVU6/UL8hX5BGH30gTLZo7h6Ya7EK65Pkpwo6ag/L9Yv33f+LCWiWWP3RHmE2DPtgCP+QLcQx9MC51qC5C/ulcLH9otpcRmiQWn2xOUlOfOJihMsxe3MnTS/VIrFBQJCClJ2B39LWIdJfBM7lmWa8h3dfJ+60TZKTO/w1hTR3huSOCDIyQZP4PtAsGZMxjcS4PqWeEWrN2YLK8ekzbT++i0pRyBaMBU4Uy9KR0oBROiKhoK9ZaEqYJOFmHfO3XxWfxdyE4z8U6X0sVC4LW2rTbTQBcoZ0yJh4ypVwbkm0gttF0pwhNHpm8t2y8kBTxUW8AhkVXTIaDAUluppd3iPHVCSC4bGSZjrxfN8hCODZlLbA14FcybfayKyDCX01kxtrCvUiee0WuNiw18vmCCZ+Twb8/7uOLTK4zagg0/v/S/2fuOACPC4g12HjdHV84VEEWW0Ov2iD2fkbck+8+UEDY1SZMfS8r
     ports:
       - "8080:80"
 

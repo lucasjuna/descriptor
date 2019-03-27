@@ -8,8 +8,8 @@ const Main = () => (
   <main>
     <Header />
     <Switch>
-      <Route exact path='/' component={Home} />
-      <Route exact path='/load-items' component={LoadItems} />
+      <Route path='/load-items' component={LoadItems} />
+      <Route path='/' component={Home} />
     </Switch>
   </main>
 )

@@ -1,5 +1,7 @@
 import { fetchAllSellers, fetchSeller, addSeller } from '../api/sellersApi'
 import { confirmAlert } from 'react-confirm-alert';
+import history from '../history';
+import { loadItems } from './itemsActions';
 
 export const LOAD_ALL_SELLERS_START = "descriptor/LOAD_ALL_SELLERS_START";
 export const LOAD_ALL_SELLERS_SUCCESS = "descriptor/LOAD_ALL_SELLERS_SUCCESS";
@@ -59,11 +61,13 @@ export const addNewSeller = (userName) => {
       type: ADD_SELLER_START
     })
 
-    return addSeller(userName).then(json =>
+    return addSeller(userName).then(json => {
+      history.push('/load-items/new-seller');
       dispatch({
         type: ADD_SELLER_SUCCESS,
         payload: json
-      })
-    )
+      });
+      dispatch(loadItems(userName));
+    })
   }
 }

@@ -5,13 +5,13 @@ using System.Xml.Serialization;
 
 namespace Descriptor.Infrastructure.Requests
 {
-	public class BaseEbayRequest
+	public class BaseEbayTradingRequest
 	{
 		public RequesterCredentials RequesterCredentials { get; set; }
 
-		public BaseEbayRequest() { }
+		public BaseEbayTradingRequest() { }
 
-		public BaseEbayRequest(string token)
+		public BaseEbayTradingRequest(string token)
 		{
 			RequesterCredentials = new RequesterCredentials(token);
 		}

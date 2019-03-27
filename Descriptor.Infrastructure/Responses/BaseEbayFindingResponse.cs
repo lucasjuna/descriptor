@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Descriptor.Infrastructure.Responses
 {
-	public class BaseEbayResponse
+	public class BaseEbayFindingResponse
 	{
 	}
 }

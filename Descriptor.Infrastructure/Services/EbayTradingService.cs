@@ -14,20 +14,15 @@ using System.Xml.Serialization;
 
 namespace Descriptor.Infrastructure.Services
 {
-	public class EbayService : IEbayService
+	public class EbayTradingService : IEbayTradingService
 	{
 		private readonly HttpClient _client;
 		private readonly IOptions<AppSettings> _appSettings;
 
-		public EbayService(HttpClient client, IOptions<AppSettings> appSettings)
+		public EbayTradingService(HttpClient client, IOptions<AppSettings> appSettings)
 		{
 			_client = client;
 			_appSettings = appSettings;
-		}
-
-		public Task<ICollection<ItemInfo>> GetSellerList(string userName)
-		{
-			throw new NotImplementedException();
 		}
 
 		public async Task<UserInfo> GetUser(string userName)
@@ -40,8 +35,8 @@ namespace Descriptor.Infrastructure.Services
 		}
 
 		private async Task<TResponse> ExecuteRequest<TRequest, TResponse>(string callName, TRequest request)
-			where TRequest : BaseEbayRequest
-			where TResponse : BaseEbayResponse
+			where TRequest : BaseEbayTradingRequest
+			where TResponse : BaseEbayTradingResponse
 		{
 			string requestXml;
 			using (var writer = new StringWriter())

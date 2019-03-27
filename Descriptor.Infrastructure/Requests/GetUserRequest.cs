@@ -3,7 +3,7 @@
 namespace Descriptor.Infrastructure.Requests
 {
 	[XmlRoot(ElementName = "GetUserRequest", Namespace = "urn:ebay:apis:eBLBaseComponents")]
-	public class GetUserRequest : BaseEbayRequest
+	public class GetUserRequest : BaseEbayTradingRequest
 	{
 		public string UserID { get; set; }
 

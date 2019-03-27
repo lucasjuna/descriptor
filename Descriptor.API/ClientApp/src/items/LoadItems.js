@@ -4,6 +4,10 @@ import SellerInfo from './SellerInfo';
 import './style.css';
 import { loadSeller } from '../actions/sellersActions';
 import { connect } from 'react-redux';
+import NewSellerInfo from './NewSellerInfo';
+import { Route } from 'react-router-dom';
+import Switch from 'react-router-dom/Switch';
+import { withRouter } from 'react-router';
 
 class LoadItems extends Component {
 
@@ -31,7 +35,10 @@ class LoadItems extends Component {
             <Col><Button onClick={this.loadSeller} size="sm">Load</Button></Col>
           </Row>
         </Container>
-        <SellerInfo />
+        <Switch>
+          <Route exact path={`/load-items/new-seller`} component={NewSellerInfo} />
+          <Route exact path={`/load-items`} component={SellerInfo} />
+        </Switch>
       </div>
     );
   }
@@ -47,4 +54,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoadItems);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoadItems));

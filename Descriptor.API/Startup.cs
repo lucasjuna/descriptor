@@ -57,22 +57,20 @@ namespace Descriptor.API
 						return fromHeader(req) ?? fromQuery(req);
 					});
 				});
-			//services.AddDbContext<DescriptorContext>((provider, options) =>
-			//{
-			//	var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
-			//	options.UseSqlServer(appSettings.ConnectionString, sqlOptions =>
-			//	{
-			//		sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-			//		sqlOptions.MigrationsAssembly(typeof(DescriptorContext).Assembly.FullName);
-			//	});
-			//}, ServiceLifetime.Scoped);
-			services.AddHttpClient<IEbayService, EbayService>((provider, config) =>
+			services.AddHttpClient<IEbayTradingService, EbayTradingService>((provider, config) =>
 			{
 				var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
-				config.BaseAddress = new Uri(appSettings.EbayApiHost);
+				config.BaseAddress = new Uri(appSettings.EbayApiTradingHost);
 				config.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
 				config.DefaultRequestHeaders.Add("X-EBAY-API-COMPATIBILITY-LEVEL", "967");
 				config.DefaultRequestHeaders.Add("X-EBAY-API-SITEID", "0");
+			});
+
+			services.AddHttpClient<IEbayFindingService, EbayFindingService>((provider, config) =>
+			{
+				var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
+				config.BaseAddress = new Uri(appSettings.EbayApiFindingHost);
+				config.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/xml"));
 			});
 
 			var container = new ContainerBuilder();

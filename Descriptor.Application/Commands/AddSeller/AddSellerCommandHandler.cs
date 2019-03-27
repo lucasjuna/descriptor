@@ -13,11 +13,11 @@ namespace Descriptor.Application.Commands.AddSeller
 {
 	public class AddSellerCommandHandler : IRequestHandler<AddSellerCommand>
 	{
-		private readonly IEbayService _ebayService;
+		private readonly IEbayTradingService _ebayService;
 		private readonly ISellerRepository _sellerRepo;
 		private readonly IUnitOfWork _uow;
 
-		public AddSellerCommandHandler(IEbayService ebayService, IUnitOfWork uow, ISellerRepository sellerRepo)
+		public AddSellerCommandHandler(IEbayTradingService ebayService, IUnitOfWork uow, ISellerRepository sellerRepo)
 		{
 			_ebayService = ebayService;
 			_sellerRepo = sellerRepo;

@@ -4,17 +4,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { processSilentRenew } from 'redux-oidc';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import history from './history';
 
 if (window.location.pathname === '/silent-renew') {
   processSilentRenew();
 } else {
   ReactDOM.render(
-    <BrowserRouter>
+    <Router history={history}>
       <App />
-    </BrowserRouter>,
+    </Router>,
     document.getElementById('root'));
 }
 

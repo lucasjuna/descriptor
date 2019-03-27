@@ -5,7 +5,7 @@ import './style.css';
 
 class ReviewsTable extends Component {
   render() {
-    const { reviewResults } = this.props;
+    const { reviewsResult } = this.props;
     return (<Table>
       <thead>
         <tr>
@@ -17,15 +17,15 @@ class ReviewsTable extends Component {
       </thead>
       <tbody>
         <tr>
-          <td>{reviewResults && reviewResults.accepted || '-'}</td>
-          <td>{reviewResults && reviewResults.rejected|| '-'}</td>
-          <td>{reviewResults && reviewResults.escalated|| '-'}</td>
-          <td>{reviewResults && reviewResults.total|| '-'}</td>
+          <td>{reviewsResult && reviewsResult.accepted || '-'}</td>
+          <td>{reviewsResult && reviewsResult.rejected || '-'}</td>
+          <td>{reviewsResult && reviewsResult.escalated || '-'}</td>
+          <td>{reviewsResult && reviewsResult.total || '-'}</td>
         </tr>
         <tr>
-          <td>{reviewResults && reviewResults.accepted * 100 / reviewResults.total|| '-'}%</td>
-          <td>{reviewResults && reviewResults.rejected * 100 / reviewResults.total|| '-'}%</td>
-          <td>{reviewResults && reviewResults.escalated * 100 / reviewResults.total|| '-'}%</td>
+          <td>{reviewsResult && reviewsResult.total ? `${reviewsResult.accepted * 100 / reviewsResult.total}` : '-'}</td>
+          <td>{reviewsResult && reviewsResult.total ? `${reviewsResult.rejected * 100 / reviewsResult.total}` : '-'}</td>
+          <td>{reviewsResult && reviewsResult.total ? `${reviewsResult.escalated * 100 / reviewsResult.total}` : '-'}</td>
           <td></td>
         </tr>
       </tbody>
@@ -35,7 +35,7 @@ class ReviewsTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    reviewResults: state.items.reviewResults,
+    reviewsResult: state.items.reviewsResult,
   };
 }
 

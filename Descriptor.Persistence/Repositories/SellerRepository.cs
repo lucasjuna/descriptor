@@ -37,7 +37,7 @@ namespace Descriptor.Persistence.Repositories
 			if (userName == null)
 				throw new ArgumentNullException(nameof(userName));
 
-			return await _context.SellerInfo.AnyAsync(x => x.EbaySellerUserName == userName.ToUpper());
+			return await _context.SellerInfo.AnyAsync(x => x.EbaySellerUserName == userName.ToLower());
 		}
 
 		public async Task<SellerDto> Find(string userName)
@@ -45,7 +45,7 @@ namespace Descriptor.Persistence.Repositories
 			if (userName == null)
 				throw new ArgumentNullException(nameof(userName));
 
-			return await _context.SellerInfo.Where(x => x.EbaySellerUserName == userName.ToUpper())
+			return await _context.SellerInfo.Where(x => x.EbaySellerUserName == userName.ToLower())
 				.Select(x => new SellerDto
 				{
 					EbaySellerUserName = x.EbaySellerUserName,
@@ -54,6 +54,15 @@ namespace Descriptor.Persistence.Repositories
 					FirstName = x.FirstName,
 					LastName = x.LastName
 				}).SingleOrDefaultAsync();
+		}
+
+		public async Task<long> FindId(string userName)
+		{
+			if (userName == null)
+				throw new ArgumentNullException(nameof(userName));
+
+			return await _context.SellerInfo.Where(x => x.EbaySellerUserName == userName.ToLower())
+				.Select(x => x.Id).SingleOrDefaultAsync();
 		}
 	}
 }

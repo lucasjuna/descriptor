@@ -13,5 +13,6 @@ namespace Descriptor.Domain.Repositories
 		Task<bool> Exists(string userName);
 		Task<SellerDto> Find(string userName);
 		void Add(SellerInfo seller);
+		Task<long> FindId(string userName);
 	}
 }

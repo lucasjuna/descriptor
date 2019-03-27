@@ -6,6 +6,6 @@ namespace Descriptor.Application.Services
 {
 	public interface IEbayFindingService
 	{
-		Task<ICollection<ItemInfo>> FindItemsAdvanced(string userName);
+		Task<ICollection<ItemDto>> FindItemsAdvanced(string userName);
 	}
 }

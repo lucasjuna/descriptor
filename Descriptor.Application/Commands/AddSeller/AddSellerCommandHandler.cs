@@ -32,16 +32,16 @@ namespace Descriptor.Application.Commands.AddSeller
 				var seller = new SellerInfo
 				{
 					EmailAddress = userInfo.Email,
-					EbaySellerUserName = userInfo.UserName.ToUpper(),
-					Address1 = userInfo.RegistrationAddress?.Street,
-					Address2 = userInfo.RegistrationAddress?.Street1,
-					Address3 = userInfo.RegistrationAddress?.Street2,
-					City = userInfo.RegistrationAddress?.CityName,
-					State = userInfo.RegistrationAddress?.StateOrProvince,
-					Zip = userInfo.RegistrationAddress?.PostalCode,
+					EbaySellerUserName = userInfo.UserName.ToLower(),
+					Address1 = userInfo.Street,
+					Address2 = userInfo.Street1,
+					Address3 = userInfo.Street2,
+					City = userInfo.City,
+					State = userInfo.State,
+					Zip = userInfo.Zip,
 					DateAdded = userInfo.RegistrationDate,
-					FirstName = userInfo.RegistrationAddress?.FirstName,
-					LastName = userInfo.RegistrationAddress?.LastName,
+					FirstName = userInfo.FirstName,
+					LastName = userInfo.LastName,
 					LastProcessDate = DateTime.UtcNow,
 				};
 				_sellerRepo.Add(seller);

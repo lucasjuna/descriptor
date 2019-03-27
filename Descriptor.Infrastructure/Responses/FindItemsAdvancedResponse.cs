@@ -18,6 +18,14 @@ namespace Descriptor.Infrastructure.Responses
 			public string ItemId { get; set; }
 			[XmlElement(ElementName = "country")]
 			public string Country { get; set; }
+			[XmlElement(ElementName = "location")]
+			public string Location { get; set; }
+			[XmlElement(ElementName = "galleryURL")]
+			public string GalleryUrl { get; set; }
+			[XmlElement(ElementName = "viewItemURL")]
+			public string ViewItemUrl { get; set; }
+			[XmlElement(ElementName = "title")]
+			public string Title { get; set; }
 		}
 	}
 }

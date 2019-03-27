@@ -1,4 +1,4 @@
-﻿namespace Descriptor.Application.Dto.Ebay
+﻿namespace Descriptor.Infrastructure.Responses
 {
 	public class AddressInfo
 	{

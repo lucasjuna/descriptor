@@ -25,14 +25,18 @@ namespace Descriptor.Infrastructure.Services
 			_appSettings = appSettings;
 		}
 
-		public async Task<ICollection<ItemInfo>> FindItemsAdvanced(string userName)
+		public async Task<ICollection<ItemDto>> FindItemsAdvanced(string userName)
 		{
 			var request = new FindItemsAdvancedRequest(userName);
 			var result = await ExecuteRequest<FindItemsAdvancedRequest, FindItemsAdvancedResponse>("findItemsAdvanced", request);
-			var itemInfo = result.SearchResult.Select(x => new ItemInfo()
+			var itemInfo = result.SearchResult.Select(x => new ItemDto()
 			{
-				ItemID = x.ItemId,
-				Country = x.Country
+				ItemId = x.ItemId,
+				Country = x.Country,
+				EbayDescription = x.Title,
+				EbayItemLocation = x.Location,
+				EbayItemPictureDetails = x.GalleryUrl,
+				EbayViewItemUrl = x.ViewItemUrl
 			}).ToList();
 			return itemInfo;
 		}

@@ -1,11 +1,11 @@
 ﻿using Descriptor.Application;
 using Descriptor.Application.Dto.Ebay;
+using Descriptor.Application.Exceptions;
 using Descriptor.Application.Services;
 using Descriptor.Infrastructure.Requests;
 using Descriptor.Infrastructure.Responses;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -25,13 +25,48 @@ namespace Descriptor.Infrastructure.Services
 			_appSettings = appSettings;
 		}
 
-		public async Task<UserInfo> GetUser(string userName)
+		public async Task<UserDto> GetUser(string userName)
 		{
 			var request = new GetUserRequest(_appSettings.Value.EbayApiToken, userName);
 			var result = await ExecuteRequest<GetUserRequest, GetUserResponse>("GetUser", request);
-			if (result?.User != null)
-				result.User.UserName = userName;
-			return result.User;
+			if (result?.User == null)
+				throw new EbayException("User not found");
+
+			return new UserDto
+			{
+				City = result.User.RegistrationAddress?.CityName,
+				State = result.User.RegistrationAddress?.StateOrProvince,
+				Zip = result.User.RegistrationAddress?.PostalCode,
+				Street = result.User.RegistrationAddress?.Street,
+				Street1 = result.User.RegistrationAddress?.Street1,
+				Street2 = result.User.RegistrationAddress?.Street2,
+				Email = result.User.Email,
+				RegistrationDate = result.User.RegistrationDate,
+				UserName = result.User.UserID
+			};
+		}
+
+		public async Task<ItemDto> GetItem(string itemId)
+		{
+			var request = new GetItemRequest(_appSettings.Value.EbayApiToken, itemId);
+			request.OutputSelector = "Item.SKU,Item.BuyItNowPrice,Item.Seller.UserID,Item.CrossBorderTrade";
+			var result = await ExecuteRequest<GetItemRequest, GetItemResponse>("GetItem", request);
+			if (result?.Item == null)
+				throw new EbayException("Item not found");
+
+			string pictureDetails = null;
+			if (result.Item.PictureDetails?.ExtendedPictureDetails?.PictureURLs != null)
+			{
+				pictureDetails = string.Join(Environment.NewLine, result.Item.PictureDetails.ExtendedPictureDetails.PictureURLs);
+			}
+			return new ItemDto
+			{
+				ItemId = itemId,
+				EbayBuyItNowPrice = result.Item.BuyItNowPrice?.Price ?? 0,
+				SKU = result.Item.SKU,
+				UserId = result.Item.Seller.UserID,
+				CrossboarderTrade = result.Item.CrossBorderTrade
+			};
 		}
 
 		private async Task<TResponse> ExecuteRequest<TRequest, TResponse>(string callName, TRequest request)

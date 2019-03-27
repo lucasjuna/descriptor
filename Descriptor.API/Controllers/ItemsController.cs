@@ -20,9 +20,9 @@ namespace Descriptor.API.Controllers
 		[HttpPut("{userName}")]
 		public async Task<ActionResult<SellerDto>> LoadItems(string userName)
 		{
-			await _mediator.Send(new LoadItemsCommand(userName));
+			var result = await _mediator.Send(new LoadItemsCommand(userName));
 
-			return Ok();
+			return Ok(result);
 		}
 	}
 }

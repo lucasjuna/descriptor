@@ -9,16 +9,20 @@ class NewSellerInfo extends Component {
   render() {
     const { seller } = this.props;
     return (<Modal isOpen={true}>
-      <div className='infobox'>
-        <Container>
-          <Row>
-            <Col sm={2}><div className='label'>Seller:</div></Col>
-            <Col sm={2}>{seller && seller.ebaySellerUserName}</Col>
-          </Row>
-        </Container>
-        <SellerInfo />
-        <ReviewsTable/>
-      </div>
+      <ModalBody>
+        <div className='infobox'>
+          <Container>
+            <Row>
+              <Col sm={2}><div className='label'>Seller:</div></Col>
+              <Col sm={2}>
+                <strong>{seller && seller.ebaySellerUserName || '-'}</strong>
+              </Col>
+            </Row>
+          </Container>
+          <SellerInfo />
+          <ReviewsTable />
+        </div>
+      </ModalBody>
     </Modal>)
   }
 }

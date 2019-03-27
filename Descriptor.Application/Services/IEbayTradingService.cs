@@ -6,6 +6,7 @@ namespace Descriptor.Application.Services
 {
 	public interface IEbayTradingService
 	{
-		Task<UserInfo> GetUser(string userName);
+		Task<UserDto> GetUser(string userName);
+		Task<ItemDto> GetItem(string itemId);
 	}
 }

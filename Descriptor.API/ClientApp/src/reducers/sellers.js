@@ -1,4 +1,5 @@
 import { LOAD_ALL_SELLERS_SUCCESS, LOAD_SELLER_SUCCESS, ADD_SELLER_SUCCESS } from "../actions/sellersActions";
+import { LOAD_ITEMS_SUCCESS } from "../actions/itemsActions";
 import { SESSION_TERMINATED, USER_EXPIRED } from "redux-oidc";
 
 const initialState = {
@@ -16,6 +17,12 @@ export default function reducer(state = initialState, action) {
     case LOAD_SELLER_SUCCESS:
     case ADD_SELLER_SUCCESS:
       return Object.assign({}, state, { loadedSeller: action.payload });
+    case LOAD_ITEMS_SUCCESS:
+      return Object.assign({}, state, {
+        loadedSeller: Object.assign({}, state.loadedSeller, {
+          total: action.payload.total
+        })
+      });
     default:
       return state;
   }

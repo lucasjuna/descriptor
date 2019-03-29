@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Descriptor.Domain.Entities
 {
@@ -21,5 +22,6 @@ namespace Descriptor.Domain.Entities
 		public int TotalItemsAccepted { get; set; }
 		public int TotalItemsRejected { get; set; }
 		public int TotalItemsInReview { get; set; }
+		public ICollection<SellerProduct> Products { get; set; }
 	}
 }

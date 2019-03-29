@@ -30,25 +30,25 @@ namespace Descriptor.Application.Commands.LoadItems
 
 		public async Task<ReviewsResultDto> Handle(LoadItemsCommand request, CancellationToken cancellationToken)
 		{
-			var userId = await _sellerRepo.FindId(request.UserName);
-			var itemInfo = await _ebayFindingService.FindItemsAdvanced(request.UserName);
+			var seller = await _sellerRepo.Find(request.UserName);
+			var listedItems = await _ebayFindingService.FindItemsAdvanced(request.UserName);
 			List<string> processed = new List<string>();
-			foreach (var itemResult in itemInfo)
+			foreach (var itemInfo in listedItems)
 			{
-				if (!processed.Contains(itemResult.ItemId) && !await _itemRepo.Exists(itemResult.ItemId))
+				if (!processed.Contains(itemInfo.ItemId) && !await _itemRepo.Exists(itemInfo.ItemId))
 				{
-					var item = await _ebayTradingService.GetItem(itemResult.ItemId);
+					var item = await _ebayTradingService.GetItem(itemInfo.ItemId);
 					var product = new SellerProduct()
 					{
-						Country = itemResult.Country,
+						Country = itemInfo.Country,
 						EbayBuyItNowPrice = item.EbayBuyItNowPrice,
-						EbayDescription = itemResult.EbayDescription,
+						EbayDescription = itemInfo.EbayDescription,
 						ItemId = item.ItemId,
-						EbayItemLocation = itemResult.EbayItemLocation,
-						EbayItemPictureDetails = itemResult.EbayItemPictureDetails,
-						EbayViewItemUrl = itemResult.EbayViewItemUrl,
+						EbayItemLocation = itemInfo.EbayItemLocation,
+						EbayItemPictureDetails = itemInfo.EbayItemPictureDetails,
+						EbayViewItemUrl = itemInfo.EbayViewItemUrl,
 						SKU = item.SKU,
-						UserId = userId,
+						UserId = seller.Id,
 						CrossboarderTrade = item.CrossboarderTrade
 					};
 					_itemRepo.Add(product);
@@ -58,7 +58,8 @@ namespace Descriptor.Application.Commands.LoadItems
 			await _uow.SaveEntitiesAsync();
 			return new ReviewsResultDto
 			{
-				Escalated = processed.Count
+				Escalated = processed.Count,
+				Total = seller.Total + processed.Count
 			};
 		}
 	}

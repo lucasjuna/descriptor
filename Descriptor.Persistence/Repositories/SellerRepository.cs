@@ -28,7 +28,8 @@ namespace Descriptor.Persistence.Repositories
 		{
 			return await _context.SellerInfo.Select(x => new SellerDto
 			{
-				EbaySellerUserName = x.EbaySellerUserName
+				EbaySellerUserName = x.EbaySellerUserName,
+				Escalated = x.Products.Count
 			}).ToListAsync();
 		}
 
@@ -48,11 +49,13 @@ namespace Descriptor.Persistence.Repositories
 			return await _context.SellerInfo.Where(x => x.EbaySellerUserName == userName.ToLower())
 				.Select(x => new SellerDto
 				{
+					Id = x.Id,
 					EbaySellerUserName = x.EbaySellerUserName,
 					Address = x.Address1,
 					EmailAddress = x.EmailAddress,
 					FirstName = x.FirstName,
-					LastName = x.LastName
+					LastName = x.LastName,
+					Total = x.Products.Count
 				}).SingleOrDefaultAsync();
 		}
 

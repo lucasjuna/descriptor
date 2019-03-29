@@ -7,6 +7,6 @@ export const fetchLoadItems = (userName) =>
       Authorization: `Bearer ${store.getState().oidc.user.access_token}`
     }
   }).then(
-    response => response.json(),
+    response => response.ok ? response.json() : Promise.reject({ status: response.status }),
     error => console.log('An error occurred.', error)
   )

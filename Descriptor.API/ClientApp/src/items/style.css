@@ -14,6 +14,27 @@ div.textbox.address{
   height: 80px;
 }
 
-.container.seller-info{
+.load-items .container.seller-info{
   margin-top: 30px;
+}
+
+table.reviews-result td,
+table.reviews-result tr
+{
+  border: 1px grey solid !important;
+  text-align: center
+}
+
+table.reviews-result th{
+  border: 1px grey solid !important;
+  text-align: center;
+  background-color: lightgrey
+}
+
+.reviews-result-dialog {
+  max-width: 60% !important;
+}
+
+.reviews-result-dialog .container.seller-info{
+  padding: 0;
 }

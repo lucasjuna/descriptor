@@ -6,7 +6,8 @@ import './style.css';
 class ReviewsTable extends Component {
   render() {
     const { reviewsResult } = this.props;
-    return (<Table>
+    const total = reviewsResult.accepted + reviewsResult.rejected + reviewsResult.escalated;
+    return (<Table className='reviews-result'>
       <thead>
         <tr>
           <th>Accepted</th>
@@ -17,15 +18,15 @@ class ReviewsTable extends Component {
       </thead>
       <tbody>
         <tr>
-          <td>{reviewsResult && reviewsResult.accepted || '-'}</td>
-          <td>{reviewsResult && reviewsResult.rejected || '-'}</td>
-          <td>{reviewsResult && reviewsResult.escalated || '-'}</td>
-          <td>{reviewsResult && reviewsResult.total || '-'}</td>
+          <td>{reviewsResult && reviewsResult.accepted >= 0 ? reviewsResult.accepted : '-'}</td>
+          <td>{reviewsResult && reviewsResult.rejected >= 0 ? reviewsResult.rejected : '-'}</td>
+          <td>{reviewsResult && reviewsResult.escalated >= 0 ? reviewsResult.escalated : '-'}</td>
+          <td>{reviewsResult && total >= 0 ? total : '-'}</td>
         </tr>
         <tr>
-          <td>{reviewsResult && reviewsResult.total ? `${reviewsResult.accepted * 100 / reviewsResult.total}` : '-'}</td>
-          <td>{reviewsResult && reviewsResult.total ? `${reviewsResult.rejected * 100 / reviewsResult.total}` : '-'}</td>
-          <td>{reviewsResult && reviewsResult.total ? `${reviewsResult.escalated * 100 / reviewsResult.total}` : '-'}</td>
+          <td>{reviewsResult && total ? `${reviewsResult.accepted * 100 / total}%` : '-'}</td>
+          <td>{reviewsResult && total ? `${reviewsResult.rejected * 100 / total}%` : '-'}</td>
+          <td>{reviewsResult && total ? `${reviewsResult.escalated * 100 / total}%` : '-'}</td>
           <td></td>
         </tr>
       </tbody>

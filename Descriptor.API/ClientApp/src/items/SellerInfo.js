@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
+import './style.css';
 
 class SellerInfo extends Component {
+
   render() {
     const { seller } = this.props;
 
@@ -12,17 +14,17 @@ class SellerInfo extends Component {
     return (
       <Container className='seller-info'>
         <Row>
-          <Col sm={2}><div className='label'>First Name:</div></Col>
-          <Col sm={2}><div className='textbox'>{seller.firstName || '-'}</div></Col>
-          <Col sm={2}><div className='label'>Last Name:</div></Col>
-          <Col sm={2}><div className='textbox'>{seller.lastName || '-'}</div></Col>
+          <Col sm={3}><div className='label'>First Name:</div></Col>
+          <Col sm={3}><div className='textbox'>{seller.firstName || '-'}</div></Col>
+          <Col sm={3}><div className='label'>Last Name:</div></Col>
+          <Col sm={3}><div className='textbox'>{seller.lastName || '-'}</div></Col>
         </Row>
         <Row>
-          <Col sm={2}><div className='label'>eMail:</div></Col>
+          <Col sm={3}><div className='label'>eMail:</div></Col>
           <Col><div className='textbox'>{seller.emailAddress || '-'}</div></Col>
         </Row>
         <Row>
-          <Col sm={2}><div className='label'>Address:</div></Col>
+          <Col sm={3}><div className='label'>Address:</div></Col>
           <Col><div className='textbox address'>{seller.address || '-'}</div></Col>
         </Row>
       </Container>

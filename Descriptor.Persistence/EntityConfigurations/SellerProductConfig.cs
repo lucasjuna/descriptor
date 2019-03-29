@@ -12,7 +12,7 @@ namespace Descriptor.Persistence.EntityConfigurations
 		public void Configure(EntityTypeBuilder<SellerProduct> builder)
 		{
 			builder.ToTable("SellerProductList");
-			builder.HasOne(x => x.User).WithMany().IsRequired().HasForeignKey(x => x.UserId);
+			builder.HasOne(x => x.User).WithMany(x => x.Products).IsRequired().HasForeignKey(x => x.UserId);
 		}
 	}
 }

@@ -5,8 +5,7 @@ import './style.css';
 
 class ReviewsTable extends Component {
   render() {
-    const { reviewsResult, itemsLoading } = this.props;
-    const total = reviewsResult.accepted + reviewsResult.rejected + reviewsResult.escalated;
+    const { accepted, rejected, escalated, total, itemsLoading } = this.props;
     return (<div>
       <Table className='reviews-result'>
         <thead>
@@ -19,15 +18,15 @@ class ReviewsTable extends Component {
         </thead>
         <tbody>
           <tr>
-            <td>{reviewsResult && reviewsResult.accepted >= 0 ? reviewsResult.accepted : '-'}</td>
-            <td>{reviewsResult && reviewsResult.rejected >= 0 ? reviewsResult.rejected : '-'}</td>
-            <td>{reviewsResult && reviewsResult.escalated >= 0 ? reviewsResult.escalated : '-'}</td>
-            <td>{reviewsResult && total >= 0 ? total : '-'}</td>
+            <td>{accepted >= 0 ? accepted : '-'}</td>
+            <td>{rejected >= 0 ? rejected : '-'}</td>
+            <td>{escalated >= 0 ? escalated : '-'}</td>
+            <td>{total >= 0 ? total : '-'}</td>
           </tr>
           <tr>
-            <td>{reviewsResult && total ? `${reviewsResult.accepted * 100 / total}%` : '-'}</td>
-            <td>{reviewsResult && total ? `${reviewsResult.rejected * 100 / total}%` : '-'}</td>
-            <td>{reviewsResult && total ? `${reviewsResult.escalated * 100 / total}%` : '-'}</td>
+            <td>{total ? `${accepted * 100 / total}%` : '-'}</td>
+            <td>{total ? `${rejected * 100 / total}%` : '-'}</td>
+            <td>{total ? `${escalated * 100 / total}%` : '-'}</td>
             <td></td>
           </tr>
         </tbody>
@@ -44,7 +43,10 @@ class ReviewsTable extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    reviewsResult: state.items.reviewsResult,
+    accepted: state.sellers.loadedSeller && state.sellers.loadedSeller.accepted,
+    rejected: state.sellers.loadedSeller && state.sellers.loadedSeller.rejected,
+    escalated: state.sellers.loadedSeller && state.sellers.loadedSeller.escalated,
+    total: state.sellers.loadedSeller && state.sellers.loadedSeller.total,
     itemsLoading: state.items.itemsLoading,
   };
 }

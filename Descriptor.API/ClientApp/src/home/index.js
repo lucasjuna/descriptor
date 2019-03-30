@@ -63,14 +63,14 @@ class Home extends Component {
               <tbody>
                 {
                   sellers.map(x => <tr key={x.ebaySellerUserName}>
-                    <td>{x.ebaySellerUserName}</td>
+                    <td><Link to={`/sellers/${x.ebaySellerUserName}`}>{x.ebaySellerUserName}</Link></td>
                     <td>{x.escalated}</td>
                   </tr>)
                 }
               </tbody>
             </Table>
           </Col>
-          <Col sm={2}><Link to='load-items'>Load Items</Link></Col>
+          <Col sm={2}><Link to='/load-items'>Load Items</Link></Col>
           <Col sm={5}>
             <div style={{ maxHeight: '90vh', overflow: 'auto' }} dangerouslySetInnerHTML={{ __html: googleCode }} />
           </Col>

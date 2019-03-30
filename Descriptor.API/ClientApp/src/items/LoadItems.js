@@ -35,7 +35,7 @@ class LoadItems extends Component {
   }
 
   render() {
-    const { seller, loadItems, itemsLoading } = this.props;
+    const { seller, itemsLoading } = this.props;
 
     return (
       <div className='infobox load-items'>

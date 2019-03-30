@@ -20,7 +20,8 @@ export default function reducer(state = initialState, action) {
     case LOAD_ITEMS_SUCCESS:
       return Object.assign({}, state, {
         loadedSeller: Object.assign({}, state.loadedSeller, {
-          total: action.payload.total
+          total: action.payload.total,
+          escalated: action.payload.escalated
         })
       });
     case CLEAR_SELLER:

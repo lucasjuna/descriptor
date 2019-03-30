@@ -29,7 +29,8 @@ namespace Descriptor.Persistence.Repositories
 			return await _context.SellerInfo.Select(x => new SellerDto
 			{
 				EbaySellerUserName = x.EbaySellerUserName,
-				Escalated = x.Products.Count
+				Escalated = x.Products.Count,
+				Total= x.Products.Count
 			}).ToListAsync();
 		}
 
@@ -55,7 +56,8 @@ namespace Descriptor.Persistence.Repositories
 					EmailAddress = x.EmailAddress,
 					FirstName = x.FirstName,
 					LastName = x.LastName,
-					Total = x.Products.Count
+					Total = x.Products.Count,
+					Escalated = x.Products.Count
 				}).SingleOrDefaultAsync();
 		}
 

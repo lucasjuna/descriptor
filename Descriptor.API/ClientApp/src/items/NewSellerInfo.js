@@ -5,8 +5,17 @@ import SellerInfo from './SellerInfo';
 import ReviewsTable from './ReviewsTable';
 import './style.css';
 import { Link } from 'react-router-dom';
+import { loadSeller } from '../actions/sellersActions';
+import { loadItems } from '../actions/itemsActions';
 
 class NewSellerInfo extends Component {
+
+  componentDidMount(){
+    if(this.props.match.params.userName){
+      this.props.loadSeller(this.props.match.params.userName);
+    }
+  }
+
   render() {
     const { seller } = this.props;
     return (<Modal isOpen={true} className='reviews-result-dialog'>
@@ -48,7 +57,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch
+    loadSeller: (userName) => dispatch(loadSeller(userName)),
+    loadItems: (userName) => dispatch(loadItems(userName)),
   };
 }
 

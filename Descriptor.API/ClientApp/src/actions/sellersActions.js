@@ -2,6 +2,7 @@ import { fetchAllSellers, fetchSeller, addSeller } from '../api/sellersApi'
 import { confirmAlert } from 'react-confirm-alert';
 import history from '../history';
 import { loadItems } from './itemsActions';
+import { toast } from 'react-toastify';
 
 export const LOAD_ALL_SELLERS_START = "descriptor/LOAD_ALL_SELLERS_START";
 export const LOAD_ALL_SELLERS_SUCCESS = "descriptor/LOAD_ALL_SELLERS_SUCCESS";
@@ -22,7 +23,7 @@ export const loadAllSellers = () => {
         type: LOAD_ALL_SELLERS_SUCCESS,
         payload: json
       })
-    )
+    ).catch(r => r.error.then(e => toast.error(e.message)))
   }
 }
 
@@ -37,8 +38,8 @@ export const loadSeller = (userName) => {
         type: LOAD_SELLER_SUCCESS,
         payload: json
       })
-    ).catch(error => {
-      if (error.status === 404) {
+    ).catch(r => {
+      if (r.status === 404) {
         return confirmAlert({
           message: 'New Seller. Load Items?',
           buttons: [
@@ -51,6 +52,8 @@ export const loadSeller = (userName) => {
             }
           ]
         });
+      } else {
+        r.error.then(e => toast.error(e.message))
       }
     })
   }
@@ -69,7 +72,7 @@ export const addNewSeller = (userName) => {
         payload: json
       });
       dispatch(loadItems(userName));
-    })
+    }).catch(r => r.error.then(e => toast.error(e.message)))
   }
 }
 

@@ -8,6 +8,7 @@ import { Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import history from './history';
+import 'react-toastify/dist/ReactToastify.css';
 
 if (window.location.pathname === '/silent-renew') {
   processSilentRenew();

@@ -7,6 +7,7 @@ import userManager from './session/userManager';
 import { Switch, Route } from 'react-router-dom'
 import CallbackPage from './session/CallbackPage'
 import './App.css';
+import { ToastContainer } from 'react-toastify';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
               <Route exact path='/callback' component={CallbackPage} />
               <Route path='/' component={Entry} />
             </Switch>
+            <ToastContainer />
           </div>
         </OidcProvider>
       </Provider>

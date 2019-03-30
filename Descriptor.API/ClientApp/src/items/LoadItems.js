@@ -66,6 +66,7 @@ class LoadItems extends Component {
                       <Col ><Button size="sm">Review existing items</Button></Col>
                     </Row>
                     <Row>
+                      <Col sm={3}></Col>
                       <Col>
                         {
                           itemsLoading ?

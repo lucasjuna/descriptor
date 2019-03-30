@@ -13,6 +13,7 @@ using Descriptor.Persistence.DataContext;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Descriptor.API
 {
@@ -85,12 +87,20 @@ namespace Descriptor.API
 		{
 			if (env.IsDevelopment())
 			{
-				app.UseDeveloperExceptionPage();
 				app.UseCors(builder =>
 				{
 					builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials();
 				});
 			}
+			app.UseExceptionHandler(a => a.Run(async context =>
+			{
+				var feature = context.Features.Get<IExceptionHandlerPathFeature>();
+				var exception = feature.Error;
+
+				var result = JsonConvert.SerializeObject(new { message = exception.Message });
+				context.Response.ContentType = "application/json";
+				await context.Response.WriteAsync(result);
+			}));
 			app.UseStaticFiles();
 			app.UseAuthentication();
 			app.UseMvc(routes =>

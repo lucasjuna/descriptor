@@ -9,6 +9,7 @@ export const LOAD_SELLER_START = "descriptor/LOAD_SELLER_START";
 export const LOAD_SELLER_SUCCESS = "descriptor/LOAD_SELLER_SUCCESS";
 export const ADD_SELLER_START = "descriptor/ADD_SELLER_START";
 export const ADD_SELLER_SUCCESS = "descriptor/ADD_SELLER_SUCCESS";
+export const CLEAR_SELLER = "descriptor/CLEAR_SELLER";
 
 export const loadAllSellers = () => {
   return (dispatch) => {
@@ -69,5 +70,11 @@ export const addNewSeller = (userName) => {
       });
       dispatch(loadItems(userName));
     })
+  }
+}
+
+export const clearSeller = () => {
+  return {
+    type: CLEAR_SELLER
   }
 }

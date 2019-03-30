@@ -1,4 +1,4 @@
-import { LOAD_ALL_SELLERS_SUCCESS, LOAD_SELLER_SUCCESS, ADD_SELLER_SUCCESS } from "../actions/sellersActions";
+import { LOAD_ALL_SELLERS_SUCCESS, LOAD_SELLER_SUCCESS, ADD_SELLER_SUCCESS, CLEAR_SELLER } from "../actions/sellersActions";
 import { LOAD_ITEMS_SUCCESS } from "../actions/itemsActions";
 import { SESSION_TERMINATED, USER_EXPIRED } from "redux-oidc";
 
@@ -23,6 +23,8 @@ export default function reducer(state = initialState, action) {
           total: action.payload.total
         })
       });
+    case CLEAR_SELLER:
+      return Object.assign({}, state, { loadedSeller: null })
     default:
       return state;
   }

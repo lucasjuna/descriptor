@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button, Input } from 'reactstrap';
 import SellerInfo from './SellerInfo';
 import './style.css';
-import { loadSeller } from '../actions/sellersActions';
+import { loadSeller, clearSeller } from '../actions/sellersActions';
 import { loadItems } from '../actions/itemsActions';
 import { connect } from 'react-redux';
 import NewSellerInfo from './NewSellerInfo';
@@ -13,6 +13,10 @@ import { withRouter } from 'react-router';
 class LoadItems extends Component {
 
   state = {}
+
+  componentDidMount() {
+    this.props.clearSeller();
+  }
 
   onChange = (e) => {
     this.setState({
@@ -93,7 +97,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     loadSeller: (userName) => dispatch(loadSeller(userName)),
-    loadItems: (userName) => dispatch(loadItems(userName))
+    loadItems: (userName) => dispatch(loadItems(userName)),
+    clearSeller: () => dispatch(clearSeller())
   };
 }
 

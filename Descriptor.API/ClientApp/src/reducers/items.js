@@ -12,7 +12,10 @@ export default function reducer(state = initialState, action) {
     case USER_EXPIRED:
       return Object.assign({}, state, initialState);
     case LOAD_ITEMS_START:
-      return Object.assign({}, state, { itemsLoading: true });
+      return Object.assign({}, state, {
+        itemsLoading: true,
+        reviewsResult: []
+      });
     case LOAD_ITEMS_SUCCESS:
       return Object.assign({}, state, {
         itemsLoading: false,

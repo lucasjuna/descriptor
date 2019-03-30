@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadAllSellers } from '../actions/sellersActions';
 import { Table, Container, Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
+import SellerInfoModal from '../items/SellerInfoModal';
 
 const initGoogleSearch = () => {
   var cx = '004358329873995088609:hd3fadxvfdc';
@@ -48,7 +49,7 @@ class Home extends Component {
       <Container>
         <Row>
           <Col>
-          <span>Hello {reviewerName}!</span>
+            <span>Hello {reviewerName}!</span>
           </Col>
         </Row>
         <Row>
@@ -75,6 +76,9 @@ class Home extends Component {
             <div style={{ maxHeight: '90vh', overflow: 'auto' }} dangerouslySetInnerHTML={{ __html: googleCode }} />
           </Col>
         </Row>
+        <Switch>
+          <Route path='/sellers/:userName' component={SellerInfoModal} />
+        </Switch>
       </Container>
     );
   }

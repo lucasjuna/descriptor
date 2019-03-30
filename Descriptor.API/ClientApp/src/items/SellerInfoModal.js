@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import { loadSeller } from '../actions/sellersActions';
 import { loadItems } from '../actions/itemsActions';
 
-class NewSellerInfo extends Component {
+class SellerInfoModal extends Component {
 
   componentDidMount(){
     if(this.props.match.params.userName){
@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewSellerInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(SellerInfoModal);

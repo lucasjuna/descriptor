@@ -5,7 +5,7 @@ import './style.css';
 import { loadSeller, clearSeller } from '../actions/sellersActions';
 import { loadItems } from '../actions/itemsActions';
 import { connect } from 'react-redux';
-import NewSellerInfo from './NewSellerInfo';
+import SellerInfoModal from './SellerInfoModal';
 import { Route } from 'react-router-dom';
 import Switch from 'react-router-dom/Switch';
 import { withRouter } from 'react-router';
@@ -48,7 +48,7 @@ class LoadItems extends Component {
           </Row>
         </Container>
         <Switch>
-          <Route exact path={`/load-items/new-seller`} component={NewSellerInfo} />
+          <Route exact path={`/load-items/new-seller`} component={SellerInfoModal} />
           <Route exact path={`/load-items`} component={(props) => {
             return (<div>
               <SellerInfo />

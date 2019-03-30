@@ -3,14 +3,12 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './home';
 import Header from './Header';
 import LoadItems from './items/LoadItems';
-import NewSellerInfo from './items/NewSellerInfo';
 
 const Main = () => (
   <main>
     <Header />
     <Switch>
       <Route path='/load-items' component={LoadItems} />
-      <Route path='/sellers/:userName' component={NewSellerInfo}/>
       <Route path='/' component={Home} />
     </Switch>
   </main>

@@ -1,5 +1,6 @@
 ﻿using Descriptor.Application;
 using Descriptor.Application.Dto.Ebay;
+using Descriptor.Application.Exceptions;
 using Descriptor.Application.Services;
 using Descriptor.Infrastructure.Requests;
 using Descriptor.Infrastructure.Responses;
@@ -29,13 +30,16 @@ namespace Descriptor.Infrastructure.Services
 		{
 			var request = new FindItemsAdvancedRequest(userName);
 			var result = await ExecuteRequest<FindItemsAdvancedRequest, FindItemsAdvancedResponse>("findItemsAdvanced", request);
+
+			if (result.Ack.ToUpper() != "SUCCESS")
+				throw new EbayException($"Ebay API error: {result.ErrorMessage?.Error?.Message}");
+
 			var itemInfo = result.SearchResult.Select(x => new ItemDto()
 			{
 				ItemId = x.ItemId,
 				Country = x.Country,
 				EbayDescription = x.Title,
 				EbayItemLocation = x.Location,
-				EbayItemPictureDetails = x.GalleryUrl,
 				EbayViewItemUrl = x.ViewItemUrl
 			}).ToList();
 			return itemInfo;

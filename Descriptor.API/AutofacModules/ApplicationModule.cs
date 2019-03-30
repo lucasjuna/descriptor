@@ -30,6 +30,7 @@ namespace Descriptor.API.AutofacModules
 			builder.RegisterType<DescriptorContext>().InstancePerLifetimeScope().AsSelf().As<IUnitOfWork>();
 			builder.RegisterType<SellerRepository>().As<ISellerRepository>();
 			builder.RegisterType<ItemRepository>().As<IItemRepository>();
+			builder.RegisterType<ProductImageRepository>().As<IProductImageRepository>();
 		}
 	}
 }

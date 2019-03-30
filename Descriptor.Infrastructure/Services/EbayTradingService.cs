@@ -29,8 +29,9 @@ namespace Descriptor.Infrastructure.Services
 		{
 			var request = new GetUserRequest(_appSettings.Value.EbayApiToken, userName);
 			var result = await ExecuteRequest<GetUserRequest, GetUserResponse>("GetUser", request);
-			if (result?.User == null)
-				throw new EbayException("User not found");
+
+			if (result.Ack.ToUpper() != "SUCCESS")
+				throw new EbayException($"Ebay API error: {result.Errors?.ShortMessage}");
 
 			return new UserDto
 			{
@@ -49,23 +50,21 @@ namespace Descriptor.Infrastructure.Services
 		public async Task<ItemDto> GetItem(string itemId)
 		{
 			var request = new GetItemRequest(_appSettings.Value.EbayApiToken, itemId);
-			request.OutputSelector = "Item.SKU,Item.BuyItNowPrice,Item.Seller.UserID,Item.CrossBorderTrade";
+			request.OutputSelector = "Item.SKU,Item.BuyItNowPrice,Item.Seller.UserID,Item.CrossBorderTrade,Item.PictureDetails.PictureURL";
 			var result = await ExecuteRequest<GetItemRequest, GetItemResponse>("GetItem", request);
-			if (result?.Item == null)
-				throw new EbayException("Item not found");
 
-			string pictureDetails = null;
-			if (result.Item.PictureDetails?.ExtendedPictureDetails?.PictureURLs != null)
-			{
-				pictureDetails = string.Join(Environment.NewLine, result.Item.PictureDetails.ExtendedPictureDetails.PictureURLs);
-			}
+			if (result.Ack.ToUpper() != "SUCCESS")
+				throw new EbayException($"Ebay API error: {result.Errors?.ShortMessage}");
+
 			return new ItemDto
 			{
 				ItemId = itemId,
-				EbayBuyItNowPrice = result.Item.BuyItNowPrice?.Price ?? 0,
+				EbayBuyItNowPrice = result.Item.BuyItNowPrice?.Value ?? 0,
+				EbayBuyItNowCurrencyID = result.Item.BuyItNowPrice?.CurrencyID,
 				SKU = result.Item.SKU,
 				UserId = result.Item.Seller.UserID,
-				CrossboarderTrade = result.Item.CrossBorderTrade
+				CrossboarderTrade = result.Item.CrossBorderTrade,
+				PictureURLs = result.Item.PictureDetails
 			};
 		}
 

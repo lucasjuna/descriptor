@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Descriptor.Infrastructure.Responses
 {
@@ -7,25 +8,18 @@ namespace Descriptor.Infrastructure.Responses
 		public string ItemID { get; set; }
 		public string SKU { get; set; }
 		public UserInfo Seller { get; set; }
-		public PriceInfo BuyItNowPrice { get; set; }
+		public PriceInfo BuyItNowPrice{ get; set; }
 		public string ViewItemURL { get; set; }
-		public PictureDetailsInfo PictureDetails { get; set; }
+		[XmlArrayItem(ElementName = "PictureURL")]
+		public List<string> PictureDetails { get; set; }
 		public string CrossBorderTrade { get; set; }
-
-		public class PictureDetailsInfo
-		{
-			public ExtendedPictureDetailsInfo ExtendedPictureDetails { get; set; }
-		}
 
 		public class PriceInfo
 		{
-			public decimal Price { get; set; }
+			[XmlText]
+			public decimal Value { get; set; }
+			[XmlAttribute("currencyID")]
 			public string CurrencyID { get; set; }
-		}
-
-		public class ExtendedPictureDetailsInfo
-		{
-			public List<string> PictureURLs { get; set; }
 		}
 	}
 }

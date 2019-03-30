@@ -1,4 +1,6 @@
-﻿namespace Descriptor.Application.Dto.Ebay
+﻿using System.Collections.Generic;
+
+namespace Descriptor.Application.Dto.Ebay
 {
 	public class ItemDto
 	{
@@ -9,8 +11,9 @@
 		public string SKU { get; set; }
 		public string EbayDescription { get; set; }
 		public decimal EbayBuyItNowPrice { get; set; }
+		public string EbayBuyItNowCurrencyID { get; set; }
 		public string EbayViewItemUrl { get; set; }
 		public string EbayItemLocation { get; set; }
-		public string EbayItemPictureDetails { get; set; }
+		public ICollection<string> PictureURLs { get; set; }
 	}
 }

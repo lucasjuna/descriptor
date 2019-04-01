@@ -65,7 +65,7 @@ class Home extends Component {
                 {
                   sellers.map(x => <tr key={x.ebaySellerUserName}>
                     <td><Link to={`/sellers/${x.ebaySellerUserName}`}>{x.ebaySellerUserName}</Link></td>
-                    <td>{x.escalated}</td>
+                    <td><Link to={`/dashboard/${x.ebaySellerUserName}`}>{x.escalated}</Link></td>
                   </tr>)
                 }
               </tbody>

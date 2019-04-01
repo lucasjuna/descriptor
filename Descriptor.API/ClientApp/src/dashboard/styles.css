@@ -1,0 +1,38 @@
+.page-header{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tabulator .tabulator-header .tabulator-col {
+    text-align: center;
+    background-color: white;
+}
+
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content {
+    height: 60px;
+}
+
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content .tabulator-col-title {
+    white-space: normal;
+}
+
+.tabulator .tabulator-row.tabulator-row-even {
+    background-color: white;
+}
+
+.tabulator .tabulator-row:hover {
+    background-color: white;
+}
+
+.tabulator .tabulator-row .tabulator-cell{
+    white-space: normal;
+}
+
+.tabulator .tabulator-row {
+    border-top: grey 1px solid;
+}
+
+.tabulator .tabulator-header,
+.tabulator .tabulator-headers{
+    border-bottom-style: none;
+}

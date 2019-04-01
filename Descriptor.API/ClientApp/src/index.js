@@ -9,10 +9,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import history from './history';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment';
 
 if (window.location.pathname === '/silent-renew') {
   processSilentRenew();
 } else {
+  window.moment = moment;
   ReactDOM.render(
     <Router history={history}>
       <App />

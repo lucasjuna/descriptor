@@ -10,8 +10,8 @@ import { loadItems } from '../actions/itemsActions';
 
 class SellerInfoModal extends Component {
 
-  componentDidMount(){
-    if(this.props.match.params.userName){
+  componentDidMount() {
+    if (this.props.match.params.userName) {
       this.props.loadSeller(this.props.match.params.userName);
     }
   }
@@ -30,7 +30,7 @@ class SellerInfoModal extends Component {
             </Row>
             <Row>
               <Col>
-                <SellerInfo className='seller-info'/>
+                <SellerInfo className='seller-info' />
               </Col>
             </Row>
             <Row>
@@ -43,7 +43,7 @@ class SellerInfoModal extends Component {
         </div>
       </ModalBody>
       <ModalFooter>
-        <Button tag={Link} to='/'>Close</Button>
+        <Button tag={Link} to={this.props.location.state && this.props.location.state.returnUrl || '/'}>Close</Button>
       </ModalFooter>
     </Modal>)
   }

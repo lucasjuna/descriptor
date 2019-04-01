@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
-import { ReactTabulator } from 'react-tabulator'; // for React 15.x, use import { React15Tabulator }
+import { ReactTabulator, reactFormatter } from 'react-tabulator'; // for React 15.x, use import { React15Tabulator }
 import { connect } from 'react-redux';
 import { loadDashboard } from '../actions/dashboardActions';
 import { Container, Row, Col } from 'reactstrap';
 import { fetchReviewersCb } from '../api/dashboardApi';
+import { fetchAllSellers } from '../api/sellersApi';
 import './styles.css';
 import { withRouter } from 'react-router';
 import moment from 'moment';
+import { Switch, Route } from 'react-router-dom';
+import SellerInfoModal from '../items/SellerInfoModal';
+import history from '../history';
 
 const statusEnum = {
   escalated: 1,
@@ -16,9 +20,19 @@ const statusEnum = {
   rejected: 3
 }
 
+const UrlSeller = (props) => {
+  let url = `/dashboard/${props.cell._cell.value}/info`;
+  return <a href={url} onClick={(e) => {
+    e.preventDefault();
+    history.push(url, { returnUrl: history.location.pathname });
+  }}>{props.cell._cell.value}</a>
+}
+const UrlItem = (props) => <a>{props.cell._cell.value}</a>
+const UrlDescription = (props) => <a>{props.cell._cell.value}</a>
+
 const tableColumns = [
-  { title: "Seller", field: "seller", align: "center", formatter: "link" },
-  { title: "Item Number", field: "itemNumber", align: "center", formatter: "link" },
+  { title: "Seller", field: "seller", align: "center", formatter: reactFormatter(<UrlSeller />) },
+  { title: "Item Number", field: "itemId", align: "center", formatter: reactFormatter(<UrlItem />) },
   { title: "Description", field: "description", align: "center" },
   {
     title: "Review Date/Time", field: "reviewDate", sorter: "date", align: "center", formatter: 'datetime', formatterParams: {
@@ -26,7 +40,7 @@ const tableColumns = [
       invalidPlaceholder: "(invalid date)",
     }
   },
-  { title: "Description ID", field: "descriptionId", align: "center", formatter: "link" },
+  { title: "Description ID", field: "descriptionId", align: "center", formatter: reactFormatter(<UrlDescription />) },
   { title: "Short Description", field: "shortDescription", align: "center" },
   { title: "Status", field: "status", align: "center" },
   { title: "Reviewer", field: "reviewer", align: "center" },
@@ -35,13 +49,7 @@ const tableColumns = [
 class Dashboard extends Component {
 
   state = {
-    sellers: [{
-      id: 'shoppingLeader',
-      name: 'shoppingLeader',
-    }, {
-      id: 'viaboot',
-      name: 'viaboot',
-    }],
+    sellers: [],
     reviewers: [],
     dateFrom: moment(new Date()).format('YYYY-MM-DD'),
     dateTo: moment(new Date()).format('YYYY-MM-DD'),
@@ -54,7 +62,11 @@ class Dashboard extends Component {
       this.setState({
         reviewers: json
       }));
-    this.updateFilters();
+    fetchAllSellers().then(json =>
+      this.setState({
+        sellers: json
+      }));
+    this.tabulator.table.setFilter(this.filterData);
   }
 
   componentDidUpdate(prevProps) {
@@ -65,7 +77,7 @@ class Dashboard extends Component {
   onFilterChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
-    }, this.updateFilters);
+    });
   }
 
   onSellerChange = (e) => {
@@ -80,13 +92,11 @@ class Dashboard extends Component {
     })
   }
 
-  updateFilters = () => {
+  filterData = (data, filterParams) => {
     const { filterBy, dateFrom, dateTo } = this.state;
-    this.tabulator.table.setFilter([
-      { field: 'status', type: '=', value: filterBy },
-      { field: 'reviewDate', type: '>=', value: moment(dateFrom).toDate() },
-      { field: 'reviewDate', type: '<=', value: moment(dateTo).toDate() }
-    ])
+    return (!filterBy || data.status == filterBy) &&
+      (moment(dateFrom) <= moment(data.reviewDate) &&
+        (moment(dateTo) >= moment(data.reviewDate)));
   }
 
   render() {
@@ -112,7 +122,7 @@ class Dashboard extends Component {
               <Col><strong className='float-right'>Seller:</strong></Col>
               <Col>
                 <select className='w-100' name='seller' value={seller} onChange={this.onSellerChange}>
-                  {sellers.map(x => <option key={x.id} value={x.id}>{x.name}</option>)}
+                  {sellers.map(x => <option key={x.ebaySellerUserName} value={x.ebaySellerUserName}>{x.ebaySellerUserName}</option>)}
                 </select></Col>
             </Row>
             <Row>
@@ -138,6 +148,9 @@ class Dashboard extends Component {
             <ReactTabulator ref={(r) => this.tabulator = r} columns={tableColumns} data={reviews} />
           </Col>
         </Row>
+        <Switch>
+          <Route path='/dashboard/:userName/info' component={SellerInfoModal} />
+        </Switch>
       </Container>
     );
   }

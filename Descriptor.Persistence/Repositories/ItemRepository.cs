@@ -31,14 +31,15 @@ namespace Descriptor.Persistence.Repositories
 
 		public async Task<IList<ItemDto>> Find(string userName)
 		{
-			return await _context.SellerProducts.Select(x => new ItemDto
-			{
-				Description = x.EbayDescription,
-				ItemId = x.ItemId,
-				Seller = x.User.EbaySellerUserName,
-				Status = ReviewStatus.Escalated,
-				ReviewDate = DateTime.Today
-			}).ToListAsync();
+			return await _context.SellerProducts.Where(x => x.User.EbaySellerUserName == userName)
+				.Select(x => new ItemDto
+				{
+					Description = x.EbayDescription,
+					ItemId = x.ItemId,
+					Seller = x.User.EbaySellerUserName,
+					Status = ReviewStatus.Escalated,
+					ReviewDate = DateTime.Today
+				}).ToListAsync();
 		}
 	}
 }

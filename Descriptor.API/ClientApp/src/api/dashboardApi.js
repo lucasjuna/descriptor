@@ -4,18 +4,20 @@ export const fetchDashboard = () =>
             seller: 'shoppingLeader',
             itemNumber: '5641516',
             description: 'Some really long product description',
-            reviewDate: '2019-03-12',
+            reviewDate: new Date(),
             descriptionId: 112,
             shortDescription: 'nice product',
-            reviewer: 'Cam'
+            reviewer: 'Cam',
+            status: 1
         }, {
             seller: 'shoppingLeader',
             itemNumber: '2848715',
             description: 'Man waterproof watercoat',
-            reviewDate: '2019-03-09',
+            reviewDate: new Date(),
             descriptionId: '-',
             shortDescription: '-',
-            reviewer: '-'
+            reviewer: '-',
+            status: 2
         }
     ]);
 

@@ -7,6 +7,14 @@ import { loadDashboard } from '../actions/dashboardActions';
 import { Container, Row, Col } from 'reactstrap';
 import { fetchReviewersCb } from '../api/dashboardApi';
 import './styles.css';
+import { withRouter } from 'react-router';
+import moment from 'moment';
+
+const statusEnum = {
+  escalated: 1,
+  accepted: 2,
+  rejected: 3
+}
 
 const tableColumns = [
   { title: "Seller", field: "seller", align: "center", formatter: "link" },
@@ -28,26 +36,62 @@ class Dashboard extends Component {
 
   state = {
     sellers: [{
-      id: 1,
-      name: 'shoppingLeader'
+      id: 'shoppingLeader',
+      name: 'shoppingLeader',
+    }, {
+      id: 'viaboot',
+      name: 'viaboot',
     }],
     reviewers: [],
-    dateFrom: new Date,
-    dateTo: new Date,
-    filterBy: "escalated"
+    dateFrom: moment(new Date()).format('YYYY-MM-DD'),
+    dateTo: moment(new Date()).format('YYYY-MM-DD'),
+    filterBy: statusEnum.escalated
   }
 
   componentDidMount() {
-    this.props.loadDashboard();
+    this.loadSeller();
     fetchReviewersCb().then(json =>
       this.setState({
         reviewers: json
       }));
+    this.updateFilters();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.userName !== prevProps.match.params.userName)
+      this.loadSeller();
+  }
+
+  onFilterChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    }, this.updateFilters);
+  }
+
+  onSellerChange = (e) => {
+    this.props.history.push(`/dashboard/${e.target.value}`);
+  }
+
+  loadSeller = () => {
+    let seller = this.props.match.params.userName;
+    this.props.loadDashboard(seller);
+    this.setState({
+      seller: seller
+    })
+  }
+
+  updateFilters = () => {
+    const { filterBy, dateFrom, dateTo } = this.state;
+    this.tabulator.table.setFilter([
+      { field: 'status', type: '=', value: filterBy },
+      { field: 'reviewDate', type: '>=', value: moment(dateFrom).toDate() },
+      { field: 'reviewDate', type: '<=', value: moment(dateTo).toDate() }
+    ])
   }
 
   render() {
     const { reviews } = this.props;
-    const { reviewers, sellers, dateFrom, dateTo, filterBy } = this.state;
+    const { reviewers, sellers, dateFrom, dateTo, filterBy, seller } = this.state;
     return (
       <Container >
         <Row>
@@ -58,27 +102,20 @@ class Dashboard extends Component {
         <Row>
           <Col sm={2}><strong className='float-right'>Filter by:</strong></Col>
           <Col sm={2}>
-            <Row>
-              <Col><input type='radio' value='escalated' checked={filterBy === 'escalated'}/>Escalated</Col>
-            </Row>
-            <Row>
-              <Col><input type='radio' value='rejected' checked={filterBy === 'rejected'}/>Rejected</Col>
-            </Row>
-            <Row>
-              <Col><input type='radio' value='accepted' checked={filterBy === 'accepted'}/>Accepted</Col>
-            </Row>
-            <Row>
-              <Col><input type='radio' value='all' checked={filterBy === 'all'}/>All</Col>
-            </Row>
+            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.escalated} checked={filterBy == statusEnum.escalated} />Escalated</div>
+            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.rejected} checked={filterBy == statusEnum.rejected} />Rejected</div>
+            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.accepted} checked={filterBy == statusEnum.accepted} />Accepted</div>
+            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={null} checked={!filterBy} />All</div>
           </Col>
           <Col sm={4}>
             <Row>
               <Col><strong className='float-right'>Seller:</strong></Col>
               <Col>
-                <select className='w-100'>
+                <select className='w-100' name='seller' value={seller} onChange={this.onSellerChange}>
                   {sellers.map(x => <option key={x.id} value={x.id}>{x.name}</option>)}
                 </select></Col>
-            </Row> <Row>
+            </Row>
+            <Row>
               <Col><strong className='float-right'>Approver:</strong></Col>
               <Col>
                 <select className='w-100'>
@@ -90,15 +127,15 @@ class Dashboard extends Component {
           <Col sm={4}>
             <Row>
               <Col><strong className='float-right'>From:</strong></Col>
-              <Col><input type='date' /></Col>
+              <Col><input name='dateFrom' onChange={this.onFilterChange} type='date' value={dateFrom} /></Col>
             </Row> <Row>
               <Col><strong className='float-right'>To:</strong></Col>
-              <Col><input type='date' /></Col>
+              <Col><input name='dateTo' onChange={this.onFilterChange} type='date' value={dateTo} /></Col>
             </Row></Col>
         </Row>
         <Row>
           <Col>
-            <ReactTabulator columns={tableColumns} data={reviews} />
+            <ReactTabulator ref={(r) => this.tabulator = r} columns={tableColumns} data={reviews} />
           </Col>
         </Row>
       </Container>
@@ -111,9 +148,9 @@ const mapStateToProps = (state) => {
     reviews: state.dashboard.items
   }
 }
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loadDashboard: () => dispatch(loadDashboard())
+    loadDashboard: (userName) => dispatch(loadDashboard(userName))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard));

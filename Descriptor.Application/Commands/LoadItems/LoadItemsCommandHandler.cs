@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,13 +48,14 @@ namespace Descriptor.Application.Commands.LoadItems
 					if (item.PictureURLs?.Any() ?? false)
 					{
 						pictureUrls = string.Join(Environment.NewLine, item.PictureURLs);
-						await LoadImages(item.PictureURLs, item.ItemId);
+						var imageHashes = new List<byte[]>();
+						await LoadImages(item.PictureURLs, item.ItemId, imageHashes);
 					}
 					var product = new SellerProduct()
 					{
 						Country = itemInfo.Country,
 						EbayBuyItNowPrice = item.EbayBuyItNowPrice,
-						
+
 						EbayDescription = itemInfo.EbayDescription,
 						ItemId = item.ItemId,
 						EbayItemLocation = itemInfo.EbayItemLocation,
@@ -75,17 +77,31 @@ namespace Descriptor.Application.Commands.LoadItems
 			};
 		}
 
-		private async Task LoadImages(IEnumerable<string> pictureUrls, string itemId)
+		private async Task LoadImages(IEnumerable<string> pictureUrls, string itemId, List<byte[]> imageHashes)
 		{
+			const int ImageLoadCount = 10;
 			using (var client = new HttpClient())
 			{
-				var getTasks = pictureUrls.Take(10).Select(x => client.GetByteArrayAsync(x));
+				var getTasks = pictureUrls.Take(ImageLoadCount).Select(x => client.GetByteArrayAsync(x));
 				var imagesData = await Task.WhenAll(getTasks);
 				var productImages = imagesData.Select(x => new ProductImage() { ImageData = x, ItemId = itemId });
-				foreach (var img in productImages)
+				using (MD5 md5 = MD5.Create())
 				{
-					_imageRepo.Add(img);
+					foreach (var img in productImages)
+					{
+						var hash = md5.ComputeHash(img.ImageData);
+						if (!imageHashes.Any(x => x.SequenceEqual(hash)))
+						{
+							_imageRepo.Add(img);
+							imageHashes.Add(hash);
+						}
+					}
 				}
+			}
+
+			if (pictureUrls.Count() > imageHashes.Count)
+			{
+				await LoadImages(pictureUrls.Skip(ImageLoadCount), itemId, imageHashes);
 			}
 		}
 	}

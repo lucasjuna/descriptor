@@ -31,6 +31,7 @@ namespace Descriptor.Identity
 					{
 						"employee_id",
 						ClaimTypes.Role,
+						ClaimTypes.Name,
 						JwtClaimTypes.FamilyName,
 						JwtClaimTypes.GivenName,
 						JwtClaimTypes.Email

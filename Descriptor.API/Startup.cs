@@ -59,6 +59,8 @@ namespace Descriptor.API
 						return fromHeader(req) ?? fromQuery(req);
 					});
 				});
+			services.AddHttpContextAccessor();
+
 			services.AddHttpClient<IEbayTradingService, EbayTradingService>((provider, config) =>
 			{
 				var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;
@@ -67,7 +69,6 @@ namespace Descriptor.API
 				config.DefaultRequestHeaders.Add("X-EBAY-API-COMPATIBILITY-LEVEL", "967");
 				config.DefaultRequestHeaders.Add("X-EBAY-API-SITEID", "0");
 			});
-
 			services.AddHttpClient<IEbayFindingService, EbayFindingService>((provider, config) =>
 			{
 				var appSettings = provider.GetRequiredService<IOptions<AppSettings>>().Value;

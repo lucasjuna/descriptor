@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using Descriptor.API.Service;
 using Descriptor.Application;
+using Descriptor.Application.Services;
 using Descriptor.Domain.Repositories;
 using Descriptor.Domain.Seedwork;
 using Descriptor.Persistence.DataContext;
@@ -31,6 +33,8 @@ namespace Descriptor.API.AutofacModules
 			builder.RegisterType<SellerRepository>().As<ISellerRepository>();
 			builder.RegisterType<ItemRepository>().As<IItemRepository>();
 			builder.RegisterType<ProductImageRepository>().As<IProductImageRepository>();
+			builder.RegisterType<IdentityService>().As<IIdentityService>();
+			builder.RegisterType<ReviewerRepository>().As<IReviewerRepository>();
 		}
 	}
 }

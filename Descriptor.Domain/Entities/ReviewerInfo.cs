@@ -6,7 +6,7 @@ namespace Descriptor.Domain.Entities
 {
 	public class ReviewerInfo
 	{
-		public long Id { get; set; }
+		public string Id { get; set; }
 		public string EmpId { get; set; }
 		public string LoginName { get; set; }
 		public string FirstName { get; set; }

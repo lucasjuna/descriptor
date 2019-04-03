@@ -13,7 +13,7 @@ namespace Descriptor.Domain.Entities
 		public string ShortDescription { get; set; }
 		public string Status { get; set; }
 		public string Method { get; set; }
-		public long ReviewerId { get; set; }
+		public string ReviewerId { get; set; }
 		public ReviewerInfo Reviewer { get; set; }
 	}
 }

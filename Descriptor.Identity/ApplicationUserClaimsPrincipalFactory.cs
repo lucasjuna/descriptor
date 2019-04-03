@@ -21,6 +21,7 @@ namespace Descriptor.Identity
 				new Claim(JwtClaimTypes.GivenName, user.FirstName),
 				new Claim(JwtClaimTypes.FamilyName, user.LastName),
 				new Claim(JwtClaimTypes.Email, user.Email),
+				new Claim(JwtClaimTypes.Name, user.UserName),
 				new Claim("employee_id", user.EmployeeId),
 			});
 			return principal;

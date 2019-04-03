@@ -33,7 +33,8 @@ namespace Descriptor.Persistence.Migrations
 
                     b.Property<DateTime>("ReviewDate");
 
-                    b.Property<long>("ReviewerId");
+                    b.Property<string>("ReviewerId")
+                        .IsRequired();
 
                     b.Property<string>("ShortDescription");
 
@@ -63,7 +64,8 @@ namespace Descriptor.Persistence.Migrations
 
             modelBuilder.Entity("Descriptor.Domain.Entities.ReviewerInfo", b =>
                 {
-                    b.Property<long>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("EmpId");
 
@@ -171,7 +173,7 @@ namespace Descriptor.Persistence.Migrations
             modelBuilder.Entity("Descriptor.Domain.Entities.SellerProduct", b =>
                 {
                     b.HasOne("Descriptor.Domain.Entities.SellerInfo", "User")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

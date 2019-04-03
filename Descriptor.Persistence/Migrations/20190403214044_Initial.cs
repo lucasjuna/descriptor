@@ -26,7 +26,7 @@ namespace Descriptor.Persistence.Migrations
                 name: "ReviewerInfo",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false),
+                    Id = table.Column<string>(nullable: false),
                     EmpId = table.Column<string>(nullable: true),
                     LoginName = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
@@ -44,7 +44,7 @@ namespace Descriptor.Persistence.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    EbaySellerUserName = table.Column<string>(nullable: true),
+                    EbaySellerUserName = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Address1 = table.Column<string>(nullable: true),
@@ -52,7 +52,7 @@ namespace Descriptor.Persistence.Migrations
                     Address3 = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
-                    Zip = table.Column<int>(nullable: false),
+                    Zip = table.Column<string>(nullable: true),
                     EmailAddress = table.Column<string>(nullable: true),
                     DateAdded = table.Column<DateTime>(nullable: false),
                     LastProcessDate = table.Column<DateTime>(nullable: false),
@@ -78,7 +78,7 @@ namespace Descriptor.Persistence.Migrations
                     ShortDescription = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     Method = table.Column<string>(nullable: true),
-                    ReviewerId = table.Column<long>(nullable: false)
+                    ReviewerId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -123,6 +123,12 @@ namespace Descriptor.Persistence.Migrations
                 name: "IX_ItemReviewStatus_ReviewerId",
                 table: "ItemReviewStatus",
                 column: "ReviewerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellerInfo_EbaySellerUserName",
+                table: "SellerInfo",
+                column: "EbaySellerUserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SellerProductList_UserId",

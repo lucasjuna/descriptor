@@ -36,3 +36,27 @@
 .tabulator .tabulator-headers{
     border-bottom-style: none;
 }
+
+.ico{
+  font-size: 25px;
+}
+
+.ico-approved{
+  color: green;
+}
+
+.ico-rejected{
+  color: red;
+}
+
+.ico-escalated{
+  color: orange;
+}
+
+.filter-status-choice .row{
+  margin-top: 0;
+}
+
+.filter-status-choice [class^="col-"]{
+  padding: 0;
+}

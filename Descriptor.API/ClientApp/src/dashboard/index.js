@@ -13,10 +13,11 @@ import moment from 'moment';
 import { Switch, Route } from 'react-router-dom';
 import SellerInfoModal from '../items/SellerInfoModal';
 import history from '../history';
+import * as FaIcons from 'react-icons/fa';
 
 const statusEnum = {
   escalated: 1,
-  accepted: 2,
+  approved: 2,
   rejected: 3
 }
 
@@ -29,6 +30,13 @@ const UrlSeller = (props) => {
 }
 const UrlItem = (props) => <a>{props.cell._cell.value}</a>
 const UrlDescription = (props) => <a>{props.cell._cell.value}</a>
+const StatusCell = (props) => {
+  switch (props.cell._cell.value) {
+    case statusEnum.escalated: return <FaIcons.FaQuestion className='ico ico-escalated' />
+    case statusEnum.approved: return <FaIcons.FaCheck className='ico ico-approved' />
+    case statusEnum.rejected: return <FaIcons.FaTimes className='ico ico-rejected' />
+  }
+}
 
 const tableColumns = [
   { title: "Seller", field: "seller", align: "center", formatter: reactFormatter(<UrlSeller />) },
@@ -42,7 +50,7 @@ const tableColumns = [
   },
   { title: "Description ID", field: "descriptionId", align: "center", formatter: reactFormatter(<UrlDescription />) },
   { title: "Short Description", field: "shortDescription", align: "center" },
-  { title: "Status", field: "status", align: "center" },
+  { title: "Status", field: "status", align: "center", formatter: reactFormatter(<StatusCell />) },
   { title: "Reviewer", field: "reviewer", align: "center" },
 ]
 
@@ -111,11 +119,40 @@ class Dashboard extends Component {
         </Row>
         <Row>
           <Col sm={2}><strong className='float-right'>Filter by:</strong></Col>
-          <Col sm={2}>
-            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.escalated} checked={filterBy == statusEnum.escalated} />Escalated</div>
-            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.rejected} checked={filterBy == statusEnum.rejected} />Rejected</div>
-            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.accepted} checked={filterBy == statusEnum.accepted} />Accepted</div>
-            <div><input onChange={this.onFilterChange} name='filterBy' type='radio' value={null} checked={!filterBy} />All</div>
+          <Col sm={2} className='filter-status-choice'>
+            <Row>
+              <Col sm={7}>
+                <input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.escalated} checked={filterBy == statusEnum.escalated} />
+                Escalated
+              </Col>
+              <Col sm={5}>
+                <FaIcons.FaQuestion className='ico ico-escalated' />
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={7}>
+                <input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.rejected} checked={filterBy == statusEnum.rejected} />
+                Rejected
+              </Col>
+              <Col sm={5}>
+                <FaIcons.FaTimes className='ico ico-rejected' />
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={7}>
+                <input onChange={this.onFilterChange} name='filterBy' type='radio' value={statusEnum.approved} checked={filterBy == statusEnum.approved} />
+                Approved
+              </Col>
+              <Col sm={5}>
+                <FaIcons.FaCheck className='ico ico-approved' />
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={9}>
+                <input onChange={this.onFilterChange} name='filterBy' type='radio' value={null} checked={!filterBy} />
+                All
+              </Col>
+            </Row>
           </Col>
           <Col sm={4}>
             <Row>

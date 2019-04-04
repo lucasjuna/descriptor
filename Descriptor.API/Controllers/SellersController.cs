@@ -1,4 +1,5 @@
 ﻿using Descriptor.Application.Commands.AddSeller;
+using Descriptor.Application.Commands.LoadItems;
 using Descriptor.Domain.Dto;
 using Descriptor.Domain.Repositories;
 using MediatR;
@@ -13,12 +14,14 @@ namespace Descriptor.API.Controllers
 	public class SellersController : ControllerBase
 	{
 		private readonly ISellerRepository _sellerRepo;
+		private readonly IItemRepository _itemRepo;
 		private readonly IMediator _mediator;
 
-		public SellersController(ISellerRepository sellerRepo, IMediator mediator)
+		public SellersController(ISellerRepository sellerRepo, IMediator mediator, IItemRepository itemRepo)
 		{
 			_sellerRepo = sellerRepo;
 			_mediator = mediator;
+			_itemRepo = itemRepo;
 		}
 
 		[HttpGet]
@@ -43,6 +46,21 @@ namespace Descriptor.API.Controllers
 			await _mediator.Send(new AddSellerCommand(userName));
 			var seller = await _sellerRepo.Find(userName);
 			return Ok(seller);
+		}
+
+		[HttpPut("{userName}")]
+		public async Task<ActionResult<SellerDto>> LoadItems(string userName)
+		{
+			var result = await _mediator.Send(new LoadItemsCommand(userName));
+
+			return Ok(result);
+		}
+
+		[HttpGet("{userName}/items")]
+		public async Task<ActionResult<IList<ItemDto>>> GetItems(string userName)
+		{
+			var result = await _itemRepo.Find(userName);
+			return Ok(result);
 		}
 	}
 }

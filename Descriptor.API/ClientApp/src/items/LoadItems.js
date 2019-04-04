@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button, Input } from 'reactstrap';
 import SellerInfo from './SellerInfo';
 import './style.css';
-import { loadSeller, clearSeller } from '../actions/sellersActions';
-import { loadItems } from '../actions/itemsActions';
+import { loadSeller, clearSeller, loadItems } from '../actions/sellersActions';
 import { connect } from 'react-redux';
 import SellerInfoModal from './SellerInfoModal';
 import { Route } from 'react-router-dom';
@@ -91,7 +90,7 @@ class LoadItems extends Component {
 const mapStateToProps = (state) => {
   return {
     seller: state.sellers.loadedSeller,
-    itemsLoading: state.items.itemsLoading
+    itemsLoading: state.sellers.itemsLoading
   };
 }
 

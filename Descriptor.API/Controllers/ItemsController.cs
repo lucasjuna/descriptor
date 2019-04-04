@@ -20,20 +20,5 @@ namespace Descriptor.API.Controllers
 			_mediator = mediator;
 			_itemRepo = itemRepo;
 		}
-
-		[HttpPut("{userName}")]
-		public async Task<ActionResult<SellerDto>> LoadItems(string userName)
-		{
-			var result = await _mediator.Send(new LoadItemsCommand(userName));
-
-			return Ok(result);
-		}
-
-		[HttpGet("{userName}")]
-		public async Task<ActionResult<IList<ItemDto>>> Get(string userName)
-		{
-			var result = await _itemRepo.Find(userName);
-			return Ok(result);
-		}
 	}
 }

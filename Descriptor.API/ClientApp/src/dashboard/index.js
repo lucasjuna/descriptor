@@ -28,7 +28,13 @@ const UrlSeller = (props) => {
     history.push(url, { returnUrl: history.location.pathname });
   }}>{props.cell._cell.value}</a>
 }
-const UrlItem = (props) => <a>{props.cell._cell.value}</a>
+const UrlItem = (props) => {
+  let url = `/dashboard/${props.cell._cell.row.data.seller}/items/${props.cell._cell.value}`;
+  return <a href={url} onClick={(e) => {
+    e.preventDefault();
+    history.push(url, { returnUrl: history.location.pathname });
+  }}>{props.cell._cell.value}</a>
+}
 const UrlDescription = (props) => <a>{props.cell._cell.value}</a>
 const StatusCell = (props) => {
   switch (props.cell._cell.value) {

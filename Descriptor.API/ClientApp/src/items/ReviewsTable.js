@@ -47,7 +47,7 @@ const mapStateToProps = (state) => {
     rejected: state.sellers.loadedSeller && state.sellers.loadedSeller.rejected,
     escalated: state.sellers.loadedSeller && state.sellers.loadedSeller.escalated,
     total: state.sellers.loadedSeller && state.sellers.loadedSeller.total,
-    itemsLoading: state.items.itemsLoading,
+    itemsLoading: state.sellers.itemsLoading,
   };
 }
 

@@ -5,8 +5,7 @@ import SellerInfo from './SellerInfo';
 import ReviewsTable from './ReviewsTable';
 import './style.css';
 import { Link } from 'react-router-dom';
-import { loadSeller } from '../actions/sellersActions';
-import { loadItems } from '../actions/itemsActions';
+import { loadSeller, loadItems } from '../actions/sellersActions';
 
 class SellerInfoModal extends Component {
 

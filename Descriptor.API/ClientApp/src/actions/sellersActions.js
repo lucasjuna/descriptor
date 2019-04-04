@@ -1,7 +1,6 @@
-import { fetchAllSellers, fetchSeller, addSeller } from '../api/sellersApi'
+import { fetchAllSellers, fetchSeller, addSeller, fetchLoadItems } from '../api/sellersApi'
 import { confirmAlert } from 'react-confirm-alert';
 import history from '../history';
-import { loadItems } from './itemsActions';
 import { toast } from 'react-toastify';
 
 export const LOAD_ALL_SELLERS_START = "descriptor/LOAD_ALL_SELLERS_START";
@@ -11,6 +10,9 @@ export const LOAD_SELLER_SUCCESS = "descriptor/LOAD_SELLER_SUCCESS";
 export const ADD_SELLER_START = "descriptor/ADD_SELLER_START";
 export const ADD_SELLER_SUCCESS = "descriptor/ADD_SELLER_SUCCESS";
 export const CLEAR_SELLER = "descriptor/CLEAR_SELLER";
+export const LOAD_ITEMS_START = "descriptor/LOAD_ITEMS_START";
+export const LOAD_ITEMS_SUCCESS = "descriptor/LOAD_ITEMS_SUCCESS";
+export const LOAD_ITEMS_FAILURE = "descriptor/LOAD_ITEMS_FAILURE";
 
 export const loadAllSellers = () => {
   return (dispatch) => {
@@ -73,6 +75,26 @@ export const addNewSeller = (userName) => {
       });
       dispatch(loadItems(userName));
     }).catch(r => r.error.then(e => toast.error(e.message)))
+  }
+}
+
+export const loadItems = (userName) => {
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ITEMS_START
+    })
+
+    return fetchLoadItems(userName).then(json =>
+      dispatch({
+        type: LOAD_ITEMS_SUCCESS,
+        payload: json
+      })
+    ).catch(r => {
+      dispatch({
+        type: LOAD_ITEMS_FAILURE,
+      });
+      r.error.then(e => toast.error(e.message));
+    })
   }
 }
 

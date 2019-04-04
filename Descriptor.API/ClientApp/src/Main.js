@@ -4,7 +4,9 @@ import Home from './home';
 import Header from './Header';
 import LoadItems from './items/LoadItems';
 import Dashboard from './dashboard';
+import ItemDetails from './items/ItemDetails';
 import { fetchInitReviewer } from './api/reviewsApi';
+import { withRouter } from 'react-router';
 
 class Main extends Component {
 
@@ -17,6 +19,7 @@ class Main extends Component {
       <Header />
       <Switch>
         <Route path='/load-items' component={LoadItems} />
+        <Route path='/dashboard/:userName/items/:itemId' component={ItemDetails} />
         <Route path='/dashboard/:userName' component={Dashboard} />
         <Route path='/' component={Home} />
       </Switch>
@@ -24,4 +27,4 @@ class Main extends Component {
   }
 }
 
-export default Main
+export default withRouter(Main)

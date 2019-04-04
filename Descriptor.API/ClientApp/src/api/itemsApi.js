@@ -1,8 +1,8 @@
 import store from '../store';
 
-export const fetchLoadItems = (userName) =>
-  fetch(`/api/items/${userName}`, {
-    method: 'put',
+export const fetchLoadItem = (itemId) =>
+  fetch(`/api/items/${itemId}`, {
+    method: 'get',
     headers: {
       Authorization: `Bearer ${store.getState().oidc.user.access_token}`
     }

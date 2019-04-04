@@ -1,26 +1,21 @@
-import { fetchLoadItems } from '../api/itemsApi'
+import { fetchLoadItem } from '../api/itemsApi'
 import { toast } from 'react-toastify';
 
-export const LOAD_ITEMS_START = "descriptor/LOAD_ITEMS_START";
-export const LOAD_ITEMS_SUCCESS = "descriptor/LOAD_ITEMS_SUCCESS";
-export const LOAD_ITEMS_FAILURE = "descriptor/LOAD_ITEMS_FAILURE";
+export const LOAD_ITEM_START = "descriptor/LOAD_ITEM_START";
+export const LOAD_ITEM_SUCCESS = "descriptor/LOAD_ITEM_SUCCESS";
+export const LOAD_ITEM_FAILURE = "descriptor/LOAD_ITEM_FAILURE";
 
-export const loadItems = (userName) => {
+export const loadItem = (itemId) => {
   return (dispatch) => {
     dispatch({
-      type: LOAD_ITEMS_START
+      type: LOAD_ITEM_START
     })
 
-    return fetchLoadItems(userName).then(json =>
+    return fetchLoadItem(itemId).then(json =>
       dispatch({
-        type: LOAD_ITEMS_SUCCESS,
+        type: LOAD_ITEM_SUCCESS,
         payload: json
       })
-    ).catch(r => {
-      dispatch({
-        type: LOAD_ITEMS_FAILURE,
-      });
-      r.error.then(e => toast.error(e.message));
-    })
+    )
   }
 }

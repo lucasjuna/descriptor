@@ -3,7 +3,8 @@ import { SESSION_TERMINATED, USER_EXPIRED } from "redux-oidc";
 
 const initialState = {
   list: [],
-  loadedSeller: null
+  loadedSeller: null,
+  itemsLoading: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -18,6 +19,7 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, { loadedSeller: action.payload });
     case LOAD_ITEMS_SUCCESS:
       return Object.assign({}, state, {
+        itemsLoading: false,
         loadedSeller: Object.assign({}, state.loadedSeller, {
           total: action.payload.total,
           escalated: action.payload.escalated
@@ -29,11 +31,6 @@ export default function reducer(state = initialState, action) {
       return Object.assign({}, state, {
         itemsLoading: true,
         reviewsResult: []
-      });
-    case LOAD_ITEMS_SUCCESS:
-      return Object.assign({}, state, {
-        itemsLoading: false,
-        reviewsResult: action.payload
       });
     case LOAD_ITEMS_FAILURE:
       return Object.assign({}, state, { itemsLoading: false });

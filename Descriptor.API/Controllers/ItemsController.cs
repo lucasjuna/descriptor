@@ -19,7 +19,7 @@ namespace Descriptor.API.Controllers
 			_itemRepo = itemRepo;
 		}
 
-		[HttpGet("itemId")]
+		[HttpGet("{itemId}")]
 		public async Task<ActionResult<ItemDto>> Get(string itemId)
 		{
 			var item = await _itemRepo.Find(itemId);

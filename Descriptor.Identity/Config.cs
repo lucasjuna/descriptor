@@ -34,7 +34,8 @@ namespace Descriptor.Identity
 						ClaimTypes.Name,
 						JwtClaimTypes.FamilyName,
 						JwtClaimTypes.GivenName,
-						JwtClaimTypes.Email
+						JwtClaimTypes.Email,
+						JwtClaimTypes.Name
 					}
 				}
 			};

@@ -8,7 +8,13 @@ class ItemDetails extends Component {
 
   state = {}
 
-  render(){
+  componentDidMount() {
+    if (this.props.match.params.itemId) {
+      this.props.loadItem(this.props.match.params.itemId);
+    }
+  }
+
+  render() {
     return (<div>item details...</div>)
   }
 }

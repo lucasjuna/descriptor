@@ -41,6 +41,7 @@ const StatusCell = (props) => {
     case statusEnum.escalated: return <FaIcons.FaQuestion className='ico ico-escalated' />
     case statusEnum.approved: return <FaIcons.FaCheck className='ico ico-approved' />
     case statusEnum.rejected: return <FaIcons.FaTimes className='ico ico-rejected' />
+    default: return null
   }
 }
 

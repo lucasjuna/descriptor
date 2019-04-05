@@ -1,9 +1,6 @@
 ﻿using Descriptor.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Descriptor.Persistence.EntityConfigurations
 {
@@ -13,7 +10,7 @@ namespace Descriptor.Persistence.EntityConfigurations
 		{
 			builder.ToTable("ItemReviewStatus");
 			builder.HasOne(x => x.Reviewer).WithMany().IsRequired().HasForeignKey(x => x.ReviewerId);
-			builder.HasOne(x => x.Item).WithMany().IsRequired().HasForeignKey(x => x.ItemId);
+			builder.HasOne(x => x.Item).WithMany(x => x.Descriptions).IsRequired().HasForeignKey(x => x.ItemId);
 		}
 	}
 }

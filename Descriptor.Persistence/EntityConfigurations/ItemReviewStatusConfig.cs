@@ -13,6 +13,7 @@ namespace Descriptor.Persistence.EntityConfigurations
 		{
 			builder.ToTable("ItemReviewStatus");
 			builder.HasOne(x => x.Reviewer).WithMany().IsRequired().HasForeignKey(x => x.ReviewerId);
+			builder.HasOne(x => x.Item).WithMany().IsRequired().HasForeignKey(x => x.ItemId);
 		}
 	}
 }

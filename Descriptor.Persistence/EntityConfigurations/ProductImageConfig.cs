@@ -12,6 +12,8 @@ namespace Descriptor.Persistence.EntityConfigurations
 		public void Configure(EntityTypeBuilder<ProductImage> builder)
 		{
 			builder.ToTable("ProductImages");
+			builder.HasOne(x => x.Item).WithMany().IsRequired().HasForeignKey(x => x.ItemId);
+			builder.Property(x => x.ImageData).IsRequired();
 		}
 	}
 }

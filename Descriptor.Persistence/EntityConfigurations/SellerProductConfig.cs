@@ -13,6 +13,8 @@ namespace Descriptor.Persistence.EntityConfigurations
 		{
 			builder.ToTable("SellerProductList");
 			builder.HasOne(x => x.User).WithMany(x => x.Products).IsRequired().HasForeignKey(x => x.UserId);
+			builder.Property(x => x.ItemId).IsRequired();
+			builder.HasIndex(x => x.ItemId).IsUnique();
 		}
 	}
 }

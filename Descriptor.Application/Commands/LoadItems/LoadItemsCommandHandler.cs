@@ -48,8 +48,6 @@ namespace Descriptor.Application.Commands.LoadItems
 					if (item.PictureURLs?.Any() ?? false)
 					{
 						pictureUrls = string.Join(Environment.NewLine, item.PictureURLs);
-						var imageHashes = new List<byte[]>();
-						await LoadImages(item.PictureURLs, item.ItemId, imageHashes);
 					}
 					var product = new SellerProduct()
 					{
@@ -68,6 +66,12 @@ namespace Descriptor.Application.Commands.LoadItems
 					_itemRepo.Add(product);
 					processed.Add(item.ItemId);
 					await _uow.SaveEntitiesAsync();
+					if (item.PictureURLs?.Any() ?? false)
+					{
+						var imageHashes = new List<byte[]>();
+						await LoadImages(item.PictureURLs, product.Id, imageHashes);
+					}
+					await _uow.SaveEntitiesAsync();
 				}
 			}
 			return new ReviewsResultDto
@@ -77,7 +81,7 @@ namespace Descriptor.Application.Commands.LoadItems
 			};
 		}
 
-		private async Task LoadImages(IEnumerable<string> pictureUrls, string itemId, List<byte[]> imageHashes)
+		private async Task LoadImages(IEnumerable<string> pictureUrls, long itemId, List<byte[]> imageHashes)
 		{
 			const int ImageLoadCount = 10;
 			using (var client = new HttpClient())

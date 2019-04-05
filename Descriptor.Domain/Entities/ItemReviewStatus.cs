@@ -7,7 +7,8 @@ namespace Descriptor.Domain.Entities
 	public class ItemReviewStatus
 	{
 		public long Id { get; set; }
-		public string ItemId { get; set; }
+		public long ItemId { get; set; }
+		public SellerProduct Item { get; set; }
 		public DateTime ReviewDate { get; set; }
 		public string HsCode { get; set; }
 		public string ShortDescription { get; set; }

@@ -13,6 +13,7 @@ namespace Descriptor.Persistence.EntityConfigurations
 		{
 			builder.ToTable("ReviewerInfo");
 			builder.HasKey(x => x.Id);
+			builder.Property(x => x.LoginName).IsRequired();
 		}
 	}
 }

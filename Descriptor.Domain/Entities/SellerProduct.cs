@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Descriptor.Domain.Enumerations;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Descriptor.Domain.Entities
 {
@@ -18,5 +17,11 @@ namespace Descriptor.Domain.Entities
 		public string EbayViewItemUrl { get; set; }
 		public string EbayItemLocation { get; set; }
 		public string EbayItemPictureDetails { get; set; }
+		public ReviewStatus? ItemStatus { get; set; }
+		public ReviewStatus? ImagesStatus { get; set; }
+		public ReviewStatus? PriceStatus { get; set; }
+		public long? CurrentDescriptionId { get; set; }
+		public ItemReviewStatus CurrentDescription { get; set; }
+		public ICollection<ItemReviewStatus> Descriptions { get; set; }
 	}
 }

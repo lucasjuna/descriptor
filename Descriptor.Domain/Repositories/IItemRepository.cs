@@ -11,6 +11,7 @@ namespace Descriptor.Domain.Repositories
 	{
 		Task<bool> Exists(string itemId);
 		void Add(SellerProduct item);
-		Task<IList<ItemDto>> Find(string userName);
+		Task<IList<ItemDto>> FindByUser(string userName);
+		Task<ItemDto> Find(string itemId);
 	}
 }

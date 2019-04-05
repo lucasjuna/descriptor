@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Descriptor.Domain.Enumerations;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Descriptor.Domain.Dto
 {
@@ -13,6 +13,12 @@ namespace Descriptor.Domain.Dto
 		public long? DescriptionId { get; set; }
 		public string ShortDescription { get; set; }
 		public string Reviewer { get; set; }
-		public ReviewStatus Status { get; set; }
+		public ReviewStatus? Status { get; set; }
+		public string ItemUrl { get; set; }
+		public decimal Price { get; set; }
+		public ReviewStatus? ItemStatus { get; set; }
+		public ReviewStatus? ImagesStatus { get; set; }
+		public ReviewStatus? PriceStatus { get; set; }
+		public IEnumerable<DescriptionDto> Descriptions { get; set; }
 	}
 }

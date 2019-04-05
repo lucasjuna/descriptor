@@ -29,7 +29,7 @@ namespace Descriptor.Persistence.Repositories
 			return await _context.SellerProducts.AnyAsync(x => x.ItemId == itemId);
 		}
 
-		public async Task<IList<ItemDto>> Find(string userName)
+		public async Task<IList<ItemDto>> FindByUser(string userName)
 		{
 			return await _context.SellerProducts.Where(x => x.User.EbaySellerUserName == userName)
 				.Select(x => new ItemDto
@@ -37,9 +37,36 @@ namespace Descriptor.Persistence.Repositories
 					Description = x.EbayDescription,
 					ItemId = x.ItemId,
 					Seller = x.User.EbaySellerUserName,
-					Status = ReviewStatus.Escalated,
+					Status = x.ItemStatus,
 					ReviewDate = DateTime.Today
 				}).ToListAsync();
+		}
+
+		public async Task<ItemDto> Find(string itemId)
+		{
+			return await _context.SellerProducts.Where(x => x.ItemId == itemId)
+				.Select(x => new ItemDto
+				{
+					Description = x.EbayDescription,
+					ItemId = x.ItemId,
+					Seller = x.User.EbaySellerUserName,
+					Status = x.ItemStatus,
+					ReviewDate = DateTime.Today,
+					ShortDescription = x.CurrentDescription.ShortDescription,
+					DescriptionId = x.CurrentDescriptionId,
+					Reviewer = $"{x.CurrentDescription.Reviewer.FirstName} {x.CurrentDescription.Reviewer.LastName}",
+					ImagesStatus = x.ImagesStatus,
+					ItemStatus = x.ItemStatus,
+					PriceStatus = x.PriceStatus,
+					Price = x.EbayBuyItNowPrice,
+					ItemUrl = x.EbayViewItemUrl,
+					Descriptions = x.Descriptions.Select(d => new DescriptionDto
+					{
+						Id = d.Id,
+						ShortDescription = d.ShortDescription,
+						Status = d.Status
+					})
+				}).SingleOrDefaultAsync();
 		}
 	}
 }

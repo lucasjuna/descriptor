@@ -1,9 +1,7 @@
-﻿using Descriptor.Application.Commands.LoadItems;
-using Descriptor.Domain.Dto;
+﻿using Descriptor.Domain.Dto;
 using Descriptor.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Descriptor.API.Controllers
@@ -19,6 +17,13 @@ namespace Descriptor.API.Controllers
 		{
 			_mediator = mediator;
 			_itemRepo = itemRepo;
+		}
+
+		[HttpGet("itemId")]
+		public async Task<ActionResult<ItemDto>> Get(string itemId)
+		{
+			var item = await _itemRepo.Find(itemId);
+			return Ok(item);
 		}
 	}
 }

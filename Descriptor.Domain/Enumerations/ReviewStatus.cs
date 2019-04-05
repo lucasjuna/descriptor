@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Descriptor.Domain.Dto
+namespace Descriptor.Domain.Enumerations
 {
 	public enum ReviewStatus
 	{

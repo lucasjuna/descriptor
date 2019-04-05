@@ -59,7 +59,7 @@ namespace Descriptor.API.Controllers
 		[HttpGet("{userName}/items")]
 		public async Task<ActionResult<IList<ItemDto>>> GetItems(string userName)
 		{
-			var result = await _itemRepo.Find(userName);
+			var result = await _itemRepo.FindByUser(userName);
 			return Ok(result);
 		}
 	}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Descriptor.Domain.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,7 @@ namespace Descriptor.Domain.Entities
 		public DateTime ReviewDate { get; set; }
 		public string HsCode { get; set; }
 		public string ShortDescription { get; set; }
-		public string Status { get; set; }
+		public ReviewStatus? Status { get; set; }
 		public string Method { get; set; }
 		public string ReviewerId { get; set; }
 		public ReviewerInfo Reviewer { get; set; }

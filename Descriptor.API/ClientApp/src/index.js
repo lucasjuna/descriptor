@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { processSilentRenew } from 'redux-oidc';
 import { Router } from 'react-router-dom';
+import 'semantic-ui-css/semantic.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import history from './history';

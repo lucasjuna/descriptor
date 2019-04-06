@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'react-tabulator/lib/styles.css'; // required styles
 import 'react-tabulator/lib/css/tabulator.min.css'; // theme
-import { ReactTabulator, reactFormatter } from 'react-tabulator'; // for React 15.x, use import { React15Tabulator }
+import { ReactTabulator, reactFormatter } from 'react-tabulator';
 import { connect } from 'react-redux';
 import { loadDashboard } from '../actions/dashboardActions';
 import { Container, Row, Col } from 'reactstrap';

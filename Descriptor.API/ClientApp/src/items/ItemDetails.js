@@ -7,8 +7,12 @@ import { Link } from 'react-router-dom';
 import StatusInput from './StatusInput';
 import { ReactTabulator, reactFormatter } from 'react-tabulator';
 
+const Image = (props) => {
+  return <img className='product-image' src={props.cell._cell.value} alt={props.cell._cell.value} />
+}
+
 const imagesTableColumns = [
-  { field: "image", align: "center" },
+  { field: "imageUrl", align: "center", formatter: reactFormatter(<Image />) },
 ]
 
 const decriptionsTableColumn = [
@@ -30,6 +34,11 @@ class ItemDetails extends Component {
 
   render() {
     const { item, location: { pathname }, history } = this.props;
+    const imageUrls = item && item.imageUrls && item.imageUrls.split('\n').map(x => {
+      return {
+        imageUrl: x
+      }
+    }) || [];
     return (
       <div className='h-100'>
         <div className='item-details vertical-container'>
@@ -86,9 +95,9 @@ class ItemDetails extends Component {
                     </Row>
                     <Row className='h-80'>
                       <Col>
-                        <ReactTabulator ref={r => this.tableDescriptions = r} 
-                          columns={decriptionsTableColumn} 
-                          data={item.descriptions || []} 
+                        <ReactTabulator ref={r => this.tableDescriptions = r}
+                          columns={decriptionsTableColumn}
+                          data={item.descriptions || []}
                           options={{ height: '54vh' }} />
                       </Col>
                     </Row>
@@ -105,10 +114,10 @@ class ItemDetails extends Component {
                 </Row>
                 <Row>
                   <Col>
-                    <ReactTabulator className='no-header' 
-                    columns={imagesTableColumns} 
-                    data={[]}
-                    options={{ height: '55vh' }} />
+                    <ReactTabulator className='no-header images-table'
+                      columns={imagesTableColumns}
+                      data={imageUrls}
+                      options={{ height: '55vh' }} />
                   </Col>
                 </Row>
               </Container>

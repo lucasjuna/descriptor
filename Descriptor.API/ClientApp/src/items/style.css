@@ -99,3 +99,12 @@ table.reviews-result th{
 .item-details .tabulator-table {
   overflow: auto;
 }
+
+.item-details .images-table .tabulator-table .product-image{
+  height: 200px;
+  width: 200px;
+}
+
+.item-details .images-table .tabulator-table .tabulator-cell{
+  height: 200px;
+}

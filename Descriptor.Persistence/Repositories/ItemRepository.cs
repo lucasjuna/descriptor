@@ -65,7 +65,8 @@ namespace Descriptor.Persistence.Repositories
 						Id = d.Id,
 						ShortDescription = d.ShortDescription,
 						Status = d.Status
-					}).ToList()
+					}).ToList(),
+					ImageUrls = x.EbayItemPictureDetails
 				}).SingleOrDefaultAsync();
 		}
 	}

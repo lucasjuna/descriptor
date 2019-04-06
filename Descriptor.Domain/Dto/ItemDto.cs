@@ -19,6 +19,7 @@ namespace Descriptor.Domain.Dto
 		public ReviewStatus? ItemStatus { get; set; }
 		public ReviewStatus? ImagesStatus { get; set; }
 		public ReviewStatus? PriceStatus { get; set; }
-		public IEnumerable<DescriptionDto> Descriptions { get; set; }
+		public IList<DescriptionDto> Descriptions { get; set; }
+		public string ImageUrls { get; set; }
 	}
 }

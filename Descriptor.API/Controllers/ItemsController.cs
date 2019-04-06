@@ -25,5 +25,12 @@ namespace Descriptor.API.Controllers
 			var item = await _itemRepo.Find(itemId);
 			return Ok(item);
 		}
+
+		[HttpPut("{itemId}")]
+		public async Task<IActionResult> Put([FromRoute] string itemId, [FromBody]ItemDto item)
+		{
+
+			return Ok();
+		}
 	}
 }

@@ -10,14 +10,14 @@ class StatusInput extends Component {
     const { value, name, onChange, showLabel, canApprove, className } = this.props;
     let icon;
     let label = 'N/A';
-    if (value == StatusEnum.unknown) {
+    if (!value) {
       icon = <FaIcons.FaQuestion className='ico ico-escalated' />
     }
     else if (value == StatusEnum.escalated) {
       icon = <FaIcons.FaQuestion className='ico ico-escalated' />
       label = 'Escalated';
     }
-    else if (value == StatusEnum.unknown) {
+    else if (value == StatusEnum.approved) {
       icon = <FaIcons.FaCheck className='ico ico-approved' />
       label = 'Approved';
     }

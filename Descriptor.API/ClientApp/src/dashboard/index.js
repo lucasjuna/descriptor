@@ -68,7 +68,7 @@ class Dashboard extends Component {
     reviewers: [],
     dateFrom: moment(new Date()).format('YYYY-MM-DD'),
     dateTo: moment(new Date()).format('YYYY-MM-DD'),
-    filterBy: statusEnum.escalated
+    filterBy: null
   }
 
   componentDidMount() {

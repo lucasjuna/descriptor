@@ -5,26 +5,36 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import StatusInput from './StatusInput';
+import StatusEnum from './StatusEnum';
 import { ReactTabulator, reactFormatter } from 'react-tabulator';
+import { fetchSubmitReview } from '../api/itemsApi';
 
-const Image = (props) => {
+const ImageCell = (props) => {
   return <img className='product-image' src={props.cell._cell.value} alt={props.cell._cell.value} />
 }
 
+const RadioCell = (props) => {
+  return <input type='radio' name='descriptionId' value={props.cell._cell.value}
+    checked={props.cell._cell.row.data.active} onChange={props.cell._cell.row.data.onChange} />
+}
+
 const imagesTableColumns = [
-  { field: "imageUrl", align: "center", formatter: reactFormatter(<Image />) },
+  { field: "imageUrl", align: "center", formatter: reactFormatter(<ImageCell />) },
 ]
 
 const decriptionsTableColumn = [
   { title: "Description ID", field: "id", align: "center", width: 100 },
   { title: "Description", field: "shortDescription", align: "center" },
   { title: "C %", field: "percent", align: "center", width: 50 },
-  { field: "active", align: "center", width: 50 },
+  { field: "id", align: "center", width: 50, formatter: reactFormatter(<RadioCell />) },
 ]
 
 class ItemDetails extends Component {
 
-  state = {}
+  state = {
+    canApprove: false,
+    descriptions: []
+  }
 
   componentDidMount() {
     if (this.props.match.params.itemId) {
@@ -32,24 +42,72 @@ class ItemDetails extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.item !== prevProps.item)
+      this.setState(this.props.item, this.checkCanApprove);
+  }
+
+  onStatusChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    }, this.checkCanApprove);
+  }
+
+  onDescriptionStatusChange = (e) => {
+    let description = this.state.descriptions.find(x => x.id == e.target.value);
+    description.status = e.target.value;
+    this.setState({
+      descriptionStatus: description.status
+    }, this.checkCanApprove);
+  }
+
+  onDescriptionChange = (e) => {
+    let description = this.state.descriptions.find(x => x.id == e.target.value)
+    this.setState({
+      descriptionId: description.id,
+      shortDescription: description.shortDescription,
+      descriptionStatus: description.status
+    }, this.checkCanApprove);
+  }
+
+  checkCanApprove = () => {
+    let canApprove = false;
+    this.setState((prevState, props) => ({
+      canApprove: canApprove = prevState.imagesStatus == StatusEnum.approved &&
+        prevState.descriptionStatus == StatusEnum.approved &&
+        prevState.priceStatus == StatusEnum.approved,
+      itemStatus: !canApprove && prevState.itemStatus == StatusEnum.approved ? StatusEnum.unknown : prevState.itemStatus
+    }));
+  }
+
+  save = () => {
+    fetchSubmitReview(this.props.match.params.itemId, this.state).then(x => this.props.history.goBack())
+  }
+
   render() {
     const { item, location: { pathname }, history } = this.props;
+    const { itemStatus, imagesStatus, descriptionStatus, priceStatus, canApprove, descriptions, descriptionId, shortDescription } = this.state;
     const imageUrls = item && item.imageUrls && item.imageUrls.split('\n').map(x => {
       return {
         imageUrl: x
       }
     }) || [];
+    const descriptionsList = descriptions.map(x => {
+      x.onChange = this.onDescriptionChange;
+      x.active = x.id == descriptionId;
+      return x;
+    });
     return (
       <div className='h-100'>
         <div className='item-details vertical-container'>
           <div className='horizontal-container'>
             <div className='header w-100'>
               <div>
-                <Button>Save</Button>
+                <Button onClick={this.save}>Save</Button>
                 <span className='status-label mr-2'>
                   Status:
                 </span>
-                <StatusInput value={item.itemStatus} showLabel />
+                <StatusInput canApprove={canApprove} name='itemStatus' value={itemStatus} onChange={this.onStatusChange} showLabel />
               </div>
               <div>
                 <h4>
@@ -89,15 +147,15 @@ class ItemDetails extends Component {
                   <Col>
                     <Row>
                       <Col>
-                        {item.descriptionId ? `${item.descriptionId} - ${item.shortDescription}` : null}
-                        <StatusInput className='float-right' value={item.itemStatus} />
+                        {descriptionId ? `${descriptionId} - ${shortDescription}` : null}
+                        <StatusInput name='descriptionStatus' className='float-right' value={descriptionStatus} onChange={this.onDescriptionStatusChange} />
                       </Col>
                     </Row>
                     <Row className='h-80'>
                       <Col>
                         <ReactTabulator ref={r => this.tableDescriptions = r}
                           columns={decriptionsTableColumn}
-                          data={item.descriptions || []}
+                          data={descriptionsList || []}
                           options={{ height: '54vh' }} />
                       </Col>
                     </Row>
@@ -109,7 +167,7 @@ class ItemDetails extends Component {
               <Container>
                 <Row>
                   <Col>
-                    Item pictures: <StatusInput className='float-right' value={item.itemStatus} />
+                    Item pictures: <StatusInput name='imagesStatus' className='float-right' value={imagesStatus} onChange={this.onStatusChange} />
                   </Col>
                 </Row>
                 <Row>
@@ -131,7 +189,7 @@ class ItemDetails extends Component {
                     <strong>Import Duty and Taxes</strong>
                     <span className='float-right'>
                       <span className='mr-3'>Duty free:</span>
-                      <StatusInput value={item.itemStatus} />
+                      <StatusInput name='priceStatus' value={priceStatus} onChange={this.onStatusChange} />
                     </span>
                   </Col>
                 </Row>

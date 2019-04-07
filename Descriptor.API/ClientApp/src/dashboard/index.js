@@ -190,7 +190,7 @@ class Dashboard extends Component {
               <Col><strong className='float-right'>Approver:</strong></Col>
               <Col>
                 <select className='w-100' name='approver' value={approver} onChange={this.onFilterChange}>
-                  <option value={null}>All</option>
+                  <option value=''>All</option>
                   {reviewers.map(x => <option key={x.id} value={x.id}>{x.firstName} {x.lastName}</option>)}
                 </select>
               </Col>

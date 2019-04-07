@@ -15,6 +15,7 @@ import SellerInfoModal from '../items/SellerInfoModal';
 import history from '../history';
 import * as FaIcons from 'react-icons/fa';
 import { fetchAllReviewers } from '../api/reviewersApi';
+import DescriptionDetails from '../items/DescriptionDetails';
 
 const statusEnum = {
   escalated: 1,
@@ -36,7 +37,13 @@ const UrlItem = (props) => {
     history.push(url, { returnUrl: history.location.pathname });
   }}>{props.cell._cell.value}</a>
 }
-const UrlDescription = (props) => <a>{props.cell._cell.value}</a>
+const UrlDescription = (props) => {
+  let url = `/dashboard/${props.cell._cell.row.data.seller}/items/${props.cell._cell.row.data.itemId}/descriptions/${props.cell._cell.value}`;
+  return <a href={url} onClick={(e) => {
+    e.preventDefault();
+    history.push(url);
+  }}>{props.cell._cell.value}</a>
+}
 const StatusCell = (props) => {
   if (!props.cell._cell.value || props.cell._cell.value == statusEnum.escalated)
     return <FaIcons.FaQuestion className='ico ico-escalated' />
@@ -205,6 +212,7 @@ class Dashboard extends Component {
         </Row>
         <Switch>
           <Route path='/dashboard/:userName/info' component={SellerInfoModal} />
+          <Route path='/dashboard/:userName/items/:itemId/descriptions/:descriptionId' component={DescriptionDetails} />
         </Switch>
       </Container>
     );

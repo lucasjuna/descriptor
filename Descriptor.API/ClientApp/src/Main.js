@@ -19,7 +19,7 @@ class Main extends Component {
       <Header />
       <Switch>
         <Route path='/load-items' component={LoadItems} />
-        <Route path='/dashboard/:userName/items/:itemId' component={ItemDetails} />
+        <Route path='/dashboard/:userName/items/:itemId' exact component={ItemDetails} />
         <Route path='/dashboard/:userName' component={Dashboard} />
         <Route path='/' component={Home} />
       </Switch>

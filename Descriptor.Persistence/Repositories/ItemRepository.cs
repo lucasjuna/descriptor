@@ -79,5 +79,16 @@ namespace Descriptor.Persistence.Repositories
 				.Include(x => x.Descriptions)
 				.SingleOrDefaultAsync();
 		}
+
+		public async Task<DescriptionDto> FindDescription(string itemId, long descriptionId)
+		{
+			return await _context.ItemReviewStatus.Where(x => x.Item.ItemId == itemId && x.Id == descriptionId)
+				.Select(x => new DescriptionDto
+				{
+					Id = x.Id,
+					ShortDescription = x.ShortDescription,
+					Status = x.Status
+				}).SingleOrDefaultAsync();
+		}
 	}
 }

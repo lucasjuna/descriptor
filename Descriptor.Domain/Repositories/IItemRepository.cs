@@ -14,5 +14,6 @@ namespace Descriptor.Domain.Repositories
 		Task<IList<ItemDto>> FindDtoByUser(string userName);
 		Task<ItemDto> FindDto(string itemId);
 		Task<SellerProduct> Find(string itemId);
+		Task<DescriptionDto> FindDescription(string itemId, long descriptionId);
 	}
 }

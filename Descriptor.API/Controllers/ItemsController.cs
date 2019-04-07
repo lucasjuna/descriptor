@@ -34,5 +34,12 @@ namespace Descriptor.API.Controllers
 				item.ImagesStatus, item.PriceStatus, item.Descriptions));
 			return Ok();
 		}
+
+		[HttpGet("{itemId}/descriptions/{descriptionId}")]
+		public async Task<ActionResult<ItemDto>> Get(string itemId,long descriptionId)
+		{
+			var description = await _itemRepo.FindDescription(itemId, descriptionId);
+			return Ok(description);
+		}
 	}
 }

@@ -20,3 +20,15 @@ export const fetchSubmitReview = (itemId, item) =>
     },
     body: JSON.stringify(item)
   })
+
+  export const fetchLoadDescription = (itemId, descriptionId) =>
+  fetch(`/api/items/${itemId}/descriptions/${descriptionId}`, {
+    method: 'get',
+    headers: {
+      Authorization: `Bearer ${store.getState().oidc.user.access_token}`,
+      'Content-Type': 'application/json'
+    }
+  }).then(
+    response => response.ok ? response.json() : Promise.reject({ status: response.status, error: response.json() }),
+    error => console.log('An error occurred.', error)
+  )

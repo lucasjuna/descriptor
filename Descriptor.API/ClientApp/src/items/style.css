@@ -1,5 +1,6 @@
 div.textbox{
   border: 1px black solid;
+  padding-left: 3px;
 }
 
 div.label{
@@ -10,7 +11,8 @@ div.label{
   margin-top: 10px;
 }
 
-div.textbox.address{
+.textbox.address,
+.textbox.long-description{
   height: 80px;
 }
 

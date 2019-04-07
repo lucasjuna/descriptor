@@ -1,4 +1,5 @@
-﻿using Descriptor.Domain.Dto;
+﻿using Descriptor.Application.Commands;
+using Descriptor.Domain.Dto;
 using Descriptor.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,14 +23,15 @@ namespace Descriptor.API.Controllers
 		[HttpGet("{itemId}")]
 		public async Task<ActionResult<ItemDto>> Get(string itemId)
 		{
-			var item = await _itemRepo.Find(itemId);
+			var item = await _itemRepo.FindDto(itemId);
 			return Ok(item);
 		}
 
 		[HttpPut("{itemId}")]
 		public async Task<IActionResult> Put([FromRoute] string itemId, [FromBody]ItemDto item)
 		{
-
+			await _mediator.Send(new ReviewItemCommand(item.ItemId, item.DescriptionId, item.ItemStatus, 
+				item.ImagesStatus, item.PriceStatus, item.Descriptions));
 			return Ok();
 		}
 	}

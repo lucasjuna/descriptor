@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Descriptor.Application.Commands.AddSeller
+namespace Descriptor.Application.Commands
 {
 	public class AddSellerCommand : IRequest
 	{

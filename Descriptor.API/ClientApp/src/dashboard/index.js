@@ -37,12 +37,14 @@ const UrlItem = (props) => {
 }
 const UrlDescription = (props) => <a>{props.cell._cell.value}</a>
 const StatusCell = (props) => {
-  switch (props.cell._cell.value) {
-    case statusEnum.escalated: return <FaIcons.FaQuestion className='ico ico-escalated' />
-    case statusEnum.approved: return <FaIcons.FaCheck className='ico ico-approved' />
-    case statusEnum.rejected: return <FaIcons.FaTimes className='ico ico-rejected' />
-    default: return null
-  }
+  if (!props.cell._cell.value || props.cell._cell.value == statusEnum.escalated)
+    return <FaIcons.FaQuestion className='ico ico-escalated' />
+  else if (props.cell._cell.value == statusEnum.approved)
+    return <FaIcons.FaCheck className='ico ico-approved' />
+  else if (props.cell._cell.value == statusEnum.rejected)
+    return <FaIcons.FaTimes className='ico ico-rejected' />
+  else
+    return null;
 }
 
 const tableColumns = [
@@ -52,12 +54,12 @@ const tableColumns = [
   {
     title: "Review Date/Time", field: "reviewDate", sorter: "date", align: "center", formatter: 'datetime', formatterParams: {
       outputFormat: "MMMM D, YYYY",
-      invalidPlaceholder: "(invalid date)",
+      invalidPlaceholder: "",
     }
   },
   { title: "Description ID", field: "descriptionId", align: "center", formatter: reactFormatter(<UrlDescription />) },
   { title: "Short Description", field: "shortDescription", align: "center" },
-  { title: "Status", field: "status", align: "center", formatter: reactFormatter(<StatusCell />) },
+  { title: "Status", field: "itemStatus", align: "center", formatter: reactFormatter(<StatusCell />) },
   { title: "Reviewer", field: "reviewer", align: "center" },
 ]
 
@@ -109,9 +111,10 @@ class Dashboard extends Component {
 
   filterData = (data, filterParams) => {
     const { filterBy, dateFrom, dateTo } = this.state;
-    return (!filterBy || data.status == filterBy) &&
-      (moment(dateFrom) <= moment(data.reviewDate) &&
-        (moment(dateTo) >= moment(data.reviewDate)));
+    return (!filterBy || data.itemStatus == filterBy) &&
+      (!data.reviewDate ||
+        moment(dateFrom) <= moment(data.reviewDate) &&
+        (moment(dateTo).endOf('day') >= moment(data.reviewDate)));
   }
 
   render() {

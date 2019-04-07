@@ -1,4 +1,5 @@
-﻿using Descriptor.Application.Dto;
+﻿using Descriptor.Application.Commands;
+using Descriptor.Application.Dto;
 using Descriptor.Application.Services;
 using Descriptor.Domain.Entities;
 using Descriptor.Domain.Repositories;
@@ -12,7 +13,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Descriptor.Application.Commands.LoadItems
+namespace Descriptor.Application.CommandHandlers
 {
 	public class LoadItemsCommandHandler : IRequestHandler<LoadItemsCommand, ReviewsResultDto>
 	{

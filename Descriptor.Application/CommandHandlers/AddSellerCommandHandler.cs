@@ -1,15 +1,14 @@
-﻿using Descriptor.Application.Services;
+﻿using Descriptor.Application.Commands;
+using Descriptor.Application.Services;
 using Descriptor.Domain.Entities;
 using Descriptor.Domain.Repositories;
 using Descriptor.Domain.Seedwork;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Descriptor.Application.Commands.AddSeller
+namespace Descriptor.Application.CommandHandlers
 {
 	public class AddSellerCommandHandler : IRequestHandler<AddSellerCommand>
 	{

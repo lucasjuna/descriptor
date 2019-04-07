@@ -44,7 +44,11 @@ class ItemDetails extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.item !== prevProps.item)
-      this.setState(this.props.item, this.checkCanApprove);
+      this.setState(this.props.item, () => {
+        let description = this.state.descriptions.find(x => x.id == this.props.item.descriptionId)
+        this.setDescription(description);
+        this.checkCanApprove();
+      });
   }
 
   onStatusChange = (e) => {
@@ -54,7 +58,7 @@ class ItemDetails extends Component {
   }
 
   onDescriptionStatusChange = (e) => {
-    let description = this.state.descriptions.find(x => x.id == e.target.value);
+    let description = this.state.descriptions.find(x => x.id == this.state.descriptionId);
     if (description) {
       description.status = e.target.value;
       this.setState({
@@ -65,11 +69,17 @@ class ItemDetails extends Component {
 
   onDescriptionChange = (e) => {
     let description = this.state.descriptions.find(x => x.id == e.target.value)
-    this.setState({
-      descriptionId: description.id,
-      shortDescription: description.shortDescription,
-      descriptionStatus: description.status
-    }, this.checkCanApprove);
+    this.setDescription(description);
+  }
+
+  setDescription = (description) => {
+    if (description) {
+      this.setState({
+        descriptionId: description.id,
+        shortDescription: description.shortDescription,
+        descriptionStatus: description.status
+      }, this.checkCanApprove);
+    }
   }
 
   checkCanApprove = () => {
@@ -83,7 +93,16 @@ class ItemDetails extends Component {
   }
 
   save = () => {
-    fetchSubmitReview(this.props.match.params.itemId, this.state).then(x => this.props.history.goBack())
+    const { itemId, descriptionId, itemStatus, imagesStatus, priceStatus, descriptions } = this.state;
+    let review = {
+      itemId,
+      descriptionId,
+      itemStatus,
+      imagesStatus,
+      priceStatus,
+      descriptions
+    }
+    fetchSubmitReview(this.props.match.params.itemId, review).then(x => this.props.history.goBack())
   }
 
   render() {

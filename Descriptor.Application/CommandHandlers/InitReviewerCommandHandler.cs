@@ -1,15 +1,13 @@
-﻿using Descriptor.Application.Services;
+﻿using Descriptor.Application.Commands;
+using Descriptor.Application.Services;
 using Descriptor.Domain.Entities;
 using Descriptor.Domain.Repositories;
 using Descriptor.Domain.Seedwork;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Descriptor.Application.Commands.InitReviewer
+namespace Descriptor.Application.CommandHandlers
 {
 	public class InitReviewerCommandHandler : IRequestHandler<InitReviewerCommand>
 	{
@@ -28,7 +26,7 @@ namespace Descriptor.Application.Commands.InitReviewer
 		{
 			var user = _identitySvc.GetUser();
 			var userFromDb = await _reviewerRepo.Find(user.Id);
-			if(userFromDb == null)
+			if (userFromDb == null)
 			{
 				userFromDb = new ReviewerInfo
 				{

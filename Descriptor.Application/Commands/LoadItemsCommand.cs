@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Descriptor.Application.Commands.LoadItems
+namespace Descriptor.Application.Commands
 {
 	public class LoadItemsCommand : IRequest<ReviewsResultDto>
 	{

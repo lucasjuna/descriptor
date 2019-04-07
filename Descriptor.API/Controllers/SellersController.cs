@@ -1,5 +1,4 @@
-﻿using Descriptor.Application.Commands.AddSeller;
-using Descriptor.Application.Commands.LoadItems;
+﻿using Descriptor.Application.Commands;
 using Descriptor.Domain.Dto;
 using Descriptor.Domain.Repositories;
 using MediatR;
@@ -59,7 +58,7 @@ namespace Descriptor.API.Controllers
 		[HttpGet("{userName}/items")]
 		public async Task<ActionResult<IList<ItemDto>>> GetItems(string userName)
 		{
-			var result = await _itemRepo.FindByUser(userName);
+			var result = await _itemRepo.FindDtoByUser(userName);
 			return Ok(result);
 		}
 	}

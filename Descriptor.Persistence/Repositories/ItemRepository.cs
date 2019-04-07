@@ -29,7 +29,7 @@ namespace Descriptor.Persistence.Repositories
 			return await _context.SellerProducts.AnyAsync(x => x.ItemId == itemId);
 		}
 
-		public async Task<IList<ItemDto>> FindByUser(string userName)
+		public async Task<IList<ItemDto>> FindDtoByUser(string userName)
 		{
 			return await _context.SellerProducts.Where(x => x.User.EbaySellerUserName == userName)
 				.Select(x => new ItemDto
@@ -37,12 +37,15 @@ namespace Descriptor.Persistence.Repositories
 					Description = x.EbayDescription,
 					ItemId = x.ItemId,
 					Seller = x.User.EbaySellerUserName,
-					Status = x.ItemStatus,
-					ReviewDate = DateTime.Today
+					ItemStatus = x.ItemStatus,
+					ReviewDate = x.CurrentDescription.ReviewDate,
+					DescriptionId = x.CurrentDescriptionId,
+					Reviewer = $"{x.CurrentDescription.Reviewer.FirstName} {x.CurrentDescription.Reviewer.LastName}",
+					ShortDescription = x.CurrentDescription.ShortDescription,
 				}).ToListAsync();
 		}
 
-		public async Task<ItemDto> Find(string itemId)
+		public async Task<ItemDto> FindDto(string itemId)
 		{
 			return await _context.SellerProducts.Where(x => x.ItemId == itemId)
 				.Select(x => new ItemDto
@@ -50,8 +53,7 @@ namespace Descriptor.Persistence.Repositories
 					Description = x.EbayDescription,
 					ItemId = x.ItemId,
 					Seller = x.User.EbaySellerUserName,
-					Status = x.ItemStatus,
-					ReviewDate = DateTime.Today,
+					ReviewDate = x.CurrentDescription.ReviewDate,
 					ShortDescription = x.CurrentDescription.ShortDescription,
 					DescriptionId = x.CurrentDescriptionId,
 					Reviewer = $"{x.CurrentDescription.Reviewer.FirstName} {x.CurrentDescription.Reviewer.LastName}",
@@ -68,6 +70,13 @@ namespace Descriptor.Persistence.Repositories
 					}).ToList(),
 					ImageUrls = x.EbayItemPictureDetails
 				}).SingleOrDefaultAsync();
+		}
+
+		public async Task<SellerProduct> Find(string itemId)
+		{
+			return await _context.SellerProducts.Where(x => x.ItemId == itemId)
+				.Include(x => x.Descriptions)
+				.SingleOrDefaultAsync();
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Descriptor.Application.Commands.AddSeller;
+using Descriptor.Application.CommandHandlers;
 using MediatR;
 using System.Reflection;
 

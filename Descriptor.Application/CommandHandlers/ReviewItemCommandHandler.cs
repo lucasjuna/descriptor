@@ -1,4 +1,5 @@
 ﻿using Descriptor.Application.Commands;
+using Descriptor.Domain.Enumerations;
 using Descriptor.Domain.Repositories;
 using Descriptor.Domain.Seedwork;
 using MediatR;
@@ -24,7 +25,6 @@ namespace Descriptor.Application.CommandHandlers
 			var item = await _itemRepo.Find(request.ItemId);
 			if (item != null)
 			{
-				item.ItemStatus = request.ItemStatus;
 				item.ImagesStatus = request.ImagesStatus;
 				item.PriceStatus = request.PriceStatus;
 				item.CurrentDescriptionId = request.DescriptionId;
@@ -36,6 +36,14 @@ namespace Descriptor.Application.CommandHandlers
 						dbDescr.Status = dtoDescr.Status;
 						dbDescr.Method = "Manual";
 					}
+				}
+				if(request.ItemStatus == ReviewStatus.Accepted)
+				{
+					if (item.ImagesStatus == ReviewStatus.Accepted && item.PriceStatus == ReviewStatus.Accepted &&
+						item.Descriptions.SingleOrDefault(x => x.Id == item.CurrentDescriptionId)?.Status == ReviewStatus.Accepted)
+						item.ItemStatus = request.ItemStatus;
+					else
+						item.ItemStatus = null;
 				}
 				await _uow.SaveEntitiesAsync();
 			}

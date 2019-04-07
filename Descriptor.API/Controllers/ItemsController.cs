@@ -24,21 +24,25 @@ namespace Descriptor.API.Controllers
 		public async Task<ActionResult<ItemDto>> Get(string itemId)
 		{
 			var item = await _itemRepo.FindDto(itemId);
+			if (item == null)
+				return NotFound();
 			return Ok(item);
 		}
 
 		[HttpPut("{itemId}")]
 		public async Task<IActionResult> Put([FromRoute] string itemId, [FromBody]ItemDto item)
 		{
-			await _mediator.Send(new ReviewItemCommand(item.ItemId, item.DescriptionId, item.ItemStatus, 
+			await _mediator.Send(new ReviewItemCommand(item.ItemId, item.DescriptionId, item.ItemStatus,
 				item.ImagesStatus, item.PriceStatus, item.Descriptions));
 			return Ok();
 		}
 
 		[HttpGet("{itemId}/descriptions/{descriptionId}")]
-		public async Task<ActionResult<ItemDto>> Get(string itemId,long descriptionId)
+		public async Task<ActionResult<ItemDto>> Get(string itemId, long descriptionId)
 		{
 			var description = await _itemRepo.FindDescription(itemId, descriptionId);
+			if (description == null)
+				return NotFound();
 			return Ok(description);
 		}
 	}

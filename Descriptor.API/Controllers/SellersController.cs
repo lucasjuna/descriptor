@@ -35,8 +35,7 @@ namespace Descriptor.API.Controllers
 			var seller = await _sellerRepo.Find(userName);
 			if (seller == null)
 				return NotFound();
-			else
-				return Ok(seller);
+			return Ok(seller);
 		}
 
 		[HttpPost("{userName}")]
@@ -44,6 +43,8 @@ namespace Descriptor.API.Controllers
 		{
 			await _mediator.Send(new AddSellerCommand(userName));
 			var seller = await _sellerRepo.Find(userName);
+			if (seller == null)
+				return NotFound();
 			return Ok(seller);
 		}
 
@@ -59,6 +60,8 @@ namespace Descriptor.API.Controllers
 		public async Task<ActionResult<IList<ItemDto>>> GetItems(string userName)
 		{
 			var result = await _itemRepo.FindDtoByUser(userName);
+			if (result == null)
+				return NotFound();
 			return Ok(result);
 		}
 	}

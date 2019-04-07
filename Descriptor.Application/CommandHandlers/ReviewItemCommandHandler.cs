@@ -28,9 +28,14 @@ namespace Descriptor.Application.CommandHandlers
 				item.ImagesStatus = request.ImagesStatus;
 				item.PriceStatus = request.PriceStatus;
 				item.CurrentDescriptionId = request.DescriptionId;
-				foreach (var d in item.Descriptions)
+				foreach (var dbDescr in item.Descriptions)
 				{
-					d.Status = request.Descriptions.SingleOrDefault(x => x.Id == d.Id)?.Status ?? d.Status;
+					var dtoDescr = request.Descriptions.SingleOrDefault(x => x.Id == dbDescr.Id);
+					if (dtoDescr != null)
+					{
+						dbDescr.Status = dtoDescr.Status;
+						dbDescr.Method = "Manual";
+					}
 				}
 				await _uow.SaveEntitiesAsync();
 			}

@@ -5,7 +5,7 @@ import Header from './Header';
 import LoadItems from './items/LoadItems';
 import Dashboard from './dashboard';
 import ItemDetails from './items/ItemDetails';
-import { fetchInitReviewer } from './api/reviewsApi';
+import { fetchInitReviewer } from './api/reviewersApi';
 import { withRouter } from 'react-router';
 
 class Main extends Component {

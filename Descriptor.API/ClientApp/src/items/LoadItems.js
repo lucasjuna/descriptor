@@ -5,7 +5,7 @@ import './style.css';
 import { loadSeller, clearSeller, loadItems } from '../actions/sellersActions';
 import { connect } from 'react-redux';
 import SellerInfoModal from './SellerInfoModal';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import Switch from 'react-router-dom/Switch';
 import { withRouter } from 'react-router';
 
@@ -62,7 +62,7 @@ class LoadItems extends Component {
                     <Row>
                       <Col sm={3}></Col>
                       <Col sm={2}><Button size="sm" onClick={this.loadItems}>Load new items</Button></Col>
-                      <Col ><Button size="sm">Review existing items</Button></Col>
+                      <Col ><Link to={`/dashboard/${this.state.userName}`}><Button size="sm">Review existing items</Button></Link></Col>
                     </Row>
                     <Row>
                       <Col sm={3}></Col>

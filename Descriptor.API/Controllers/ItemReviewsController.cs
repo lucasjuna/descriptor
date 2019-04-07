@@ -11,20 +11,13 @@ namespace Descriptor.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewsController : ControllerBase
+    public class ItemReviewsController : ControllerBase
     {
 		private readonly IMediator _mediator;
 
-		public ReviewsController(IMediator mediator)
+		public ItemReviewsController(IMediator mediator)
 		{
 			_mediator = mediator;
-		}
-
-		[HttpPut("init-reviewer")]
-		public async Task<IActionResult> InitializeReviewer()
-		{
-			await _mediator.Send(new InitReviewerCommand());
-			return Ok();
 		}
     }
 }

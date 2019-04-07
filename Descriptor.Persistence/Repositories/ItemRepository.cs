@@ -41,6 +41,7 @@ namespace Descriptor.Persistence.Repositories
 					ReviewDate = x.CurrentDescription.ReviewDate,
 					DescriptionId = x.CurrentDescriptionId,
 					Reviewer = $"{x.CurrentDescription.Reviewer.FirstName} {x.CurrentDescription.Reviewer.LastName}",
+					ReviewerId = x.CurrentDescription.ReviewerId,
 					ShortDescription = x.CurrentDescription.ShortDescription,
 				}).ToListAsync();
 		}

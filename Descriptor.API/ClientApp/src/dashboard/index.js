@@ -14,6 +14,7 @@ import { Switch, Route } from 'react-router-dom';
 import SellerInfoModal from '../items/SellerInfoModal';
 import history from '../history';
 import * as FaIcons from 'react-icons/fa';
+import { fetchAllReviewers } from '../api/reviewersApi';
 
 const statusEnum = {
   escalated: 1,
@@ -70,7 +71,8 @@ class Dashboard extends Component {
     reviewers: [],
     dateFrom: moment(new Date()).format('YYYY-MM-DD'),
     dateTo: moment(new Date()).format('YYYY-MM-DD'),
-    filterBy: null
+    filterBy: null,
+    approver: null
   }
 
   componentDidMount() {
@@ -82,6 +84,10 @@ class Dashboard extends Component {
     fetchAllSellers().then(json =>
       this.setState({
         sellers: json
+      }));
+    fetchAllReviewers().then(json =>
+      this.setState({
+        reviewers: json
       }));
     this.tabulator.table.setFilter(this.filterData);
   }
@@ -110,16 +116,17 @@ class Dashboard extends Component {
   }
 
   filterData = (data, filterParams) => {
-    const { filterBy, dateFrom, dateTo } = this.state;
+    const { filterBy, dateFrom, dateTo, approver } = this.state;
     return (!filterBy || data.itemStatus == filterBy) &&
-      (!data.reviewDate ||
+      (data.itemStatus != statusEnum.approved || !approver || approver == data.reviewerId) &&
+        (!data.reviewDate ||
         moment(dateFrom) <= moment(data.reviewDate) &&
         (moment(dateTo).endOf('day') >= moment(data.reviewDate)));
   }
 
   render() {
     const { reviews } = this.props;
-    const { reviewers, sellers, dateFrom, dateTo, filterBy, seller } = this.state;
+    const { reviewers, sellers, dateFrom, dateTo, filterBy, seller, approver } = this.state;
     return (
       <Container >
         <Row>
@@ -175,8 +182,9 @@ class Dashboard extends Component {
             <Row>
               <Col><strong className='float-right'>Approver:</strong></Col>
               <Col>
-                <select className='w-100'>
-                  {reviewers.map(x => <option key={x.id} value={x.id}>{x.name}</option>)}
+                <select className='w-100' name='approver' value={approver} onChange={this.onFilterChange}>
+                  <option value={null}>All</option>
+                  {reviewers.map(x => <option key={x.id} value={x.id}>{x.firstName} {x.lastName}</option>)}
                 </select>
               </Col>
             </Row>

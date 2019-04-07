@@ -13,6 +13,7 @@ namespace Descriptor.Domain.Dto
 		public long? DescriptionId { get; set; }
 		public string ShortDescription { get; set; }
 		public string Reviewer { get; set; }
+		public string ReviewerId { get; set; }
 		public string ItemUrl { get; set; }
 		public decimal Price { get; set; }
 		public ReviewStatus? ItemStatus { get; set; }

@@ -1,4 +1,5 @@
-﻿using Descriptor.Domain.Entities;
+﻿using Descriptor.Domain.Dto;
+using Descriptor.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,6 @@ namespace Descriptor.Domain.Repositories
 	{
 		void Add(ReviewerInfo reviewer);
 		Task<ReviewerInfo> Find(string id);
+		Task<IList<ReviewerDto>> All();
 	}
 }

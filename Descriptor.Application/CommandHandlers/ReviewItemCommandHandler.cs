@@ -37,7 +37,8 @@ namespace Descriptor.Application.CommandHandlers
 						dbDescr.Method = "Manual";
 					}
 				}
-				if(request.ItemStatus == ReviewStatus.Accepted)
+
+				if (request.ItemStatus == ReviewStatus.Accepted)
 				{
 					if (item.ImagesStatus == ReviewStatus.Accepted && item.PriceStatus == ReviewStatus.Accepted &&
 						item.Descriptions.SingleOrDefault(x => x.Id == item.CurrentDescriptionId)?.Status == ReviewStatus.Accepted)
@@ -45,6 +46,11 @@ namespace Descriptor.Application.CommandHandlers
 					else
 						item.ItemStatus = null;
 				}
+				else
+				{
+					item.ItemStatus = request.ItemStatus;
+				}
+
 				await _uow.SaveEntitiesAsync();
 			}
 			return Unit.Value;

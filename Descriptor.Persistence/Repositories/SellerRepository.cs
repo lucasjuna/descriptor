@@ -1,5 +1,6 @@
 ﻿using Descriptor.Domain.Dto;
 using Descriptor.Domain.Entities;
+using Descriptor.Domain.Enumerations;
 using Descriptor.Domain.Repositories;
 using Descriptor.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +30,10 @@ namespace Descriptor.Persistence.Repositories
 			return await _context.SellerInfo.Select(x => new SellerDto
 			{
 				EbaySellerUserName = x.EbaySellerUserName,
-				Escalated = x.Products.Count,
-				Total= x.Products.Count
+				Escalated = x.Products.Count(y=> y.ItemStatus == null || y.ItemStatus == ReviewStatus.Escalated),
+				Accepted = x.Products.Count(y => y.ItemStatus == ReviewStatus.Accepted),
+				Rejected = x.Products.Count(y => y.ItemStatus == ReviewStatus.Rejected),
+				Total = x.Products.Count
 			}).ToListAsync();
 		}
 
@@ -57,7 +60,9 @@ namespace Descriptor.Persistence.Repositories
 					FirstName = x.FirstName,
 					LastName = x.LastName,
 					Total = x.Products.Count,
-					Escalated = x.Products.Count
+					Escalated = x.Products.Count(y => y.ItemStatus == null || y.ItemStatus == ReviewStatus.Escalated),
+					Accepted = x.Products.Count(y => y.ItemStatus == ReviewStatus.Accepted),
+					Rejected = x.Products.Count(y => y.ItemStatus == ReviewStatus.Rejected),
 				}).SingleOrDefaultAsync();
 		}
 

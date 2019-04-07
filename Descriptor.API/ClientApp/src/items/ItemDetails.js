@@ -55,10 +55,12 @@ class ItemDetails extends Component {
 
   onDescriptionStatusChange = (e) => {
     let description = this.state.descriptions.find(x => x.id == e.target.value);
-    description.status = e.target.value;
-    this.setState({
-      descriptionStatus: description.status
-    }, this.checkCanApprove);
+    if (description) {
+      description.status = e.target.value;
+      this.setState({
+        descriptionStatus: description.status
+      }, this.checkCanApprove);
+    }
   }
 
   onDescriptionChange = (e) => {
@@ -98,25 +100,29 @@ class ItemDetails extends Component {
       return x;
     });
     return (
-      <div className='h-100'>
+      <Container className='h-100'>
         <div className='item-details vertical-container'>
           <div className='horizontal-container'>
             <div className='header w-100'>
-              <div>
-                <Button onClick={this.save}>Save</Button>
-                <span className='status-label mr-2'>
-                  Status:
+              <Container >
+                <Row>
+                  <Col className='pl-0'>
+                    <Button onClick={this.save}>Save</Button>
+                    <span className='status-label mr-2'>
+                      Status:
                 </span>
-                <StatusInput canApprove={canApprove} name='itemStatus' value={itemStatus} onChange={this.onStatusChange} showLabel />
-              </div>
-              <div>
-                <h4>
-                  Details for Item: <Link to={pathname}>{this.props.match.params.itemId}</Link>
-                </h4>
-              </div>
-              <div>
-                <Button onClick={history.goBack}>Cancel</Button>
-              </div>
+                    <StatusInput canApprove={canApprove} name='itemStatus' value={itemStatus} onChange={this.onStatusChange} showLabel />
+                  </Col>
+                  <Col className="text-center">
+                    <h4>
+                      Details for Item: <Link to={pathname}>{this.props.match.params.itemId}</Link>
+                    </h4>
+                  </Col>
+                  <Col className='pr-0'>
+                    <Button className='float-right' onClick={history.goBack}>Cancel</Button>
+                  </Col>
+                </Row>
+              </Container>
             </div>
           </div>
           <div className='horizontal-container grow'>
@@ -207,13 +213,13 @@ class ItemDetails extends Component {
               <Container>
                 <Row>
                   <Col sm={3}>Item URL: </Col>
-                  <Col sm={9}><a href={item.itemUrl}>{item.itemUrl}</a></Col>
+                  <Col sm={9}><a className='item-url' href={item.itemUrl}>{item.itemUrl}</a></Col>
                 </Row>
               </Container>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     )
   }
 }

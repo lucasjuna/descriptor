@@ -108,3 +108,7 @@ table.reviews-result th{
 .item-details .images-table .tabulator-table .tabulator-cell{
   height: 200px;
 }
+
+.item-details .item-url {
+  overflow-wrap: break-word;
+}

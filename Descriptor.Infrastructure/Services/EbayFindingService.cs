@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static Descriptor.Infrastructure.Responses.FindItemsAdvancedResponse;
 
 namespace Descriptor.Infrastructure.Services
 {
@@ -28,13 +29,27 @@ namespace Descriptor.Infrastructure.Services
 
 		public async Task<ICollection<ItemDto>> FindItemsAdvanced(string userName)
 		{
-			var request = new FindItemsAdvancedRequest(userName);
-			var result = await ExecuteRequest<FindItemsAdvancedRequest, FindItemsAdvancedResponse>("findItemsAdvanced", request);
+			const int EntriesPerPage = 100;
+			const int MaxPages = 100;
+			int pageNumber = 1;
+			var itemList = new List<Item>();
 
-			if (result.Ack.ToUpper() != "SUCCESS")
-				throw new EbayException($"Ebay API error: {result.ErrorMessage?.Error?.Message}");
+			int loaded = 0;
+			do
+			{
+				var request = new FindItemsAdvancedRequest(userName, EntriesPerPage, pageNumber, true);
+				var result = await ExecuteRequest<FindItemsAdvancedRequest, FindItemsAdvancedResponse>("findItemsAdvanced", request);
 
-			var itemInfo = result.SearchResult.Select(x => new ItemDto()
+				if (result.Ack.ToUpper() != "SUCCESS")
+					throw new EbayException($"Ebay API error: {result.ErrorMessage?.Error?.Message}");
+
+				itemList.AddRange(result.SearchResult);
+				loaded = result.SearchResult.Count;
+				pageNumber++;
+			}
+			while (loaded == EntriesPerPage && pageNumber <= MaxPages);
+
+			var itemInfo = itemList.Select(x => new ItemDto()
 			{
 				ItemId = x.ItemId,
 				Country = x.Country,

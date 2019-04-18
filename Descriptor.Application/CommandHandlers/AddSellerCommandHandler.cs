@@ -30,7 +30,7 @@ namespace Descriptor.Application.CommandHandlers
 			{
 				var seller = new SellerInfo
 				{
-					EmailAddress = userInfo.Email,
+					EmailAddress = userInfo.Email?.Contains("@") ?? false ? userInfo.Email : null,
 					EbaySellerUserName = userInfo.UserName.ToLower(),
 					Address1 = userInfo.Street,
 					Address2 = userInfo.Street1,

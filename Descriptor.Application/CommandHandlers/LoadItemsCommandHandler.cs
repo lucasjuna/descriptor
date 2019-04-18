@@ -66,11 +66,10 @@ namespace Descriptor.Application.CommandHandlers
 					};
 					_itemRepo.Add(product);
 					processed.Add(item.ItemId);
-					await _uow.SaveEntitiesAsync();
 					if (item.PictureURLs?.Any() ?? false)
 					{
 						var imageHashes = new List<byte[]>();
-						await LoadImages(item.PictureURLs, product.Id, imageHashes);
+						await LoadImages(item.PictureURLs, product, imageHashes);
 					}
 					await _uow.SaveEntitiesAsync();
 				}
@@ -82,14 +81,14 @@ namespace Descriptor.Application.CommandHandlers
 			};
 		}
 
-		private async Task LoadImages(IEnumerable<string> pictureUrls, long itemId, List<byte[]> imageHashes)
+		private async Task LoadImages(IEnumerable<string> pictureUrls, SellerProduct item, List<byte[]> imageHashes)
 		{
-			const int ImageLoadCount = 10;
+			const int ImageLoadCount = 6;
 			using (var client = new HttpClient())
 			{
 				var getTasks = pictureUrls.Take(ImageLoadCount).Select(x => client.GetByteArrayAsync(x));
 				var imagesData = await Task.WhenAll(getTasks);
-				var productImages = imagesData.Select(x => new ProductImage() { ImageData = x, ItemId = itemId });
+				var productImages = imagesData.Select(x => new ProductImage() { ImageData = x, Item = item });
 				using (MD5 md5 = MD5.Create())
 				{
 					foreach (var img in productImages)
@@ -106,7 +105,7 @@ namespace Descriptor.Application.CommandHandlers
 
 			if (pictureUrls.Count() > imageHashes.Count)
 			{
-				await LoadImages(pictureUrls.Skip(ImageLoadCount), itemId, imageHashes);
+				await LoadImages(pictureUrls.Skip(ImageLoadCount), item, imageHashes);
 			}
 		}
 	}

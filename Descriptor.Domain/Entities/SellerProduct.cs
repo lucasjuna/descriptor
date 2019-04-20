@@ -13,6 +13,7 @@ namespace Descriptor.Domain.Entities
 		public string CrossboarderTrade { get; set; }
 		public string SKU { get; set; }
 		public string EbayDescription { get; set; }
+		public string EbayLongDescription { get; set; }
 		public decimal EbayBuyItNowPrice { get; set; }
 		public string EbayViewItemUrl { get; set; }
 		public string EbayItemLocation { get; set; }

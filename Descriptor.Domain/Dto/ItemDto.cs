@@ -9,6 +9,7 @@ namespace Descriptor.Domain.Dto
 		public string Seller { get; set; }
 		public string ItemId { get; set; }
 		public string Description { get; set; }
+		public string LongDescription { get; set; }
 		public DateTime? ReviewDate { get; set; }
 		public long? DescriptionId { get; set; }
 		public string ShortDescription { get; set; }

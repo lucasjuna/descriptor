@@ -4,14 +4,16 @@ using Descriptor.Persistence.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Descriptor.Persistence.Migrations
 {
     [DbContext(typeof(DescriptorContext))]
-    partial class DescriptorContextModelSnapshot : ModelSnapshot
+    [Migration("20190420181812_LongDescriptionFieldAdded")]
+    partial class LongDescriptionFieldAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

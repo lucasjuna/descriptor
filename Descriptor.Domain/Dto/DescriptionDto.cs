@@ -9,6 +9,7 @@ namespace Descriptor.Domain.Dto
 	{
 		public long Id { get; set; }
 		public string ShortDescription { get; set; }
+		public string LongDescription { get; set; }
 		public ReviewStatus? Status { get; set; }
 	}
 }

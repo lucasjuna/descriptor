@@ -13,6 +13,7 @@ namespace Descriptor.Infrastructure.Responses
 		[XmlArrayItem(ElementName = "PictureURL")]
 		public List<string> PictureDetails { get; set; }
 		public string CrossBorderTrade { get; set; }
+		public string Description { get; set; }
 
 		public class PriceInfo
 		{

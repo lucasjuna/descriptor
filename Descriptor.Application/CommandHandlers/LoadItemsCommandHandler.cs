@@ -54,8 +54,8 @@ namespace Descriptor.Application.CommandHandlers
 					{
 						Country = itemInfo.Country,
 						EbayBuyItNowPrice = item.EbayBuyItNowPrice,
-
 						EbayDescription = itemInfo.EbayDescription,
+						EbayLongDescription = item.EbayDescription,
 						ItemId = item.ItemId,
 						EbayItemLocation = itemInfo.EbayItemLocation,
 						EbayItemPictureDetails = pictureUrls,

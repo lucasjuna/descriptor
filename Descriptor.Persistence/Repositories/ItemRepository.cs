@@ -35,6 +35,7 @@ namespace Descriptor.Persistence.Repositories
 				.Select(x => new ItemDto
 				{
 					Description = x.EbayDescription,
+					LongDescription = x.EbayLongDescription,
 					ItemId = x.ItemId,
 					Seller = x.User.EbaySellerUserName,
 					ItemStatus = x.ItemStatus,
@@ -52,6 +53,7 @@ namespace Descriptor.Persistence.Repositories
 				.Select(x => new ItemDto
 				{
 					Description = x.EbayDescription,
+					LongDescription = x.EbayLongDescription,
 					ItemId = x.ItemId,
 					Seller = x.User.EbaySellerUserName,
 					ReviewDate = x.CurrentDescription.ReviewDate,
@@ -87,6 +89,7 @@ namespace Descriptor.Persistence.Repositories
 				{
 					Id = x.Id,
 					ShortDescription = x.ShortDescription,
+					LongDescription = x.Item.EbayLongDescription,
 					Status = x.Status
 				}).SingleOrDefaultAsync();
 		}

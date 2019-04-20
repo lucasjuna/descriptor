@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Descriptor.Domain", "Descri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Descriptor.Persistence", "Descriptor.Persistence\Descriptor.Persistence.csproj", "{199D0C85-1E1E-4F9D-9A73-E529A051C56F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Descriptor.Infrastructure", "Descriptor.Infrastructure\Descriptor.Infrastructure.csproj", "{FBB0F49D-74AA-4182-B7AB-91B485D40A2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Descriptor.Infrastructure", "Descriptor.Infrastructure\Descriptor.Infrastructure.csproj", "{FBB0F49D-74AA-4182-B7AB-91B485D40A2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Descriptor.Application", "Descriptor.Application\Descriptor.Application.csproj", "{4ADFD62C-1B9E-41E6-8AFD-A97603E64C1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Descriptor.Application", "Descriptor.Application\Descriptor.Application.csproj", "{4ADFD62C-1B9E-41E6-8AFD-A97603E64C1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

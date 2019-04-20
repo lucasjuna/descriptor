@@ -11,6 +11,7 @@ namespace Descriptor.Infrastructure.Requests
 
 		public string OutputSelector { get; set; }
 		public RequesterCredentials RequesterCredentials { get; set; }
+		public string DetailLevel { get; set; }
 
 		public BaseEbayTradingRequest() { }
 

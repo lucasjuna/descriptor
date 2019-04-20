@@ -4,8 +4,8 @@ using Descriptor.Application.Exceptions;
 using Descriptor.Application.Services;
 using Descriptor.Infrastructure.Requests;
 using Descriptor.Infrastructure.Responses;
+using Descriptor.Infrastructure.Utils;
 using Microsoft.Extensions.Options;
-using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -18,11 +18,13 @@ namespace Descriptor.Infrastructure.Services
 	{
 		private readonly HttpClient _client;
 		private readonly IOptions<AppSettings> _appSettings;
+		private readonly IHtmlParser _htmlParser;
 
-		public EbayTradingService(HttpClient client, IOptions<AppSettings> appSettings)
+		public EbayTradingService(HttpClient client, IOptions<AppSettings> appSettings, IHtmlParser htmlParser)
 		{
 			_client = client;
 			_appSettings = appSettings;
+			_htmlParser = htmlParser;
 		}
 
 		public async Task<UserDto> GetUser(string userName)
@@ -49,8 +51,11 @@ namespace Descriptor.Infrastructure.Services
 
 		public async Task<ItemDto> GetItem(string itemId)
 		{
-			var request = new GetItemRequest(_appSettings.Value.EbayApiToken, itemId);
-			request.OutputSelector = "Item.SKU,Item.BuyItNowPrice,Item.Seller.UserID,Item.CrossBorderTrade,Item.PictureDetails.PictureURL";
+			var request = new GetItemRequest(_appSettings.Value.EbayApiToken, itemId)
+			{
+				DetailLevel = "ReturnAll",
+				OutputSelector = "Item.SKU,Item.BuyItNowPrice,Item.Seller.UserID,Item.CrossBorderTrade,Item.PictureDetails.PictureURL,Item.Description"
+			};
 			var result = await ExecuteRequest<GetItemRequest, GetItemResponse>(request);
 
 			if (result.Ack.ToUpper() != "SUCCESS")
@@ -64,7 +69,8 @@ namespace Descriptor.Infrastructure.Services
 				SKU = result.Item.SKU,
 				UserId = result.Item.Seller.UserID,
 				CrossboarderTrade = result.Item.CrossBorderTrade,
-				PictureURLs = result.Item.PictureDetails
+				PictureURLs = result.Item.PictureDetails,
+				EbayDescription = _htmlParser.Parse(result.Item.Description)
 			};
 		}
 

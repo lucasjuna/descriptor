@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Descriptor.Infrastructure.Responses
 {
-	public class BaseEbayTradingResponse
+	public abstract class BaseEbayTradingResponse
 	{
 		public string Ack { get; set; }
 		public ResponseErrors Errors { get; set; }

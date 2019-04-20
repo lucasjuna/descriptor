@@ -5,8 +5,10 @@ using System.Xml.Serialization;
 
 namespace Descriptor.Infrastructure.Requests
 {
-	public class BaseEbayTradingRequest
+	public abstract class BaseEbayTradingRequest
 	{
+		public abstract string OperationName { get; }
+
 		public string OutputSelector { get; set; }
 		public RequesterCredentials RequesterCredentials { get; set; }
 

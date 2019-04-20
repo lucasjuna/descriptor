@@ -28,7 +28,7 @@ namespace Descriptor.Infrastructure.Services
 		public async Task<UserDto> GetUser(string userName)
 		{
 			var request = new GetUserRequest(_appSettings.Value.EbayApiToken, userName);
-			var result = await ExecuteRequest<GetUserRequest, GetUserResponse>("GetUser", request);
+			var result = await ExecuteRequest<GetUserRequest, GetUserResponse>(request);
 
 			if (result.Ack.ToUpper() != "SUCCESS")
 				throw new EbayException($"Ebay API error: {result.Errors?.ShortMessage}");
@@ -51,7 +51,7 @@ namespace Descriptor.Infrastructure.Services
 		{
 			var request = new GetItemRequest(_appSettings.Value.EbayApiToken, itemId);
 			request.OutputSelector = "Item.SKU,Item.BuyItNowPrice,Item.Seller.UserID,Item.CrossBorderTrade,Item.PictureDetails.PictureURL";
-			var result = await ExecuteRequest<GetItemRequest, GetItemResponse>("GetItem", request);
+			var result = await ExecuteRequest<GetItemRequest, GetItemResponse>(request);
 
 			if (result.Ack.ToUpper() != "SUCCESS")
 				throw new EbayException($"Ebay API error: {result.Errors?.ShortMessage}");
@@ -68,7 +68,7 @@ namespace Descriptor.Infrastructure.Services
 			};
 		}
 
-		private async Task<TResponse> ExecuteRequest<TRequest, TResponse>(string callName, TRequest request)
+		private async Task<TResponse> ExecuteRequest<TRequest, TResponse>(TRequest request)
 			where TRequest : BaseEbayTradingRequest
 			where TResponse : BaseEbayTradingResponse
 		{
@@ -83,7 +83,7 @@ namespace Descriptor.Infrastructure.Services
 			HttpResponseMessage response;
 			using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, "ws/api.dll"))
 			{
-				requestMessage.Headers.Add("X-EBAY-API-CALL-NAME", callName);
+				requestMessage.Headers.Add("X-EBAY-API-CALL-NAME", request.OperationName);
 				requestMessage.Content = new StringContent(requestXml, Encoding.UTF8, "application/xml");
 				response = await _client.SendAsync(requestMessage);
 			}

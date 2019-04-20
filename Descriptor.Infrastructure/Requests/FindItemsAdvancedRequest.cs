@@ -5,6 +5,8 @@ namespace Descriptor.Infrastructure.Requests
 	[XmlRoot(ElementName = "findItemsAdvancedRequest", Namespace = "http://www.ebay.com/marketplace/search/v1/services")]
 	public class FindItemsAdvancedRequest : BaseEbayFindingRequest
 	{
+		public override string OperationName => "findItemsAdvanced";
+
 		[XmlElement(ElementName = "itemFilter")]
 		public Filter[] ItemFilters { get; set; }
 		[XmlElement(ElementName = "paginationInput")]

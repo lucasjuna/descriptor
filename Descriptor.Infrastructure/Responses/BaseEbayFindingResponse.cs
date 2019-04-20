@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace Descriptor.Infrastructure.Responses
 {
-	public class BaseEbayFindingResponse
+	public abstract class BaseEbayFindingResponse
 	{
 		[XmlElement(ElementName = "ack")]
 		public string Ack { get; set; }

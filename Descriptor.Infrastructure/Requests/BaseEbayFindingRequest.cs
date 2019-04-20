@@ -4,7 +4,8 @@ using System.Text;
 
 namespace Descriptor.Infrastructure.Requests
 {
-	public class BaseEbayFindingRequest
+	public abstract class BaseEbayFindingRequest
 	{
+		public abstract string OperationName { get; }
 	}
 }

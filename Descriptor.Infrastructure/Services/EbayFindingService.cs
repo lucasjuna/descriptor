@@ -38,7 +38,7 @@ namespace Descriptor.Infrastructure.Services
 			do
 			{
 				var request = new FindItemsAdvancedRequest(userName, EntriesPerPage, pageNumber, true);
-				var result = await ExecuteRequest<FindItemsAdvancedRequest, FindItemsAdvancedResponse>("findItemsAdvanced", request);
+				var result = await ExecuteRequest<FindItemsAdvancedRequest, FindItemsAdvancedResponse>(request);
 
 				if (result.Ack.ToUpper() != "SUCCESS")
 					throw new EbayException($"Ebay API error: {result.ErrorMessage?.Error?.Message}");
@@ -60,7 +60,7 @@ namespace Descriptor.Infrastructure.Services
 			return itemInfo;
 		}
 
-		private async Task<TResponse> ExecuteRequest<TRequest, TResponse>(string operationName, TRequest request)
+		private async Task<TResponse> ExecuteRequest<TRequest, TResponse>(TRequest request)
 			where TRequest : BaseEbayFindingRequest
 			where TResponse : BaseEbayFindingResponse
 		{
@@ -76,7 +76,7 @@ namespace Descriptor.Infrastructure.Services
 			using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, "services/search/FindingService/v1"))
 			{
 				requestMessage.Headers.Add("X-EBAY-SOA-REQUEST-DATA-FORMAT", "XML");
-				requestMessage.Headers.Add("X-EBAY-SOA-OPERATION-NAME", operationName);
+				requestMessage.Headers.Add("X-EBAY-SOA-OPERATION-NAME", request.OperationName);
 				requestMessage.Headers.Add("X-EBAY-SOA-SERVICE-NAME", "FindingService");
 				requestMessage.Headers.Add("X-EBAY-SOA-GLOBAL-ID", "EBAY-US");
 				requestMessage.Headers.Add("X-EBAY-SOA-SECURITY-APPNAME", _appSettings.Value.EbayApiAppId);

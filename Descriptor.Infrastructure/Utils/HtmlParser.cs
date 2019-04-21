@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Descriptor.Infrastructure.Utils
 {
@@ -22,7 +23,7 @@ namespace Descriptor.Infrastructure.Utils
 			{
 				sb.Append(node.InnerText);
 			}
-			var text = sb.ToString();
+			var text = HttpUtility.HtmlDecode(sb.ToString());
 			text = Regex.Replace(text, @"[\t ]+", " ");
 			text = Regex.Replace(text, @"(\s*(\n|\r|\r\n))+", Environment.NewLine);
 			text = text.Trim();

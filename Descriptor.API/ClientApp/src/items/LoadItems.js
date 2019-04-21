@@ -56,8 +56,17 @@ class LoadItems extends Component {
                   <div>
                     <Row>
                       <Col sm={2}></Col>
-                      <Col sm={3}><div className='label'># loaded items:</div></Col>
+                      <Col sm={3}><div className='label'># Loaded items:</div></Col>
                       <Col sm={1}><div className='textbox'>{seller.total || 0}</div></Col>
+                      {
+                        !itemsLoading && seller.escalated != null ?
+                          <>
+                            <Col sm={3}><div className='label'># New items:</div></Col>
+                            <Col sm={1}><div className='textbox'>{seller.escalated || 0}</div></Col>
+                          </>
+                          :
+                          null
+                      }
                     </Row>
                     <Row>
                       <Col sm={3}></Col>

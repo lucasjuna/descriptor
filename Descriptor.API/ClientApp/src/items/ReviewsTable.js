@@ -5,7 +5,9 @@ import './styles.css';
 
 class ReviewsTable extends Component {
   render() {
-    const { accepted, rejected, escalated, total, itemsLoading } = this.props;
+    let { accepted, rejected, escalated, total, itemsLoading } = this.props;
+    if (!escalated)
+      escalated = 0;
     return (<div>
       <Table className='reviews-result'>
         <thead>

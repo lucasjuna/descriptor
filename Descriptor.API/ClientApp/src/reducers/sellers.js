@@ -15,6 +15,9 @@ export default function reducer(state = initialState, action) {
     case LOAD_ALL_SELLERS_SUCCESS:
       return Object.assign({}, state, { list: action.payload });
     case LOAD_SELLER_SUCCESS:
+      let newState = Object.assign({}, state, { loadedSeller: action.payload });
+      newState.loadedSeller.escalated = null;
+      return newState;
     case ADD_SELLER_SUCCESS:
       return Object.assign({}, state, { loadedSeller: action.payload });
     case LOAD_ITEMS_SUCCESS:
@@ -30,7 +33,10 @@ export default function reducer(state = initialState, action) {
     case LOAD_ITEMS_START:
       return Object.assign({}, state, {
         itemsLoading: true,
-        reviewsResult: []
+        reviewsResult: [],
+        loadedSeller: Object.assign({}, state.loadedSeller, {
+          escalated: null
+        })
       });
     case LOAD_ITEMS_FAILURE:
       return Object.assign({}, state, { itemsLoading: false });

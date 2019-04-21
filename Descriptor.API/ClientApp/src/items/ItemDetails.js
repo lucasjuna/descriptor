@@ -119,128 +119,92 @@ class ItemDetails extends Component {
       return x;
     });
     return (
-      <Container className='h-100'>
-        <div className='item-details vertical-container'>
-          <div className='horizontal-container'>
-            <div className='header w-100'>
-              <Container >
-                <Row>
-                  <Col className='pl-0'>
-                    <Button onClick={this.save}>Save</Button>
-                    <span className='status-label mr-2'>
-                      Status:
-                </span>
-                    <StatusInput canApprove={canApprove} name='itemStatus' value={itemStatus} onChange={this.onStatusChange} showLabel />
-                  </Col>
-                  <Col className="text-center">
-                    <h4>
-                      Details for Item: <Link to={pathname}>{this.props.match.params.itemId}</Link>
-                    </h4>
-                  </Col>
-                  <Col className='pr-0'>
-                    <Button className='float-right' onClick={history.goBack}>Cancel</Button>
-                  </Col>
-                </Row>
-              </Container>
-            </div>
+      <div className='item-details'>
+        <div className='header w-100'>
+          <Container>
+            <Row>
+              <Col className='pl-0'>
+                <Button onClick={this.save}>Save</Button>
+                <span className='status-label mr-2'>Status:</span>
+                <StatusInput canApprove={canApprove} name='itemStatus' value={itemStatus} onChange={this.onStatusChange} showLabel />
+              </Col>
+              <Col className="text-center">
+                <h4>
+                  Details for Item: <Link to={pathname}>{this.props.match.params.itemId}</Link>
+                </h4>
+              </Col>
+              <Col className='pr-0'>
+                <Button className='float-right' onClick={history.goBack}>Cancel</Button>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        <div className='segment segment-description'>
+          <div className='description-container'>
+            <div className='short-description-label-item'>
+              Description ID and Short Description:
           </div>
-          <div className='horizontal-container grow'>
-            <div className='segment lg' ref={r => this.ltSegment = r}>
-              <Container className='h-100'>
-                <Row className='h-100'>
-                  <Col>
-                    <Row>
-                      <Col>Description ID and Short Description:</Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <strong>Item description:</strong>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>{item.description}</Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <strong>Description:</strong>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <div className='long-description'>{item.longDescription}</div>
-                      </Col>
-                    </Row>
-                  </Col>
-                  <Col>
-                    <Row>
-                      <Col>
-                        {descriptionId ? `${descriptionId} - ${shortDescription}` : null}
-                        <StatusInput name='descriptionStatus' className='float-right' value={descriptionStatus} onChange={this.onDescriptionStatusChange} />
-                      </Col>
-                    </Row>
-                    <Row className='h-80'>
-                      <Col>
-                        <ReactTabulator ref={r => this.tableDescriptions = r}
-                          columns={decriptionsTableColumn}
-                          data={descriptionsList || []}
-                          options={{ height: '54vh' }} />
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </Container>
+            <div className='short-description-value-item'>
+              {descriptionId ? `${descriptionId} - ${shortDescription}` : '-'}
+              <StatusInput name='descriptionStatus' className='float-right' value={descriptionStatus} onChange={this.onDescriptionStatusChange} />
             </div>
-            <div className='segment sm'>
-              <Container>
-                <Row>
-                  <Col>
-                    Item pictures: <StatusInput name='imagesStatus' className='float-right' value={imagesStatus} onChange={this.onStatusChange} />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <ReactTabulator className='no-header images-table'
-                      columns={imagesTableColumns}
-                      data={imageUrls}
-                      options={{ height: '55vh' }} />
-                  </Col>
-                </Row>
-              </Container>
+            <div className='description-item'>
+              <strong>Item description:</strong>
+              <div>{item.description}</div>
             </div>
-          </div>
-          <div className='horizontal-container'>
-            <div className='segment lg'>
-              <Container>
-                <Row>
-                  <Col>
-                    <strong>Import Duty and Taxes</strong>
-                    <span className='float-right'>
-                      <span className='mr-3'>Duty free:</span>
-                      <StatusInput name='priceStatus' value={priceStatus} onChange={this.onStatusChange} />
-                    </span>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col sm={7}>Price: ${item.price}</Col>
-                  <Col sm={5}>Duties: </Col>
-                </Row>
-                <Row>
-                  <Col sm={7}>Lot Size: 0</Col>
-                  <Col sm={5}>Taxes: </Col>
-                </Row>
-              </Container>
+            <div className='descriptions-table-item'>
+              <ReactTabulator ref={r => this.tableDescriptions = r}
+                columns={decriptionsTableColumn}
+                data={descriptionsList || []}
+                options={{ height: '100%' }} />
             </div>
-            <div className='segment sm'>
-              <Container>
-                <Row>
-                  <Col sm={3}>Item URL: </Col>
-                  <Col sm={9}><a className='item-url' href={item.itemUrl}>{item.itemUrl}</a></Col>
-                </Row>
-              </Container>
+            <div className='long-description-item'>
+              <strong>Description:</strong>
+              <div className='long-description'>{item.longDescription}</div>
             </div>
           </div>
         </div>
-      </Container>
+        <div className='segment segment-images'>
+          <div>
+            Item pictures: <StatusInput name='imagesStatus' className='float-right' value={imagesStatus} onChange={this.onStatusChange} />
+          </div>
+          <div>
+            <ReactTabulator className='no-header images-table'
+              columns={imagesTableColumns}
+              data={imageUrls}
+              options={{ height: '100%' }} />
+          </div>
+        </div>
+        <div className='segment segment-price'>
+          <Container>
+            <Row>
+              <Col>
+                <strong>Import Duty and Taxes</strong>
+                <span className='float-right'>
+                  <span className='mr-3'>Duty free:</span>
+                  <StatusInput name='priceStatus' value={priceStatus} onChange={this.onStatusChange} />
+                </span>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm={7}>Price: ${item.price}</Col>
+              <Col sm={5}>Duties: </Col>
+            </Row>
+            <Row>
+              <Col sm={7}>Lot Size: 0</Col>
+              <Col sm={5}>Taxes: </Col>
+            </Row>
+          </Container>
+        </div>
+        <div className='segment segment-url'>
+          <Container>
+            <Row>
+              <Col sm={3}>Item URL: </Col>
+              <Col sm={9}><a className='item-url' href={item.itemUrl}>{item.itemUrl}</a></Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
     )
   }
 }

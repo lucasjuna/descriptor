@@ -41,50 +41,13 @@ table.reviews-result th{
   padding: 0;
 }
 
-
-.item-details .horizontal-container{
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  align-content: stretch;
-}
-
 .item-details .header {
-  display: flex;
-  justify-content: space-between;
+
   margin: 10px;
   /* font-size: 20px; */
 }
 
-.item-details.vertical-container{
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  align-content: stretch;
-  height: 100%;
-}
-
-.item-details .horizontal-container > .segment.grow.lg{
-  flex-grow: 1.1;
-}
-
-.item-details .horizontal-container > .segment.grow.sm{
-  flex-grow: 1;
-}
-
-.item-details .horizontal-container > .segment.lg{
-  width: 70%;
-}
-
-.item-details .horizontal-container > .segment.sm{
-  width: 30%;
-}
-
-.item-details .horizontal-container.grow{
-  flex-grow: 1;
-}
-
-.item-details .horizontal-container > .segment {
+.item-details > .segment {
   border: black solid 1px;
   border-radius: 10px;
   margin: 10px;
@@ -117,5 +80,57 @@ table.reviews-result th{
 
 .long-description {
   overflow-wrap: break-word;
-  white-space: pre;
+  white-space: pre-line;
+  height: calc(100% - 20px);
+  overflow-y: auto;
+}
+
+.item-details{
+  display: grid;
+  grid-template-columns: 70% 30%;
+  height: calc(100% - 25px);
+}
+
+.item-details > .header{
+  grid-column: 1/span 2;
+  padding: 15px;
+  margin: 0;
+}
+
+.item-details > .header > .container{
+  max-width: none;
+}
+
+.item-details > .segment-description {
+  overflow-y: auto;
+}
+
+.item-details > .segment-images {
+  display: grid;
+  overflow-y: hidden;
+}
+
+.item-details > .segment-images > *{
+  overflow-y: hidden;
+  margin: 10px;
+}
+
+.item-details > .segment-description > .description-container{
+  display: grid;
+  grid-template-columns: 60% 40%;
+  grid-template-rows: auto auto 1fr;
+  height: 100%;
+}
+
+.item-details > .segment-description > .description-container > .descriptions-table-item{
+  grid-row: 2/span 2;
+  grid-column: 2;
+}
+
+.item-details > .segment-description > .description-container > .long-description-item{
+  overflow-y: hidden;
+}
+
+.item-details > .segment-description > .description-container > *{
+  margin: 10px;
 }

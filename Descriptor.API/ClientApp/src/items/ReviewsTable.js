@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
-import './style.css';
+import './styles.css';
 
 class ReviewsTable extends Component {
   render() {

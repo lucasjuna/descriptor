@@ -166,7 +166,9 @@ class ItemDetails extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col>{item.description}</Col>
+                      <Col>
+                        <div className='long-description'>{item.longDescription}</div>
+                      </Col>
                     </Row>
                   </Col>
                   <Col>

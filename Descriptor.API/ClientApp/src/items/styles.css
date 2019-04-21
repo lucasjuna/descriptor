@@ -114,3 +114,8 @@ table.reviews-result th{
 .item-details .item-url {
   overflow-wrap: break-word;
 }
+
+.long-description {
+  overflow-wrap: break-word;
+  white-space: pre;
+}

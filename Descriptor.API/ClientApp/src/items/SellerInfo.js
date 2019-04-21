@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
-import './style.css';
+import './styles.css';
 
 class SellerInfo extends Component {
 

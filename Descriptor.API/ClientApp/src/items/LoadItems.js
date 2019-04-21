@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, Input } from 'reactstrap';
 import SellerInfo from './SellerInfo';
-import './style.css';
+import './styles.css';
 import { loadSeller, clearSeller, loadItems } from '../actions/sellersActions';
 import { connect } from 'react-redux';
 import SellerInfoModal from './SellerInfoModal';

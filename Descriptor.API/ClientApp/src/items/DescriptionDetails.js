@@ -3,7 +3,7 @@ import { Container, Row, Col, Modal, ModalBody, ModalFooter, Button } from 'reac
 import { connect } from 'react-redux';
 import SellerInfo from './SellerInfo';
 import ReviewsTable from './ReviewsTable';
-import './style.css';
+import './styles.css';
 import { Link } from 'react-router-dom';
 import { loadDescription } from '../actions/itemsActions';
 

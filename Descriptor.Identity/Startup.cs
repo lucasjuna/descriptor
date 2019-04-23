@@ -46,7 +46,6 @@ namespace Descriptor.Identity
 				.AddUserValidator<ApplicationUserValidator>();
 
 			services.AddIdentityServer()
-
 				.AddDeveloperSigningCredential()
 				.AddConfigurationStore(config =>
 				{

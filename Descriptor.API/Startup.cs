@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Descriptor.API.AutofacModules;
 using Descriptor.Application;
 using Descriptor.Application.Services;
 using Descriptor.Infrastructure.Services;
-using Descriptor.Persistence.DataContext;
 using Hangfire;
 using Hangfire.SqlServer;
 using IdentityModel.AspNetCore.OAuth2Introspection;
@@ -20,12 +14,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
+using System.Net.Http.Headers;
 
 namespace Descriptor.API
 {
@@ -51,15 +45,15 @@ namespace Descriptor.API
 				.UseSimpleAssemblyNameTypeSerializer()
 				.UseRecommendedSerializerSettings()
 				.UseSqlServerStorage(appSettigs.ConnectionString, new SqlServerStorageOptions
-				 {
-					 PrepareSchemaIfNecessary = true,
-					 CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-					 SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-					 QueuePollInterval = TimeSpan.Zero,
-					 UseRecommendedIsolationLevel = true,
-					 UsePageLocksOnDequeue = true,
-					 DisableGlobalLocks = true
-				 }));
+				{
+					PrepareSchemaIfNecessary = true,
+					CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+					SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+					QueuePollInterval = TimeSpan.Zero,
+					UseRecommendedIsolationLevel = true,
+					UsePageLocksOnDequeue = true,
+					DisableGlobalLocks = true
+				}));
 
 			// Add the processing server as IHostedService
 			services.AddHangfireServer();
@@ -126,6 +120,13 @@ namespace Descriptor.API
 			}));
 			app.UseStaticFiles();
 			app.UseAuthentication();
+			if (env.IsDevelopment())
+			{
+				app.UseHangfireDashboard("/hangfire", new DashboardOptions
+				{
+					Authorization = new[] { new HangfireDashboardAuthorizationFilter() }
+				});
+			}
 			app.UseMvc(routes =>
 			{
 				routes.MapRoute(

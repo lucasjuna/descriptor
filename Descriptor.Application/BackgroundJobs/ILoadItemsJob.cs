@@ -7,6 +7,7 @@ namespace Descriptor.Application.BackgroundJobs
 {
 	public interface ILoadItemsJob
 	{
+		[DisableMultipleQueuedItemsFilter]
 		Task Execute(string userName);
 	}
 }

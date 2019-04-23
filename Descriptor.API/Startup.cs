@@ -10,6 +10,8 @@ using Descriptor.Application;
 using Descriptor.Application.Services;
 using Descriptor.Infrastructure.Services;
 using Descriptor.Persistence.DataContext;
+using Hangfire;
+using Hangfire.SqlServer;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
@@ -42,6 +44,26 @@ namespace Descriptor.API
 			services.Configure<AppSettings>(Configuration);
 			var appSettigs = new AppSettings();
 			Configuration.Bind(appSettigs);
+
+			// Add Hangfire services.
+			services.AddHangfire(configuration => configuration
+				.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+				.UseSimpleAssemblyNameTypeSerializer()
+				.UseRecommendedSerializerSettings()
+				.UseSqlServerStorage(appSettigs.ConnectionString, new SqlServerStorageOptions
+				 {
+					 PrepareSchemaIfNecessary = true,
+					 CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+					 SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+					 QueuePollInterval = TimeSpan.Zero,
+					 UseRecommendedIsolationLevel = true,
+					 UsePageLocksOnDequeue = true,
+					 DisableGlobalLocks = true
+				 }));
+
+			// Add the processing server as IHostedService
+			services.AddHangfireServer();
+
 			services.AddMvc(o =>
 			{
 				o.Filters.Add(new AuthorizeFilter());

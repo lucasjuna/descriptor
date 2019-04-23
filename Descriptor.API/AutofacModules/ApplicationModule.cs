@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Descriptor.API.Service;
 using Descriptor.Application;
+using Descriptor.Application.BackgroundJobs;
 using Descriptor.Application.Services;
 using Descriptor.Domain.Repositories;
 using Descriptor.Domain.Seedwork;
@@ -37,6 +38,7 @@ namespace Descriptor.API.AutofacModules
 			builder.RegisterType<IdentityService>().As<IIdentityService>();
 			builder.RegisterType<ReviewerRepository>().As<IReviewerRepository>();
 			builder.RegisterType<HtmlParser>().As<IHtmlParser>();
+			builder.RegisterType<LoadItemsJob>().As<ILoadItemsJob>();
 		}
 	}
 }
